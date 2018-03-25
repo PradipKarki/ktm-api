@@ -24,10 +24,6 @@ public class TwitterService {
 
 	private static final String ENGLISH_LANGUAGE = "en";
 	private static final String [] IRRELEVANT_TWITTER_USERS = {"nepal_venture"};
-	private List<TwitterPO> twitterPOList = new ArrayList<>();
-	private List<String> articleURIList = new ArrayList<>();
-	private List<String> imageList = new ArrayList<>();
-	private List<String> tweeterList = new ArrayList<>();
 
 	public List<TwitterPO> getTweetsByQuery(String queryString) throws TwitterException {
 		Twitter twitter = TwitterFactory.getSingleton();
@@ -35,19 +31,19 @@ public class TwitterService {
 		query.lang(ENGLISH_LANGUAGE);
 		query.setCount(100);
 		QueryResult result = twitter.search(query);
-		// specific logic -- how to display result, method is private
-		getTwitterPOList(result);
-		twitterPOList.sort((a, b) -> b.getImageURI().compareTo(a.getImageURI()));
-		return twitterPOList;
+		return getTwitterPOList(result);
 	}
 	
-	private void getTwitterPOList(QueryResult result) throws TwitterException {
+	// specific logic -- how to display result, method is private
+	private List<TwitterPO> getTwitterPOList(QueryResult result) throws TwitterException {
+		List<TwitterPO> twitterPOList = new ArrayList<>();
+		List<String> articleURIList = new ArrayList<>();
+		List<String> tweeterList = new ArrayList<>();
 		for (Status status : result.getTweets()) {
 			long TwitterID = status.getId();
 			String tweet = status.getText();
 			String url = "";
 			String mediaURL = "";
-			boolean isThisTweetFromInvalidUsers = isThisTweetFromInvalidUsers(status);
 			tweet = TextUtility.cleanTweetText(tweet);
 			for (MediaEntity media : status.getMediaEntities()) {
 				if (!media.getURL().isEmpty()) {
@@ -55,8 +51,9 @@ public class TwitterService {
 					break;
 				}
 			}
-			boolean isTweetDuplicate = isTweetDuplicate(tweet, mediaURL);
-			if (!isTweetDuplicate && !tweet.isEmpty() && !isThisTweetFromInvalidUsers) {
+			boolean isTweetDuplicate = isTweetDuplicate(tweet, mediaURL, tweeterList);
+			boolean isThisTweetFromIrrelevantUsers = isThisTweetFromIrrelevantUsers(status);
+			if (!isTweetDuplicate && !tweet.isEmpty() && !isThisTweetFromIrrelevantUsers) {
 				for (URLEntity urlEntity : status.getURLEntities()) {
 					if (!urlEntity.getURL().isEmpty()) {
 						url = Optional.ofNullable(urlEntity.getURL()).orElse("");
@@ -65,15 +62,16 @@ public class TwitterService {
 				}
 				if (!articleURIList.contains(url) && !url.isEmpty()) {
 					tweeterList.add(tweet);
-					imageList.add(mediaURL);
 					articleURIList.add(url);
 					twitterPOList.add(new TwitterPO(TwitterID, tweet, mediaURL, url, null, null));
 				}
 			}
 		}
+		twitterPOList.sort((a, b) -> b.getImageURI().compareTo(a.getImageURI()));
+		return twitterPOList;
 	}
 	
-	private boolean isThisTweetFromInvalidUsers(Status status) {
+	public boolean isThisTweetFromIrrelevantUsers(Status status) {
 		return (Arrays.asList(IRRELEVANT_TWITTER_USERS)
 				.contains(status.getUser().getScreenName())) ? true : false;
 	}
@@ -84,8 +82,9 @@ public class TwitterService {
 	 * 
 	 * @param tweet
 	 * @param mediaURL 
+	 * @param tweeterList 
 	 */
-	private boolean isTweetDuplicate(String tweet, String mediaURL) {
+	private boolean isTweetDuplicate(String tweet, String mediaURL, List<String> tweeterList) {
 		for (String tweetFromTheList : tweeterList) {
 			String tweetFromTheListLC = tweetFromTheList.toLowerCase();
 			// get the middle of the tweet
