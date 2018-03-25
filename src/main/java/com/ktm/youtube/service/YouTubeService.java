@@ -25,9 +25,9 @@ public class YouTubeService {
 
 	private static final String YOUTUBE_SPRING_APP = "com-ktm-youtube-search";
 	private static final String YOUTUBE_VIDEO_URL_PREFIX = "https://www.youtube.com/watch?v=";
-	private static final String YOUTUBE_VIDEO_SEARCH_SET_FIELDS = "items(id/kind,id/videoId,snippet/title,snippet/description,snippet/publishedAt,snippet/thumbnails/default/url)";
+	private static final String YOUTUBE_VIDEO_SEARCH_SET_FIELDS = "items(id/kind,id/videoId,snippet/title,snippet/description,snippet/publishedAt,snippet/thumbnails/default/url,snippet/thumbnails/high/url)";
 	private static final String CATERGORY_NEWS_POLITICS = "25";
-	private static final String ORDER_BY_DATE = "date";
+	private static final String ORDER_BY = "relevance";
 	private static final String VIDEO_EMBEDDABLE_TRUE = "true";
 	private static final String VIDEO_TYPE_MODERATE = "moderate";
 	private static final String MEDIA_TYPE_VIDEO = "video";
@@ -64,7 +64,7 @@ public class YouTubeService {
 		search.setType(MEDIA_TYPE_VIDEO);
 		search.setSafeSearch(VIDEO_TYPE_MODERATE);
 		search.setVideoEmbeddable(VIDEO_EMBEDDABLE_TRUE);
-		search.setOrder(ORDER_BY_DATE);
+		search.setOrder(ORDER_BY);
 		search.setRelevanceLanguage(ENGLISH_LANGUAGE);
 		search.setVideoCategoryId(CATERGORY_NEWS_POLITICS);
 
@@ -83,7 +83,11 @@ public class YouTubeService {
 				video.setvideoId(result.getId().getVideoId());
 				video.setTitle(result.getSnippet().getTitle());
 				video.setUrl(buildVideoUrl(result.getId().getVideoId()));
-				video.setThumbnailUrl(result.getSnippet().getThumbnails().getDefault().getUrl());
+				if (result.getSnippet().getThumbnails().getHigh() != null) 
+					video.setThumbnailUrl(result.getSnippet().getThumbnails().getHigh().getUrl());
+				else {
+					video.setThumbnailUrl(result.getSnippet().getThumbnails().getDefault().getUrl());
+				}
 				video.setPublishDate(new Date(result.getSnippet().getPublishedAt().getValue()));
 				video.setDescription(result.getSnippet().getDescription());
 				videos.add(video);
