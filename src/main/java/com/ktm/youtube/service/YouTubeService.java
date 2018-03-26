@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
@@ -73,7 +74,10 @@ public class YouTubeService {
 
 		// set the max results
 		search.setMaxResults(MAX_SEARCH_RESULTS);
-
+		
+		DateTime lastWeek = getDateTimeOfWeekAgo();
+		search.setPublishedAfter(lastWeek);
+		
 		// perform the search and parse the results
 		SearchListResponse searchResponse = search.execute();
 		List<SearchResult> searchResultList = searchResponse.getItems();
@@ -93,7 +97,15 @@ public class YouTubeService {
 				videos.add(video);
 			}
 		}
+		videos.sort((a, b) -> b.getPublishDate().compareTo(a.getPublishDate()));
 		return videos;
+	}
+
+	public DateTime getDateTimeOfWeekAgo() {
+		//set seven days ago
+		long DAY_IN_MS = 1000 * 60 * 60 * 24;
+		DateTime lastWeek = new DateTime(System.currentTimeMillis() - (7 * DAY_IN_MS));
+		return lastWeek;
 	}
 
 	/**
