@@ -1,4 +1,4 @@
-FROM openjdk:9-jre
+FROM openjdk:9-jre-slim
 COPY ./target/ktm-0.0.1-SNAPSHOT.jar /usr/src/ktm/
 WORKDIR /usr/src/ktm
 EXPOSE 8080
