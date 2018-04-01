@@ -17,7 +17,6 @@ public class YouTubePO {
 
 	public YouTubePO(String videoId, String title, String url, String thumbnailUrl, Date publishDate,
 			String description, String channelId) {
-		super();
 		this.videoId = videoId;
 		this.title = title;
 		this.url = url;

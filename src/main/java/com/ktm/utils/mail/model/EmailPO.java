@@ -22,8 +22,11 @@ public final class EmailPO {
 	private String base64String;
 	private Map<String, String> headers;
 	
-	public EmailPO(String toName, String toAddress, String text, String htmlText, String subject) {
+	public EmailPO() {
 		super();
+	}
+
+	public EmailPO(String toName, String toAddress, String text, String htmlText, String subject) {
 		this.toName = toName;
 		this.toAddress = toAddress;
 		this.text = text;

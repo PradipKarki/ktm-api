@@ -15,7 +15,6 @@ public class TwitterPO {
 	}
 
 	public TwitterPO(long id, String title, String imageURI, String articleURI, Date publishDate, String tweetOwner) {
-		super();
 		this.id = id;
 		this.title = title;
 		this.imageURI = imageURI;

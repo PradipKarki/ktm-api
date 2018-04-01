@@ -17,16 +17,18 @@ public class EmailController {
 	@Autowired
 	private EmailService emailService;
 
-	@RequestMapping(value = "/mail/support", method = RequestMethod.POST)
+	@RequestMapping(value = "/support", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:4200")
 	public boolean sendMailFromSupportDomain(@RequestBody EmailPO myEmail) {
 		emailService.sendMail(myEmail);
 		return true;
 	}
 	
-	@RequestMapping(value = "/mail/news", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value = "/news", method = RequestMethod.POST)
+//	@CrossOrigin(origins = "http://localhost:4200")
+	@CrossOrigin
 	public boolean sendMailFromNewsDomain(@RequestBody EmailPO myEmail) {
+		System.out.println(myEmail.toString());
 		emailService.sendMail(myEmail);
 		return true;
 	}

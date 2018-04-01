@@ -32,7 +32,7 @@ public class EmailService {
 		          .withSubject(myEmail.getSubject())
 		          .withHTMLText(myEmail.gethtmlText())
 		          .withPlainText(myEmail.getText())
-		          .withEmbeddedImage("wink1", Base64.getDecoder().decode(myEmail.getBase64String()), "image/png")
+//		          .withEmbeddedImage("wink1", Base64.getDecoder().decode(myEmail.getBase64String()), "image/png")
 //		          .withHeader("X-Priority", myEmail.getHeaders().get("X-Priority"))
 		          .withBounceTo(myEmail.getFromAddress())
 		          .buildEmail();
