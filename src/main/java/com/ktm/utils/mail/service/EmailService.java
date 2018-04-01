@@ -1,7 +1,5 @@
 package com.ktm.utils.mail.service;
 
-import java.util.Base64;
-
 import org.simplejavamail.MailException;
 import org.simplejavamail.email.Email;
 import org.simplejavamail.email.EmailBuilder;

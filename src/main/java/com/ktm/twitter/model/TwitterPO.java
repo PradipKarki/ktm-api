@@ -4,6 +4,9 @@ import java.util.Date;
 
 public class TwitterPO {
 	private long id;
+
+//	private long tweetId;
+	
 	private String title;
 	private String imageURI;
 	private String articleURI;

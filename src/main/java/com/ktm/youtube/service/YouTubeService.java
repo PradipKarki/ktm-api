@@ -74,35 +74,35 @@ public class YouTubeService {
 
 		// set the max results
 		search.setMaxResults(MAX_SEARCH_RESULTS);
-		
+
 		DateTime lastWeek = getDateTimeOfWeekAgo();
 		search.setPublishedAfter(lastWeek);
-		
+
 		// perform the search and parse the results
 		SearchListResponse searchResponse = search.execute();
 		List<SearchResult> searchResultList = searchResponse.getItems();
-		if (searchResultList != null) {
-			for (SearchResult result : searchResultList) {
-				YouTubePO video = new YouTubePO();
-				video.setvideoId(result.getId().getVideoId());
-				video.setTitle(result.getSnippet().getTitle());
-				video.setUrl(buildVideoUrl(result.getId().getVideoId()));
-				if (result.getSnippet().getThumbnails().getHigh() != null) 
-					video.setThumbnailUrl(result.getSnippet().getThumbnails().getHigh().getUrl());
-				else {
-					video.setThumbnailUrl(result.getSnippet().getThumbnails().getDefault().getUrl());
-				}
-				video.setPublishDate(new Date(result.getSnippet().getPublishedAt().getValue()));
-				video.setDescription(result.getSnippet().getDescription());
-				videos.add(video);
+		if (searchResultList == null)
+			return videos;
+		for (SearchResult result : searchResultList) {
+			YouTubePO video = new YouTubePO();
+			video.setvideoId(result.getId().getVideoId());
+			video.setTitle(result.getSnippet().getTitle());
+			video.setUrl(buildVideoUrl(result.getId().getVideoId()));
+			if (result.getSnippet().getThumbnails().getHigh() != null)
+				video.setThumbnailUrl(result.getSnippet().getThumbnails().getHigh().getUrl());
+			else {
+				video.setThumbnailUrl(result.getSnippet().getThumbnails().getDefault().getUrl());
 			}
+			video.setPublishDate(new Date(result.getSnippet().getPublishedAt().getValue()));
+			video.setDescription(result.getSnippet().getDescription());
+			videos.add(video);
 		}
 		videos.sort((a, b) -> b.getPublishDate().compareTo(a.getPublishDate()));
 		return videos;
 	}
 
 	public DateTime getDateTimeOfWeekAgo() {
-		//set seven days ago
+		// set seven days ago
 		long DAY_IN_MS = 1000 * 60 * 60 * 24;
 		DateTime lastWeek = new DateTime(System.currentTimeMillis() - (7 * DAY_IN_MS));
 		return lastWeek;
