@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -20,10 +17,11 @@ import com.google.api.services.youtube.model.SearchResult;
 import com.ktm.youtube.model.YouTubePO;
 
 @Service
-@Configuration
-@PropertySource("classpath:youtube.properties")
 public class YouTubeService {
-
+	
+	@Value("${youtube.apikey}")
+	private String apiValue;
+	
 	private static final String YOUTUBE_SPRING_APP = "com-ktm-youtube-search";
 	private static final String YOUTUBE_VIDEO_URL_PREFIX = "https://www.youtube.com/watch?v=";
 	private static final String YOUTUBE_VIDEO_SEARCH_SET_FIELDS = "items(id/kind,id/videoId,snippet/title,snippet/description,snippet/publishedAt,snippet/thumbnails/default/url,snippet/thumbnails/high/url)";
@@ -32,13 +30,9 @@ public class YouTubeService {
 	private static final String VIDEO_EMBEDDABLE_TRUE = "true";
 	private static final String VIDEO_TYPE_MODERATE = "moderate";
 	private static final String MEDIA_TYPE_VIDEO = "video";
-	private static final String YOUTUBE_APIKEY = "youtube.apikey";
 	private static final String ID_SNIPPET = "id,snippet";
 	private static final String ENGLISH_LANGUAGE = "en";
 	private static final long MAX_SEARCH_RESULTS = 50;
-
-	@Autowired
-	private Environment env;
 
 	/**
 	 * Returns the first 50 YouTube videos that match the query term
@@ -55,8 +49,8 @@ public class YouTubeService {
 		YouTube.Search.List search = youtube.search().list(ID_SNIPPET);
 
 		// set our credentials
-		String apiKey = env.getProperty(YOUTUBE_APIKEY);
-		search.setKey(apiKey);
+//		String apiKey = env.getProperty(YOUTUBE_APIKEY);
+		search.setKey(apiValue);
 
 		// set the search term
 		search.setQ(queryTerm);

@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import com.ktm.twitter.model.TwitterPO;
@@ -20,6 +22,8 @@ import twitter4j.TwitterFactory;
 import twitter4j.URLEntity;
 
 @Service
+@Configuration
+@PropertySource("classpath:twitter4j.properties")
 public class TwitterService {
 
 	private static final String ENGLISH_LANGUAGE = "en";
