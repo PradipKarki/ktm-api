@@ -24,7 +24,6 @@ public class YouTubeController {
     @RequestMapping(value = "/getAll", method=RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:4200")
 	public List<YouTubePO> getYouTubeVideos() throws IOException {
-        //get the list of YouTube videos that match the search term
         return youtubeService.fetchVideosByQuery(SEARCH_QUERY_NEPAL);
     }
 	

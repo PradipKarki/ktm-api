@@ -24,7 +24,6 @@ public class InternationalRSSService implements RSSService {
 	public List<RSSNewsPO> fetchRSSFeedByQuery() throws IllegalArgumentException, FeedException, IOException {
 		URL feedUrl = new URL(url);
 		SyndFeedInput input = new SyndFeedInput();
-
 		SyndFeed feed = input.build(new XmlReader(feedUrl));
 		List<SyndEntry> entries = feed.getEntries().stream()
 				.filter(item -> item.getTitle().toLowerCase().contains("nepal")).collect(Collectors.toList());

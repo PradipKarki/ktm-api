@@ -7,6 +7,8 @@ import com.rometools.rome.feed.synd.SyndImage;
 import com.rometools.rome.feed.synd.SyndPerson;
 
 public class RSSNewsPO {
+	
+	private long id;
 	private List<SyndPerson> authors;
 	private List<SyndPerson> contributors;
 	private List<String> tags;
@@ -25,10 +27,10 @@ public class RSSNewsPO {
 		super();
 	}
 
-	public RSSNewsPO(List<SyndPerson> authors, List<SyndPerson> contributors, List<String> tags,
+	public RSSNewsPO(long id, List<SyndPerson> authors, List<SyndPerson> contributors, List<String> tags,
 			String feedType, String comments, List<String> contents, SyndImage icon, SyndImage image, String title,
 			String description, String uri, Date publishedDate, Date updatedDate) {
-		super();
+		this.id = id;
 		this.authors = authors;
 		this.contributors = contributors;
 		this.tags = tags;
@@ -43,11 +45,17 @@ public class RSSNewsPO {
 		this.publishedDate = publishedDate;
 		this.updatedDate = updatedDate;
 	}
+	
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public List<SyndPerson> getAuthors() {
 		return authors;
 	}
-
 	public void setAuthors(List<SyndPerson> authors) {
 		this.authors = authors;
 	}
@@ -55,7 +63,6 @@ public class RSSNewsPO {
 	public List<SyndPerson> getContributors() {
 		return contributors;
 	}
-
 	public void setContributors(List<SyndPerson> contributors) {
 		this.contributors = contributors;
 	}
@@ -63,7 +70,6 @@ public class RSSNewsPO {
 	public List<String> getTags() {
 		return tags;
 	}
-
 	public void setTags(List<String> tags) {
 		this.tags = tags;
 	}
@@ -71,7 +77,6 @@ public class RSSNewsPO {
 	public String getFeedType() {
 		return feedType;
 	}
-
 	public void setFeedType(String feedType) {
 		this.feedType = feedType;
 	}
@@ -79,7 +84,6 @@ public class RSSNewsPO {
 	public String getComments() {
 		return comments;
 	}
-
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
@@ -87,7 +91,6 @@ public class RSSNewsPO {
 	public List<String> getContents() {
 		return contents;
 	}
-
 	public void setContents(List<String> contents) {
 		this.contents = contents;
 	}
@@ -95,7 +98,6 @@ public class RSSNewsPO {
 	public SyndImage getIcon() {
 		return icon;
 	}
-
 	public void setIcon(SyndImage icon) {
 		this.icon = icon;
 	}
@@ -103,7 +105,6 @@ public class RSSNewsPO {
 	public SyndImage getImage() {
 		return image;
 	}
-
 	public void setImage(SyndImage image) {
 		this.image = image;
 	}
@@ -111,7 +112,6 @@ public class RSSNewsPO {
 	public String getTitle() {
 		return title;
 	}
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -119,7 +119,6 @@ public class RSSNewsPO {
 	public String getDescription() {
 		return description;
 	}
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -127,7 +126,6 @@ public class RSSNewsPO {
 	public String getUri() {
 		return uri;
 	}
-
 	public void setUri(String uri) {
 		this.uri = uri;
 	}
@@ -135,7 +133,6 @@ public class RSSNewsPO {
 	public Date getPublishedDate() {
 		return publishedDate;
 	}
-
 	public void setPublishedDate(Date publishedDate) {
 		this.publishedDate = publishedDate;
 	}
@@ -143,7 +140,6 @@ public class RSSNewsPO {
 	public Date getUpdatedDate() {
 		return updatedDate;
 	}
-
 	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;
 	}

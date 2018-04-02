@@ -25,8 +25,7 @@ public class EmailController {
 	}
 	
 	@RequestMapping(value = "/news", method = RequestMethod.POST)
-//	@CrossOrigin(origins = "http://localhost:4200")
-	@CrossOrigin
+	@CrossOrigin(origins = "http://localhost:4200")
 	public boolean sendMailFromNewsDomain(@RequestBody EmailPO myEmail) {
 		System.out.println(myEmail.toString());
 		emailService.sendMail(myEmail);

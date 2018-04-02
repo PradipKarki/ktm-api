@@ -3,7 +3,7 @@ package com.ktm.twitter.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -27,7 +27,7 @@ import twitter4j.URLEntity;
 public class TwitterService {
 
 	private static final String ENGLISH_LANGUAGE = "en";
-	private static final String [] IRRELEVANT_TWITTER_USERS = {"nepal_venture"};
+	private static final String[] IRRELEVANT_TWITTER_USERS = { "nepal_venture" };
 
 	public List<TwitterPO> getTweetsByQuery(String queryString) throws TwitterException {
 		Twitter twitter = TwitterFactory.getSingleton();
@@ -37,8 +37,8 @@ public class TwitterService {
 		QueryResult result = twitter.search(query);
 		return getTwitterPOList(result);
 	}
-	
-	// specific logic -- how to display result, method is private
+
+	// parse the tweets
 	private List<TwitterPO> getTwitterPOList(QueryResult result) throws TwitterException {
 		List<TwitterPO> twitterPOList = new ArrayList<>();
 		List<String> articleURIList = new ArrayList<>();
@@ -49,21 +49,15 @@ public class TwitterService {
 			String url = "";
 			String mediaURL = "";
 			tweet = TextUtility.cleanTweetText(tweet);
-			for (MediaEntity media : status.getMediaEntities()) {
-				if (!media.getURL().isEmpty()) {
-					mediaURL = Optional.ofNullable(media.getMediaURL()).orElse("");
-					break;
-				}
-			}
+			MediaEntity media = Stream.of(status.getMediaEntities())
+					.findAny().filter(m -> !m.getURL().isEmpty()).orElse(null);
+			mediaURL = (media != null) ? media.getMediaURL() : "";
 			boolean isTweetDuplicate = isTweetDuplicate(tweet, mediaURL, tweeterList);
 			boolean isThisTweetFromIrrelevantUsers = isThisTweetFromIrrelevantUsers(status);
 			if (!isTweetDuplicate && !tweet.isEmpty() && !isThisTweetFromIrrelevantUsers) {
-				for (URLEntity urlEntity : status.getURLEntities()) {
-					if (!urlEntity.getURL().isEmpty()) {
-						url = Optional.ofNullable(urlEntity.getURL()).orElse("");
-						break;
-					}
-				}
+				URLEntity urlEntity = Stream.of(status.getURLEntities())
+						.findAny().filter(u -> !u.getURL().isEmpty()).orElse(null);
+				url = (urlEntity != null) ? urlEntity.getURL() : "";
 				if (!articleURIList.contains(url) && !url.isEmpty()) {
 					tweeterList.add(tweet);
 					articleURIList.add(url);
@@ -74,10 +68,9 @@ public class TwitterService {
 		twitterPOList.sort((a, b) -> b.getImageURI().compareTo(a.getImageURI()));
 		return twitterPOList;
 	}
-	
+
 	public boolean isThisTweetFromIrrelevantUsers(Status status) {
-		return (Arrays.asList(IRRELEVANT_TWITTER_USERS)
-				.contains(status.getUser().getScreenName())) ? true : false;
+		return (Arrays.asList(IRRELEVANT_TWITTER_USERS).contains(status.getUser().getScreenName())) ? true : false;
 	}
 
 	/**
@@ -85,8 +78,8 @@ public class TwitterService {
 	 * there, it's duplicate, ignore it
 	 * 
 	 * @param tweet
-	 * @param mediaURL 
-	 * @param tweeterList 
+	 * @param mediaURL
+	 * @param tweeterList
 	 */
 	private boolean isTweetDuplicate(String tweet, String mediaURL, List<String> tweeterList) {
 		for (String tweetFromTheList : tweeterList) {
@@ -99,15 +92,19 @@ public class TwitterService {
 			String middleOfTheTweetString = tweet.substring(mid / 2, indexOfTweet2);
 			if (tweetFromTheListLC.contains(middleOfTheTweetString.toLowerCase())
 					|| tweet.toLowerCase().contains(tweetFromTheListLC)) {
-				if (mediaURL.isEmpty()) return true;
-				if (!mediaURL.isEmpty()) return false;
+				if (mediaURL.isEmpty())
+					return true;
+				if (!mediaURL.isEmpty())
+					return false;
 			}
 			// check also if first five words in the tweeterList
 			String[] splitStr = tweet.toLowerCase().split("\\s+");
 			if (splitStr.length > 5 && tweetFromTheListLC.contains(splitStr[1])
 					&& tweetFromTheListLC.contains(splitStr[2]) && tweetFromTheListLC.contains(splitStr[3])) {
-				if (mediaURL.isEmpty()) return true;
-				if (!mediaURL.isEmpty()) return false;
+				if (mediaURL.isEmpty())
+					return true;
+				if (!mediaURL.isEmpty())
+					return false;
 			}
 		}
 		return false;

@@ -42,33 +42,18 @@ public class YouTubeService {
 	public List<YouTubePO> fetchVideosByQuery(String queryTerm) throws IOException {
 		List<YouTubePO> videos = new ArrayList<>();
 
-		// instantiate youtube object
 		YouTube youtube = getYouTube();
-
-		// define what info we want to get
 		YouTube.Search.List search = youtube.search().list(ID_SNIPPET);
-
-		// set our credentials
-//		String apiKey = env.getProperty(YOUTUBE_APIKEY);
 		search.setKey(apiValue);
-
-		// set the search term
 		search.setQ(queryTerm);
-
-		// we only want moderate kind video results
 		search.setType(MEDIA_TYPE_VIDEO);
 		search.setSafeSearch(VIDEO_TYPE_MODERATE);
 		search.setVideoEmbeddable(VIDEO_EMBEDDABLE_TRUE);
 		search.setOrder(ORDER_BY);
 		search.setRelevanceLanguage(ENGLISH_LANGUAGE);
 		search.setVideoCategoryId(CATERGORY_NEWS_POLITICS);
-
-		// set the fields that we're going to use
 		search.setFields(YOUTUBE_VIDEO_SEARCH_SET_FIELDS);
-
-		// set the max results
 		search.setMaxResults(MAX_SEARCH_RESULTS);
-
 		DateTime lastWeek = getDateTimeOfWeekAgo();
 		search.setPublishedAfter(lastWeek);
 
