@@ -17,23 +17,24 @@ import com.rometools.rome.io.FeedException;
 @RestController
 @RequestMapping("/news")
 public class RSSNewsController {
-	
+
 	@Autowired
-    private InternationalRSSService internationalRSSService;
-	
+	private InternationalRSSService internationalRSSService;
+
 	@Autowired
-    private NationalRSSService nationalRSSService;
-	
-    @RequestMapping(value = "/international/getAll", method=RequestMethod.GET)
+	private NationalRSSService nationalRSSService;
+
+	@RequestMapping(value = "/international/getAll", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:4200")
-	public List<RSSNewsPO> fetchInternationalRSSFeedByQuery() throws IOException, IllegalArgumentException, FeedException {
-        return internationalRSSService.fetchRSSFeedByQuery();
-    }
-    
-    @RequestMapping(value = "/national/getAll", method=RequestMethod.GET)
-    @CrossOrigin(origins = "http://localhost:4200")
-    public List<RSSNewsPO> fetchNationalRSSFeedByQuery() throws IOException, IllegalArgumentException, FeedException {
-    	return nationalRSSService.fetchRSSFeedByQuery();
-    }
-    
+	public List<RSSNewsPO> fetchInternationalRSSFeedByQuery()
+			throws IOException, IllegalArgumentException, FeedException {
+		return this.internationalRSSService.fetchRSSFeedByQuery();
+	}
+
+	@RequestMapping(value = "/national/getAll", method = RequestMethod.GET)
+	@CrossOrigin(origins = "http://localhost:4200")
+	public List<RSSNewsPO> fetchNationalRSSFeedByQuery() throws IOException, IllegalArgumentException, FeedException {
+		return this.nationalRSSService.fetchRSSFeedByQuery();
+	}
+
 }

@@ -47,98 +47,98 @@ public class RSSNewsPO {
 	}
 	
 	public long getId() {
-		return id;
+		return this.id;
 	}
 	public void setId(long id) {
 		this.id = id;
 	}
 
 	public List<SyndPerson> getAuthors() {
-		return authors;
+		return this.authors;
 	}
 	public void setAuthors(List<SyndPerson> authors) {
 		this.authors = authors;
 	}
 
 	public List<SyndPerson> getContributors() {
-		return contributors;
+		return this.contributors;
 	}
 	public void setContributors(List<SyndPerson> contributors) {
 		this.contributors = contributors;
 	}
 
 	public List<String> getTags() {
-		return tags;
+		return this.tags;
 	}
 	public void setTags(List<String> tags) {
 		this.tags = tags;
 	}
 
 	public String getFeedType() {
-		return feedType;
+		return this.feedType;
 	}
 	public void setFeedType(String feedType) {
 		this.feedType = feedType;
 	}
 
 	public String getComments() {
-		return comments;
+		return this.comments;
 	}
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
 
 	public List<String> getContents() {
-		return contents;
+		return this.contents;
 	}
 	public void setContents(List<String> contents) {
 		this.contents = contents;
 	}
 
 	public SyndImage getIcon() {
-		return icon;
+		return this.icon;
 	}
 	public void setIcon(SyndImage icon) {
 		this.icon = icon;
 	}
 
 	public SyndImage getImage() {
-		return image;
+		return this.image;
 	}
 	public void setImage(SyndImage image) {
 		this.image = image;
 	}
 
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
 	public String getUri() {
-		return uri;
+		return this.uri;
 	}
 	public void setUri(String uri) {
 		this.uri = uri;
 	}
 
 	public Date getPublishedDate() {
-		return publishedDate;
+		return this.publishedDate;
 	}
 	public void setPublishedDate(Date publishedDate) {
 		this.publishedDate = publishedDate;
 	}
 
 	public Date getUpdatedDate() {
-		return updatedDate;
+		return this.updatedDate;
 	}
 	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;

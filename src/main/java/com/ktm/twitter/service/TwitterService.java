@@ -5,8 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.ktm.twitter.model.TwitterPO;
@@ -22,14 +23,17 @@ import twitter4j.TwitterFactory;
 import twitter4j.URLEntity;
 
 @Service
-@Configuration
 @PropertySource("classpath:twitter4j.properties")
+@PropertySource("classpath:messages.properties")
 public class TwitterService {
 
-	private static final String ENGLISH_LANGUAGE = "en";
-	private static final String[] IRRELEVANT_TWITTER_USERS = { "nepal_venture" };
+	@Autowired Environment env;
+	@Autowired TextUtility textUtility;
+	
+	private final static String EMPTY_STRING = ""; //$NON-NLS-1$
 
 	public List<TwitterPO> getTweetsByQuery(String queryString) throws TwitterException {
+		final String ENGLISH_LANGUAGE = this.env.getProperty("App.English.Language"); //$NON-NLS-1$
 		Twitter twitter = TwitterFactory.getSingleton();
 		Query query = new Query(queryString);
 		query.lang(ENGLISH_LANGUAGE);
@@ -39,25 +43,25 @@ public class TwitterService {
 	}
 
 	// parse the tweets
-	private List<TwitterPO> getTwitterPOList(QueryResult result) throws TwitterException {
+	private List<TwitterPO> getTwitterPOList(QueryResult result) {
 		List<TwitterPO> twitterPOList = new ArrayList<>();
 		List<String> articleURIList = new ArrayList<>();
 		List<String> tweeterList = new ArrayList<>();
 		for (Status status : result.getTweets()) {
 			long TwitterID = status.getId();
 			String tweet = status.getText();
-			String url = "";
-			String mediaURL = "";
-			tweet = TextUtility.cleanTweetText(tweet);
+			String url = EMPTY_STRING;
+			String mediaURL = EMPTY_STRING;
+			tweet = this.textUtility.cleanTweetText(tweet);
 			MediaEntity media = Stream.of(status.getMediaEntities())
 					.findAny().filter(m -> !m.getURL().isEmpty()).orElse(null);
-			mediaURL = (media != null) ? media.getMediaURL() : "";
+			mediaURL = (media != null) ? media.getMediaURL() : EMPTY_STRING;
 			boolean isTweetDuplicate = isTweetDuplicate(tweet, mediaURL, tweeterList);
 			boolean isThisTweetFromIrrelevantUsers = isThisTweetFromIrrelevantUsers(status);
 			if (!isTweetDuplicate && !tweet.isEmpty() && !isThisTweetFromIrrelevantUsers) {
 				URLEntity urlEntity = Stream.of(status.getURLEntities())
 						.findAny().filter(u -> !u.getURL().isEmpty()).orElse(null);
-				url = (urlEntity != null) ? urlEntity.getURL() : "";
+				url = (urlEntity != null) ? urlEntity.getURL() : EMPTY_STRING;
 				if (!articleURIList.contains(url) && !url.isEmpty()) {
 					tweeterList.add(tweet);
 					articleURIList.add(url);
@@ -70,6 +74,7 @@ public class TwitterService {
 	}
 
 	public boolean isThisTweetFromIrrelevantUsers(Status status) {
+		final String[] IRRELEVANT_TWITTER_USERS = { this.env.getProperty("Twitter.IrrelevantTwitterUsers") }; //$NON-NLS-1$
 		return (Arrays.asList(IRRELEVANT_TWITTER_USERS).contains(status.getUser().getScreenName())) ? true : false;
 	}
 
@@ -82,6 +87,7 @@ public class TwitterService {
 	 * @param tweeterList
 	 */
 	private boolean isTweetDuplicate(String tweet, String mediaURL, List<String> tweeterList) {
+		final String REGEX_SEQUENCE_OF_WHITE_CHARACTERS = this.env.getProperty("Twitter.RegexSequenceOfWhiteCharacters"); //$NON-NLS-1$
 		for (String tweetFromTheList : tweeterList) {
 			String tweetFromTheListLC = tweetFromTheList.toLowerCase();
 			// get the middle of the tweet
@@ -98,7 +104,7 @@ public class TwitterService {
 					return false;
 			}
 			// check also if first five words in the tweeterList
-			String[] splitStr = tweet.toLowerCase().split("\\s+");
+			String[] splitStr = tweet.toLowerCase().split(REGEX_SEQUENCE_OF_WHITE_CHARACTERS);
 			if (splitStr.length > 5 && tweetFromTheListLC.contains(splitStr[1])
 					&& tweetFromTheListLC.contains(splitStr[2]) && tweetFromTheListLC.contains(splitStr[3])) {
 				if (mediaURL.isEmpty())

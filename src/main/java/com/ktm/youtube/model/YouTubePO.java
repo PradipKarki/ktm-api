@@ -16,7 +16,7 @@ public class YouTubePO {
 	}
 
 	public YouTubePO(String videoId, String title, String url, String thumbnailUrl, Date publishDate,
-			String description, String channelId) {
+			String description) {
 		this.videoId = videoId;
 		this.title = title;
 		this.url = url;
@@ -26,7 +26,7 @@ public class YouTubePO {
 	}
 
 	public String getvideoId() {
-		return videoId;
+		return this.videoId;
 	}
 	
 	public void setvideoId(String videoId) {
@@ -34,7 +34,7 @@ public class YouTubePO {
 	}
 
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
 	public void setTitle(String title) {
@@ -42,7 +42,7 @@ public class YouTubePO {
 	}
 
 	public String getUrl() {
-		return url;
+		return this.url;
 	}
 
 	public void setUrl(String url) {
@@ -50,7 +50,7 @@ public class YouTubePO {
 	}
 
 	public String getThumbnailUrl() {
-		return thumbnailUrl;
+		return this.thumbnailUrl;
 	}
 
 	public void setThumbnailUrl(String thumbnailUrl) {
@@ -58,7 +58,7 @@ public class YouTubePO {
 	}
 
 	public Date getPublishDate() {
-		return publishDate;
+		return this.publishDate;
 	}
 
 	public void setPublishDate(Date publishDate) {
@@ -66,7 +66,7 @@ public class YouTubePO {
 	}
 
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	public void setDescription(String description) {

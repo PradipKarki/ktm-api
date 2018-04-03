@@ -35,8 +35,9 @@ public class EmailService {
 		          .withBounceTo(myEmail.getFromAddress())
 		          .buildEmail();
 		try {
-			mailer.sendMail(email);
+			this.mailer.sendMail(email);
 		} catch (MailException e) {
+			System.err.println(e.getStackTrace());
 			return false;
 		}
 		return true;

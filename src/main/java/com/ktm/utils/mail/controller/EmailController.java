@@ -20,15 +20,14 @@ public class EmailController {
 	@RequestMapping(value = "/support", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:4200")
 	public boolean sendMailFromSupportDomain(@RequestBody EmailPO myEmail) {
-		emailService.sendMail(myEmail);
+		this.emailService.sendMail(myEmail);
 		return true;
 	}
 	
 	@RequestMapping(value = "/news", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:4200")
 	public boolean sendMailFromNewsDomain(@RequestBody EmailPO myEmail) {
-		System.out.println(myEmail.toString());
-		emailService.sendMail(myEmail);
+		this.emailService.sendMail(myEmail);
 		return true;
 	}
 

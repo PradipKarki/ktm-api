@@ -4,8 +4,11 @@ import static springfox.documentation.builders.PathSelectors.regex;
 
 import java.util.Collections;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -15,19 +18,27 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
+@PropertySource("classpath:messages.properties")
 @EnableSwagger2
 public class SwaggerConfig {
+	
+	@Autowired Environment env;
+
 	@Bean
 	public Docket twitterApi() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.ktm.twitter.controller")).paths(regex("/twitter.*"))
+				.apis(RequestHandlerSelectors
+				.basePackage(this.env.getProperty("SwaggerConfig.BasePackage"))) //$NON-NLS-1$
+				.paths(regex(this.env.getProperty("SwaggerConfig.Paths"))) //$NON-NLS-1$
 				.build().apiInfo(metaData());
 	}
 
 	private ApiInfo metaData() {
-		return new ApiInfo("My REST API", "Some custom description of API.", "API TOS", "Terms of service",
-				new Contact("John Doe", "www.example.com", "myeaddress@company.com"), "License of API",
-				"API license URL", Collections.emptyList());
+		return new ApiInfo(this.env.getProperty("SwaggerConfig.Title"), this.env.getProperty("SwaggerConfig.Description"), //$NON-NLS-1$ //$NON-NLS-2$
+				this.env.getProperty("SwaggerConfig.Version"), this.env.getProperty("SwaggerConfig.TermsofServiceUrl"), //$NON-NLS-1$ //$NON-NLS-2$
+				new Contact(this.env.getProperty("SwaggerConfig.Name"), this.env.getProperty("SwaggerConfig.Url"), //$NON-NLS-1$ //$NON-NLS-2$
+				this.env.getProperty("SwaggerConfig.Email")), this.env.getProperty("SwaggerConfig.License"), //$NON-NLS-1$ //$NON-NLS-2$
+				this.env.getProperty("SwaggerConfig.LicenseUrl"), Collections.emptyList()); //$NON-NLS-1$
 	}
 
 }

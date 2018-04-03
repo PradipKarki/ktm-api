@@ -35,74 +35,74 @@ public final class EmailPO {
 	}
 	
 	public long getId() {
-		return id;
+		return this.id;
 	}
 	public void setId(long id) {
 		this.id = id;
 	}
 	public String getFromName() {
-		return fromName;
+		return this.fromName;
 	}
 	public void setFromName(String fromName) {
 		this.fromName = fromName;
 	}
 	public String getFromAddress() {
-		return fromAddress;
+		return this.fromAddress;
 	}
 	public void setFromAddress(String fromAddress) {
 		this.fromAddress = fromAddress;
 	}
 	public String getToName() {
-		return toName;
+		return this.toName;
 	}
 	public void setToName(String toName) {
 		this.toName = toName;
 	}
 	public String getToAddress() {
-		return toAddress;
+		return this.toAddress;
 	}
 	public void setToAddress(String toAddress) {
 		this.toAddress = toAddress;
 	}
 	public String getBounceToAddress() {
-		return bounceToAddress;
+		return this.bounceToAddress;
 	}
 
 	public void setBounceToAddress(String bounceToAddress) {
 		this.bounceToAddress = bounceToAddress;
 	}
 	public List<Recipient> getRecipients() {
-		return recipients;
+		return this.recipients;
 	}
 	public void setRecipients(List<Recipient> recipients) {
 		this.recipients = recipients;
 	}
 	public String getText() {
-		return text;
+		return this.text;
 	}
 	public void setText(String text) {
 		this.text = text;
 	}
 	public String gethtmlText() {
-		return htmlText;
+		return this.htmlText;
 	}
 	public void sethtmlText(String htmlText) {
 		this.htmlText = htmlText;
 	}
 	public String getSubject() {
-		return subject;
+		return this.subject;
 	}
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
 	public String getBase64String() {
-		return base64String;
+		return this.base64String;
 	}
 	public void setBase64String(String base64String) {
 		this.base64String = base64String;
 	}
 	public Map<String, String> getHeaders() {
-		return headers;
+		return this.headers;
 	}
 	public void setHeaders(Map<String, String> headers) {
 		this.headers = headers;

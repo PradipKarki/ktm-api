@@ -3,6 +3,7 @@ package com.ktm.twitter.model;
 import java.util.Date;
 
 public class TwitterPO {
+	
 	private long id;
 	private String title;
 	private String imageURI;
@@ -24,42 +25,42 @@ public class TwitterPO {
 	}
 	
 	public long getId() {
-		return id;
+		return this.id;
 	}
 	public void setId(long id) {
 		this.id = id;
 	}
 	
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 	public void setTitle(String title) {
 		this.title = title;
 	}
 	
 	public String getImageURI() {
-		return imageURI;
+		return this.imageURI;
 	}
 	public void setImageURI(String imageURI) {
 		this.imageURI = imageURI;
 	}
 	
 	public String getArticleURI() {
-		return articleURI;
+		return this.articleURI;
 	}
 	public void setArticleURI(String articleURI) {
 		this.articleURI = articleURI;
 	}
 	
 	public Date getPublishDate() {
-		return publishDate;
+		return this.publishDate;
 	}
 	public void setPublishDate(Date publishDate) {
 		this.publishDate = publishDate;
 	}
 	
 	public String getTweetOwner() {
-		return tweetOwner;
+		return this.tweetOwner;
 	}
 	public void setTweetOwner(String tweetOwner) {
 		this.tweetOwner = tweetOwner;
