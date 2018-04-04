@@ -3,31 +3,49 @@ package com.ktm.rss.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
 import com.rometools.rome.feed.synd.SyndImage;
 import com.rometools.rome.feed.synd.SyndPerson;
 
-public class RSSNewsPO {
-	
+@Entity
+public class RssNews {
+    
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private long id;
+	@ElementCollection
+    @Transient
 	private List<SyndPerson> authors;
+	@ElementCollection
+    @Transient
 	private List<SyndPerson> contributors;
+	@ElementCollection
 	private List<String> tags;
 	private String feedType;
 	private String comments;
+	@ElementCollection
 	private List<String> contents;
+    @Transient
 	private SyndImage icon;
-	private SyndImage image;
+    @Transient
+    private SyndImage image;
 	private String title;
 	private String description;
 	private String uri;
 	private Date publishedDate;
 	private Date updatedDate;
 
-	public RSSNewsPO() {
+	public RssNews() {
 		super();
 	}
 
-	public RSSNewsPO(long id, List<SyndPerson> authors, List<SyndPerson> contributors, List<String> tags,
+	public RssNews(long id, List<SyndPerson> authors, List<SyndPerson> contributors, List<String> tags,
 			String feedType, String comments, List<String> contents, SyndImage icon, SyndImage image, String title,
 			String description, String uri, Date publishedDate, Date updatedDate) {
 		this.id = id;

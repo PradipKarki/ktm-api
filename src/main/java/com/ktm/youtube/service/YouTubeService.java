@@ -75,11 +75,11 @@ public class YouTubeService {
 			else {
 				video.setThumbnailUrl(result.getSnippet().getThumbnails().getDefault().getUrl());
 			}
-			video.setPublishDate(new Date(result.getSnippet().getPublishedAt().getValue()));
+			video.setPublishedDate(new Date(result.getSnippet().getPublishedAt().getValue()));
 			video.setDescription(result.getSnippet().getDescription());
 			videos.add(video);
 		}
-		videos.sort((a, b) -> b.getPublishDate().compareTo(a.getPublishDate()));
+		videos.sort((a, b) -> b.getPublishedDate().compareTo(a.getPublishedDate()));
 		return videos;
 	}
 

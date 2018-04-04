@@ -2,25 +2,35 @@ package com.ktm.twitter.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="TWITTER")
 public class TwitterPO {
-	
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String title;
-	private String imageURI;
-	private String articleURI;
-	private Date publishDate;
+	private String imageUri;
+	private String articleUri;
+	private Date publishedDate;
 	private String tweetOwner;
 	
 	public TwitterPO() {
 		super();
 	}
 
-	public TwitterPO(long id, String title, String imageURI, String articleURI, Date publishDate, String tweetOwner) {
+	public TwitterPO(long id, String title, String imageURI, String articleURI, Date publishedDate, String tweetOwner) {
 		this.id = id;
 		this.title = title;
-		this.imageURI = imageURI;
-		this.articleURI = articleURI;
-		this.publishDate = publishDate;
+		this.imageUri = imageURI;
+		this.articleUri = articleURI;
+		this.publishedDate = publishedDate;
 		this.tweetOwner = tweetOwner;
 	}
 	
@@ -39,24 +49,24 @@ public class TwitterPO {
 	}
 	
 	public String getImageURI() {
-		return this.imageURI;
+		return this.imageUri;
 	}
 	public void setImageURI(String imageURI) {
-		this.imageURI = imageURI;
+		this.imageUri = imageURI;
 	}
 	
 	public String getArticleURI() {
-		return this.articleURI;
+		return this.articleUri;
 	}
 	public void setArticleURI(String articleURI) {
-		this.articleURI = articleURI;
+		this.articleUri = articleURI;
 	}
 	
-	public Date getPublishDate() {
-		return this.publishDate;
+	public Date getPublishedDate() {
+		return this.publishedDate;
 	}
-	public void setPublishDate(Date publishDate) {
-		this.publishDate = publishDate;
+	public void setPublishedDate(Date publishedDate) {
+		this.publishedDate = publishedDate;
 	}
 	
 	public String getTweetOwner() {

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import com.ktm.rss.model.RSSNewsPO;
+import com.ktm.rss.model.RssNews;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
@@ -28,7 +28,7 @@ public class InternationalRSSService implements RSSService {
 	@Value("${rss.international.india.tribune-india-1}")
 	private String url;
 
-	public List<RSSNewsPO> fetchRSSFeedByQuery() throws java.lang.IllegalArgumentException, FeedException, IOException {
+	public List<RssNews> fetchRSSFeedByQuery() throws java.lang.IllegalArgumentException, FeedException, IOException {
 		final String SEARCH_QUERY_NEPAL = this.env.getProperty("App.Nepal.SearchQueryKeyWord"); //$NON-NLS-1$
 		URL feedUrl = new URL(this.url);
 		SyndFeedInput input = new SyndFeedInput();

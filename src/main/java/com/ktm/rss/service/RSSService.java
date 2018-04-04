@@ -5,15 +5,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.ktm.rss.model.RSSNewsPO;
+import com.ktm.rss.model.RssNews;
 import com.rometools.rome.feed.synd.SyndEntry;
 
 public interface RSSService {
 
-	public default List<RSSNewsPO> readAndParseRSSEntries(List<SyndEntry> entries) {
-		List<RSSNewsPO> rssNewsList = new ArrayList<>();
+	public default List<RssNews> readAndParseRSSEntries(List<SyndEntry> entries) {
+		List<RssNews> rssNewsList = new ArrayList<>();
 		for (SyndEntry entry : entries) {
-			RSSNewsPO rssNews = new RSSNewsPO();
+			RssNews rssNews = new RssNews();
 			rssNews.setAuthors(entry.getAuthors());
 			rssNews.setContributors(entry.getContributors());
 			List<String> tags = entry.getCategories().stream().flatMap(category -> Stream.of(category.getName()))

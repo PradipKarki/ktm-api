@@ -65,7 +65,10 @@ public class TwitterService {
 				if (!articleURIList.contains(url) && !url.isEmpty()) {
 					tweeterList.add(tweet);
 					articleURIList.add(url);
-					twitterPOList.add(new TwitterPO(TwitterID, tweet, mediaURL, url, null, null));
+/*					User user = status.getUser();
+					user.getId(), user.getEmail(), user.getLocation(), user.getName(), user.getScreenName(), user.getURL()
+*/					twitterPOList.add(new TwitterPO(TwitterID, tweet, mediaURL, url, 
+											status.getCreatedAt(), status.getUser().getName()));
 				}
 			}
 		}

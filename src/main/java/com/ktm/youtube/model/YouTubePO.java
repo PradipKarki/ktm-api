@@ -2,26 +2,36 @@ package com.ktm.youtube.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="YOUTUBE")
 public class YouTubePO {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private String videoId;
 	private String title;
 	private String url;
 	private String thumbnailUrl;
-	private Date publishDate;
+	private Date publishedDate;
 	private String description;
 
 	public YouTubePO() {
 		super();
 	}
 
-	public YouTubePO(String videoId, String title, String url, String thumbnailUrl, Date publishDate,
+	public YouTubePO(String videoId, String title, String url, String thumbnailUrl, Date publishedDate,
 			String description) {
 		this.videoId = videoId;
 		this.title = title;
 		this.url = url;
 		this.thumbnailUrl = thumbnailUrl;
-		this.publishDate = publishDate;
+		this.publishedDate = publishedDate;
 		this.description = description;
 	}
 
@@ -57,12 +67,12 @@ public class YouTubePO {
 		this.thumbnailUrl = thumbnailUrl;
 	}
 
-	public Date getPublishDate() {
-		return this.publishDate;
+	public Date getPublishedDate() {
+		return this.publishedDate;
 	}
 
-	public void setPublishDate(Date publishDate) {
-		this.publishDate = publishDate;
+	public void setPublishedDate(Date publishedDate) {
+		this.publishedDate = publishedDate;
 	}
 
 	public String getDescription() {

@@ -3,24 +3,46 @@ package com.ktm.utils.mail.model;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.simplejavamail.email.Recipient;
 
+@Entity
+@Table(name="EMAIL")
 public final class EmailPO {
-	
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+    
+    @Transient
 	private String fromName;
+    
 	private String fromAddress;
-	private String toName;
-	private String toAddress;
-	private String bounceToAddress;
-	private List<Recipient> recipients;
-	private String text;
 	
+    @Transient
+	private String toName;
+    @Transient
+    private String toAddress;
+    @Transient
+    private String bounceToAddress;
+    @Transient
+	private List<Recipient> recipients;
+    
+	private String text;
 	// sample htmlText -> "<img src='cid:wink1'><b>We should meet up!</b><img src='cid:wink2'>"
 	private String htmlText;
 	private String subject;
+	
+    @Transient
 	private String base64String;
-	private Map<String, String> headers;
+    @Transient
+    private Map<String, String> headers;
 	
 	public EmailPO() {
 		super();
