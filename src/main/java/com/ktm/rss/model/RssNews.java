@@ -3,11 +3,16 @@ package com.ktm.rss.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import com.rometools.rome.feed.synd.SyndImage;
@@ -18,6 +23,7 @@ public class RssNews {
     
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
+	@Column(name="RSS_NEWS_ID")
 	private long id;
 	@ElementCollection
     @Transient
@@ -26,10 +32,12 @@ public class RssNews {
     @Transient
 	private List<SyndPerson> contributors;
 	@ElementCollection
+	@CollectionTable(joinColumns=@JoinColumn(name="RSS_NEWS_ID"))    
 	private List<String> tags;
 	private String feedType;
 	private String comments;
 	@ElementCollection
+	@CollectionTable(joinColumns=@JoinColumn(name="RSS_NEWS_ID"))    
 	private List<String> contents;
     @Transient
 	private SyndImage icon;
@@ -38,7 +46,9 @@ public class RssNews {
 	private String title;
 	private String description;
 	private String uri;
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date publishedDate;
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date updatedDate;
 
 	public RssNews() {

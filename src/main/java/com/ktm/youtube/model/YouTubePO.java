@@ -2,11 +2,14 @@ package com.ktm.youtube.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="YOUTUBE")
@@ -14,10 +17,12 @@ public class YouTubePO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
+	@Column(name="YOUTUBE_ID")
 	private String videoId;
 	private String title;
 	private String url;
 	private String thumbnailUrl;
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date publishedDate;
 	private String description;
 
