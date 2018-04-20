@@ -105,23 +105,17 @@ public class TwitterService {
 			final Map<Long, TwitterPO> twitterPOHM, final Map<Long, String> tweetHM) {
 		final String REGEX_SEQUENCE_OF_WHITE_CHARACTERS = this.env
 				.getProperty("Twitter.RegexSequenceOfWhiteCharacters"); //$NON-NLS-1$
+		String middleOfTheTweetString = TextUtility.getMiddleOfText(tweet);
 		for (String tweetFromTheList : new ArrayList<>(tweetHM.values())) {
 			String tweetFromTheListLC = tweetFromTheList.toLowerCase();
-			// get the middle of the tweet
-			final int mid = tweet.length() / 2;
-			String[] parts = { tweet.substring(0, mid), tweet.substring(mid) };
-			// get the index of the second tweet upto middle
-			final int indexOfTweet2 = (parts[1].length() / 2) + parts[0].length();
-			String middleOfTheTweetString = tweet.substring(mid / 2, indexOfTweet2);
 			if (tweetFromTheListLC.contains(middleOfTheTweetString.toLowerCase())
 					|| tweet.toLowerCase().contains(tweetFromTheListLC) ||
 					tweetFromTheListLC.equals(tweet.toLowerCase())) {
 				if (mediaURL.isEmpty() || articleURI.isEmpty())
 					return true;
-				Stream<Long> twitterIdStream = tweetHM.entrySet().stream()
-						.filter(x -> tweetFromTheList.equals(x.getValue())).map(Map.Entry::getKey);
-				twitterIdStream.forEach(twitterId -> twitterPOHM.remove(twitterId));
+				ifDuplicateRemoveTwitterPOFromList(twitterPOHM, tweetHM, tweetFromTheList);
 			}
+
 			// if it's not duplicate let's check it matches few words
 			// check also if three words in the tweeterList
 			String[] splitStr = tweet.toLowerCase().split(REGEX_SEQUENCE_OF_WHITE_CHARACTERS);
@@ -130,22 +124,25 @@ public class TwitterService {
 					&& tweetFromTheListLC.contains(splitStr[3])) {
 				if (mediaURL.isEmpty() || articleURI.isEmpty())
 					return true;
-				Stream<Long> twitterIdStream = tweetHM.entrySet().stream()
-						.filter(x -> tweetFromTheList.equals(x.getValue())).map(Map.Entry::getKey);
-				twitterIdStream.forEach(twitterId -> twitterPOHM.remove(twitterId));
+				ifDuplicateRemoveTwitterPOFromList(twitterPOHM, tweetHM, tweetFromTheList);
 			}
 
 			// check also if last three words in the tweeterList
-			if (tweetFromTheListLC.contains(splitStr[length-1]) && tweetFromTheListLC.contains(splitStr[length-2])
+			if (length > 5 && tweetFromTheListLC.contains(splitStr[length-1]) && tweetFromTheListLC.contains(splitStr[length-2])
 					&& tweetFromTheListLC.contains(splitStr[length-3])) {
 				if (mediaURL.isEmpty() || articleURI.isEmpty())
 					return true;
-				Stream<Long> twitterIdStream = tweetHM.entrySet().stream()
-						.filter( x -> tweetFromTheList.equals(x.getValue()) ).map(Map.Entry::getKey);
-				twitterIdStream.forEach(twitterId -> twitterPOHM.remove(twitterId));
+				ifDuplicateRemoveTwitterPOFromList(twitterPOHM, tweetHM, tweetFromTheList);
 			}
 		}
 		return false;
+	}
+
+	private static void ifDuplicateRemoveTwitterPOFromList(final Map<Long, TwitterPO> twitterPOHM,
+			final Map<Long, String> tweetHM, String tweetFromTheList) {
+		Stream<Long> twitterIdStream = tweetHM.entrySet().stream()
+				.filter(x -> tweetFromTheList.equals(x.getValue())).map(Map.Entry::getKey);
+		twitterIdStream.forEach(twitterId -> twitterPOHM.remove(twitterId));
 	}
 
 }

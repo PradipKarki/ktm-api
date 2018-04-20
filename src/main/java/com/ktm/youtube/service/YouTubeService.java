@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ import com.google.api.client.util.DateTime;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
+import com.ktm.utils.TextUtility;
 import com.ktm.youtube.model.YouTubePO;
 
 @Service
@@ -68,7 +70,8 @@ public class YouTubeService {
 		for (SearchResult result : searchResultList) {
 			YouTubePO video = new YouTubePO();
 			video.setvideoId(result.getId().getVideoId());
-			video.setTitle(result.getSnippet().getTitle());
+			final String title = result.getSnippet().getTitle();
+			video.setTitle(title);
 			video.setUrl(buildVideoUrl(result.getId().getVideoId()));
 			if (result.getSnippet().getThumbnails().getHigh() != null)
 				video.setThumbnailUrl(result.getSnippet().getThumbnails().getHigh().getUrl());
@@ -77,7 +80,10 @@ public class YouTubeService {
 			}
 			video.setPublishedDate(new Date(result.getSnippet().getPublishedAt().getValue()));
 			video.setDescription(result.getSnippet().getDescription());
-			videos.add(video);
+			if (! isYouTubeVideoDuplicate(title, videos) &&
+					! TextUtility.isThisUnicode(title, Character.UnicodeBlock.DEVANAGARI)) {
+				videos.add(video);
+			}
 		}
 		videos.sort((a, b) -> b.getPublishedDate().compareTo(a.getPublishedDate()));
 		return videos;
@@ -109,6 +115,39 @@ public class YouTubeService {
 		YouTube youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), (reqeust) -> {
 		/*empty block*/}).setApplicationName(YOUTUBE_SPRING_APP).build();
 		return youtube;
+	}
+
+	/**
+	 * take a piece of the youTube video title check if it is already in the youTube video list
+	 * if it's there, it's duplicate, ignore it
+	 * 
+	 */
+	private boolean isYouTubeVideoDuplicate(final String youTubeTitle, final List<YouTubePO> videos) {
+		final String REGEX_SEQUENCE_OF_WHITE_CHARACTERS = this.env
+				.getProperty("Twitter.RegexSequenceOfWhiteCharacters"); //$NON-NLS-1$
+		String middleOfTitleString = TextUtility.getMiddleOfText(youTubeTitle);
+		List <String> youTubeTitles = videos.stream().map(YouTubePO::getTitle).collect(Collectors.toList());
+		for (String titleFromList : youTubeTitles) {
+			String titleFromListLC = titleFromList.toLowerCase();
+			if (titleFromListLC.contains(middleOfTitleString.toLowerCase())
+					|| youTubeTitle.toLowerCase().contains(titleFromListLC) ||
+					titleFromListLC.equals(youTubeTitle.toLowerCase()))
+				return true;
+
+			// if it's not duplicate let's check it matches few words
+			// check if first three words in the title List
+			String[] splitStr = youTubeTitle.toLowerCase().split(REGEX_SEQUENCE_OF_WHITE_CHARACTERS);
+			int length = splitStr.length;
+			if (length > 5 && titleFromListLC.contains(splitStr[1]) && titleFromListLC.contains(splitStr[2])
+					&& titleFromListLC.contains(splitStr[3]))
+				return true;
+
+			// check also if last three words in the title List
+			if (length > 5 && titleFromListLC.contains(splitStr[length-1]) && titleFromListLC.contains(splitStr[length-2])
+					&& titleFromListLC.contains(splitStr[length-3]))
+				return true;
+		}
+		return false;
 	}
 
 }

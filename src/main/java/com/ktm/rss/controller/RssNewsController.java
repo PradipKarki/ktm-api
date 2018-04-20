@@ -10,31 +10,31 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ktm.rss.model.RssNews;
-import com.ktm.rss.service.InternationalRSSService;
-import com.ktm.rss.service.NationalRSSService;
+import com.ktm.rss.service.InternationalRssService;
+import com.ktm.rss.service.NationalRssService;
 import com.rometools.rome.io.FeedException;
 
 @RestController
 @RequestMapping("/news")
-public class RSSNewsController {
+public class RssNewsController {
 
 	@Autowired
-	private InternationalRSSService internationalRSSService;
+	private InternationalRssService internationalRssService;
 
 	@Autowired
-	private NationalRSSService nationalRSSService;
+	private NationalRssService nationalRssService;
 
 	@RequestMapping(value = "/international/getAll", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:4200")
-	public List<RssNews> fetchInternationalRSSFeedByQuery()
+	public List<RssNews> fetchInternationalRssFeedByQuery()
 			throws IOException, IllegalArgumentException, FeedException {
-		return this.internationalRSSService.fetchRSSFeedByQuery();
+		return this.internationalRssService.fetchRssFeedByQuery();
 	}
 
 	@RequestMapping(value = "/national/getAll", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:4200")
-	public List<RssNews> fetchNationalRSSFeedByQuery() throws IOException, IllegalArgumentException, FeedException {
-		return this.nationalRSSService.fetchRSSFeedByQuery();
+	public List<RssNews> fetchNationalRssFeedByQuery() throws IOException, IllegalArgumentException, FeedException {
+		return this.nationalRssService.fetchRssFeedByQuery();
 	}
 
 }

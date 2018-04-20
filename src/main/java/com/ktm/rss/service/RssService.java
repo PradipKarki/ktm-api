@@ -8,9 +8,9 @@ import java.util.stream.Stream;
 import com.ktm.rss.model.RssNews;
 import com.rometools.rome.feed.synd.SyndEntry;
 
-public interface RSSService {
+public interface RssService {
 
-	public default List<RssNews> readAndParseRSSEntries(List<SyndEntry> entries) {
+	public default List<RssNews> readAndParseRssEntries(List<SyndEntry> entries) {
 		List<RssNews> rssNewsList = new ArrayList<>();
 		for (SyndEntry entry : entries) {
 			RssNews rssNews = new RssNews();

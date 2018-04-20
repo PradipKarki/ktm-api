@@ -21,14 +21,14 @@ import com.rometools.rome.io.XmlReader;
 
 @Service
 @PropertySource("classpath:messages.properties")
-public class NationalRSSService implements RSSService {
+public class NationalRssService implements RssService {
 	
 	@Autowired Environment env;
 	
 	@Value("${rss.national.nepal.himalayan-times-1}")
 	private String url;
 	
-	public List<RssNews> fetchRSSFeedByQuery() throws java.lang.IllegalArgumentException, FeedException, IOException {
+	public List<RssNews> fetchRssFeedByQuery() throws java.lang.IllegalArgumentException, FeedException, IOException {
 		final String SEARCH_QUERY_NEPAL = this.env.getProperty("App.Nepal.SearchQueryKeyWord"); //$NON-NLS-1$
 		URL feedUrl = new URL(this.url);
 		SyndFeedInput input = new SyndFeedInput();
@@ -37,7 +37,7 @@ public class NationalRSSService implements RSSService {
 			List<SyndEntry> entries = feed.getEntries().stream()
 					.filter(item -> item.getTitle().toLowerCase().contains(SEARCH_QUERY_NEPAL))
 					.collect(Collectors.toList());
-			return readAndParseRSSEntries(entries);
+			return readAndParseRssEntries(entries);
 		}
 	}
 
