@@ -88,4 +88,10 @@ public class YouTubePO {
 		this.description = description;
 	}
 
+	@Override
+	public String toString() {
+		return "YouTubePO [videoId=" + this.videoId + ", title=" + this.title + ", url=" + this.url + ", thumbnailUrl=" + this.thumbnailUrl //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				+ ", publishedDate=" + this.publishedDate + ", description=" + this.description + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
+
 }

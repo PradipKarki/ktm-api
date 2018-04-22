@@ -3,6 +3,7 @@ package com.ktm.youtube.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,17 +19,30 @@ import com.google.api.client.util.DateTime;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
+import com.google.api.services.youtube.model.Video;
 import com.ktm.utils.TextUtility;
 import com.ktm.youtube.model.YouTubePO;
 
 @Service
 @PropertySource("classpath:messages.properties")
 public class YouTubeService {
-	
-	@Autowired Environment env;
-	
+
+	@Autowired
+	Environment env;
+
 	@Value("${youtube.apikey}")
 	private String apiValue;
+
+	public Video getVideoByVideoId(String videoId) throws IOException {
+		YouTube youtube = getYouTube();
+		HashMap<String, String> parameters = new HashMap<>();
+		parameters.put("part", "snippet,contentDetails,statistics"); //$NON-NLS-1$//$NON-NLS-2$
+		YouTube.Videos.List search = youtube.videos().list(parameters.get("part").toString()); //$NON-NLS-1$
+		search.setId(videoId);
+		search.setKey(this.apiValue);
+		System.out.println(search.toString());
+        return search.execute().getItems().get(0);
+	}
 
 	/**
 	 * Returns the first 50 YouTube videos that match the query term
@@ -46,7 +60,6 @@ public class YouTubeService {
 		final String ENGLISH_LANGUAGE = this.env.getProperty("App.English.Language"); //$NON-NLS-1$
 		final Long MAX_SEARCH_RESULTS = Long.valueOf(50);
 		
-		List<YouTubePO> videos = new ArrayList<>();
 		YouTube youtube = getYouTube();
 		YouTube.Search.List search = youtube.search().list(ID_SNIPPET);
 		search.setKey(this.apiValue);
@@ -62,31 +75,42 @@ public class YouTubeService {
 		DateTime lastWeek = getDateTimeOfWeekAgo();
 		search.setPublishedAfter(lastWeek);
 
+		return executeYouTubeSearch(search);
+	}
+
+	private List<YouTubePO> executeYouTubeSearch(YouTube.Search.List search) throws IOException {
+		List<YouTubePO> videos = new ArrayList<>();
 		// perform the search and parse the results
 		SearchListResponse searchResponse = search.execute();
 		List<SearchResult> searchResultList = searchResponse.getItems();
 		if (searchResultList == null)
 			return videos;
 		for (SearchResult result : searchResultList) {
-			YouTubePO video = new YouTubePO();
-			video.setvideoId(result.getId().getVideoId());
-			final String title = result.getSnippet().getTitle();
-			video.setTitle(title);
-			video.setUrl(buildVideoUrl(result.getId().getVideoId()));
-			if (result.getSnippet().getThumbnails().getHigh() != null)
-				video.setThumbnailUrl(result.getSnippet().getThumbnails().getHigh().getUrl());
-			else {
-				video.setThumbnailUrl(result.getSnippet().getThumbnails().getDefault().getUrl());
-			}
-			video.setPublishedDate(new Date(result.getSnippet().getPublishedAt().getValue()));
-			video.setDescription(result.getSnippet().getDescription());
-			if (! isYouTubeVideoDuplicate(title, videos) &&
-					! TextUtility.isThisUnicode(title, Character.UnicodeBlock.DEVANAGARI)) {
+			YouTubePO video = convertResultToYouTubePO(result);
+			if (!isYouTubeVideoDuplicate(video.getTitle(), videos)
+					&& !TextUtility.isThisUnicode(video.getTitle(), Character.UnicodeBlock.DEVANAGARI)) {
 				videos.add(video);
 			}
 		}
 		videos.sort((a, b) -> b.getPublishedDate().compareTo(a.getPublishedDate()));
 		return videos;
+	}
+
+	private YouTubePO convertResultToYouTubePO(SearchResult result) {
+		YouTubePO video = new YouTubePO();
+
+		video.setvideoId(result.getId().getVideoId());
+		final String title = result.getSnippet().getTitle();
+		video.setTitle(title);
+		video.setUrl(buildVideoUrl(result.getId().getVideoId()));
+		if (result.getSnippet().getThumbnails().getHigh() != null)
+			video.setThumbnailUrl(result.getSnippet().getThumbnails().getHigh().getUrl());
+		else {
+			video.setThumbnailUrl(result.getSnippet().getThumbnails().getDefault().getUrl());
+		}
+		video.setPublishedDate(new Date(result.getSnippet().getPublishedAt().getValue()));
+		video.setDescription(result.getSnippet().getDescription());
+		return video;
 	}
 
 	public static DateTime getDateTimeOfWeekAgo() {
@@ -99,7 +123,7 @@ public class YouTubeService {
 	/**
 	 * Constructs the URL to play the YouTube video
 	 */
-	private String buildVideoUrl(String videoId) {
+	public String buildVideoUrl(String videoId) {
 		final String YOUTUBE_VIDEO_URL_PREFIX = this.env.getProperty("YouTube.VideoUrlPrefix"); //$NON-NLS-1$
 		StringBuilder builder = new StringBuilder();
 		builder.append(YOUTUBE_VIDEO_URL_PREFIX);
@@ -113,25 +137,25 @@ public class YouTubeService {
 	private YouTube getYouTube() {
 		final String YOUTUBE_SPRING_APP = this.env.getProperty("YouTube.AppName"); //$NON-NLS-1$
 		YouTube youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), (reqeust) -> {
-		/*empty block*/}).setApplicationName(YOUTUBE_SPRING_APP).build();
+			/* empty block */}).setApplicationName(YOUTUBE_SPRING_APP).build();
 		return youtube;
 	}
 
 	/**
-	 * take a piece of the youTube video title check if it is already in the youTube video list
-	 * if it's there, it's duplicate, ignore it
+	 * take a piece of the youTube video title check if it is already in the youTube
+	 * video list if it's there, it's duplicate, ignore it
 	 * 
 	 */
 	private boolean isYouTubeVideoDuplicate(final String youTubeTitle, final List<YouTubePO> videos) {
 		final String REGEX_SEQUENCE_OF_WHITE_CHARACTERS = this.env
 				.getProperty("Twitter.RegexSequenceOfWhiteCharacters"); //$NON-NLS-1$
 		String middleOfTitleString = TextUtility.getMiddleOfText(youTubeTitle);
-		List <String> youTubeTitles = videos.stream().map(YouTubePO::getTitle).collect(Collectors.toList());
+		List<String> youTubeTitles = videos.stream().map(YouTubePO::getTitle).collect(Collectors.toList());
 		for (String titleFromList : youTubeTitles) {
 			String titleFromListLC = titleFromList.toLowerCase();
 			if (titleFromListLC.contains(middleOfTitleString.toLowerCase())
-					|| youTubeTitle.toLowerCase().contains(titleFromListLC) ||
-					titleFromListLC.equals(youTubeTitle.toLowerCase()))
+					|| youTubeTitle.toLowerCase().contains(titleFromListLC)
+					|| titleFromListLC.equals(youTubeTitle.toLowerCase()))
 				return true;
 
 			// if it's not duplicate let's check it matches few words
@@ -143,8 +167,8 @@ public class YouTubeService {
 				return true;
 
 			// check also if last three words in the title List
-			if (length > 5 && titleFromListLC.contains(splitStr[length-1]) && titleFromListLC.contains(splitStr[length-2])
-					&& titleFromListLC.contains(splitStr[length-3]))
+			if (length > 5 && titleFromListLC.contains(splitStr[length - 1])
+					&& titleFromListLC.contains(splitStr[length - 2]) && titleFromListLC.contains(splitStr[length - 3]))
 				return true;
 		}
 		return false;
