@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ktm.documentary.model.Documentary;
 import com.ktm.documentary.service.DocumentaryService;
-import com.ktm.twitter.model.TwitterPO;
-import com.ktm.utils.exception.ResourceNotFoundException;
 
 @RestController
 @RequestMapping("/documentary")

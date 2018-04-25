@@ -1,17 +1,23 @@
 package com.ktm.share.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
 
-import com.ktm.utils.KtmSharableEntity;
+import com.ktm.utils.MediaType;
 
+@Entity
 public class UserRating extends UserEntityInfo {
 	@Id
 	@Column(name="USER_RATING_ID", nullable=false)
 	private long id;
-	private long userRatingScore;
+	@NotEmpty
+	@Max(10)
+	private int userRatingScore;
 	
-	public UserRating(String entityId, KtmSharableEntity entityType, String userId, long userRatingScore) {
+	public UserRating(String entityId, MediaType entityType, String userId, int userRatingScore) {
 		super(entityId, entityType, userId);
 		this.setUserRatingScore(userRatingScore);
 	}
@@ -24,11 +30,11 @@ public class UserRating extends UserEntityInfo {
 		this.id = id;
 	}
 
-	public long getUserRatingScore() {
+	public int getUserRatingScore() {
 		return this.userRatingScore;
 	}
 
-	public void setUserRatingScore(long userRatingScore) {
+	public void setUserRatingScore(int userRatingScore) {
 		this.userRatingScore = userRatingScore;
 	}
 

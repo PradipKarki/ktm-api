@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name="TWITTER")
@@ -18,6 +19,7 @@ public class TwitterPO {
 	@Id
 	@Column(name="TWITTER_ID", nullable=false)
 	private long id;
+	@NotEmpty
 	private String title;
 	private String imageUri;
 	private String articleUri;

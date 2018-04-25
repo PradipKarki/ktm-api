@@ -14,13 +14,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
 
 import com.rometools.rome.feed.synd.SyndImage;
 import com.rometools.rome.feed.synd.SyndPerson;
 
 @Entity
 public class RssNews {
-    
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
 	@Column(name="RSS_NEWS_ID")
@@ -43,6 +44,7 @@ public class RssNews {
 	private SyndImage icon;
     @Transient
     private SyndImage image;
+    @NotEmpty
 	private String title;
 	private String description;
 	private String uri;

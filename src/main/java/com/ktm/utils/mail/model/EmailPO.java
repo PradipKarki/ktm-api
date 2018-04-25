@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 import org.simplejavamail.email.Recipient;
 import org.springframework.data.annotation.CreatedDate;
@@ -34,12 +36,15 @@ public final class EmailPO {
 
 	@Transient
 	private String fromName;
-
+	@NotEmpty
+	@Email
 	private String fromAddress;
 
 	@Transient
 	private String toName;
 	@Transient
+	@NotEmpty
+	@Email
 	private String toAddress;
 	@Transient
 	private String bounceToAddress;
@@ -50,6 +55,7 @@ public final class EmailPO {
 	// sample htmlText -> "<img src='cid:wink1'><b>We should meet up!</b><img
 	// src='cid:wink2'>"
 	private String htmlText;
+	@NotEmpty
 	private String subject;
     @Column(nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -135,14 +141,6 @@ public final class EmailPO {
 
 	public void setText(String text) {
 		this.text = text;
-	}
-
-	public String gethtmlText() {
-		return this.htmlText;
-	}
-
-	public void sethtmlText(String htmlText) {
-		this.htmlText = htmlText;
 	}
 
 	public String getSubject() {

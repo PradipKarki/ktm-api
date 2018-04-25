@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -25,7 +26,9 @@ public class Documentary {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "DOCUMENTARY_ID")
 	private String id;
+	@NotEmpty
 	private String title;
+	@NotEmpty
 	private String url;
 	private boolean isFeatured;
 	private String thumbnailUrl;

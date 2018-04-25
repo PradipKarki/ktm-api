@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -24,11 +27,18 @@ public class UserMessage {
 	@Column(name = "EMAIL_ID")
 	private long id;
 
+	@NotEmpty
+	@Size(min = 4)
 	private String name;
+	@NotEmpty
+	@Email
 	private String email;
 	private String phone;
+	@NotEmpty
 	private String messageCategory;
+	@NotEmpty
 	private String message;
+	@NotEmpty
 	private String subject;
 	@Column(nullable = false, updatable = false)
 	@LastModifiedDate

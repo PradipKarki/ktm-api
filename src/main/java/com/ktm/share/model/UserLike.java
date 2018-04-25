@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import com.ktm.utils.KtmSharableEntity;
+import com.ktm.utils.MediaType;
 
 @Entity
 public class UserLike extends UserEntityInfo {
@@ -12,7 +12,7 @@ public class UserLike extends UserEntityInfo {
 	@Column(name="USER_LIKE_ID", nullable=false)
 	private long id;
 
-	public UserLike(String entityId, KtmSharableEntity entityType, String userId) {
+	public UserLike(String entityId, MediaType entityType, String userId) {
 		super(entityId, entityType, userId);
 	}
 	

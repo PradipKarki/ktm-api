@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionHandlingController {
 
+	@SuppressWarnings("static-method")
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<ExceptionResponse> invalidInput(final MethodArgumentNotValidException ex) {
 		ExceptionResponse response = new ExceptionResponse("Validation Error", HttpStatus.BAD_REQUEST, //$NON-NLS-1$
@@ -16,6 +17,7 @@ public class ExceptionHandlingController {
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
 
+	@SuppressWarnings("static-method")
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<ExceptionResponse> assertionException(final IllegalArgumentException ex) {
 		ExceptionResponse response = new ExceptionResponse("Invalid Inputs", HttpStatus.UNPROCESSABLE_ENTITY, //$NON-NLS-1$

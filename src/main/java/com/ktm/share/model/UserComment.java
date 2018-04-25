@@ -3,8 +3,9 @@ package com.ktm.share.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
 
-import com.ktm.utils.KtmSharableEntity;
+import com.ktm.utils.MediaType;
 
 @Entity
 public class UserComment extends UserEntityInfo {
@@ -12,10 +13,12 @@ public class UserComment extends UserEntityInfo {
 	@Column(name="USER_COMMENT_ID", nullable=false)
 	private long id;
 	private String userName;
+	@NotEmpty
 	private String email;
+	@NotEmpty
 	private String comment;
 	
-	public UserComment(String entityId, KtmSharableEntity entityType, String userId, String userName,
+	public UserComment(String entityId, MediaType entityType, String userId, String userName,
 			String email, String comment) {
 		super(entityId, entityType, userId);
 		this.userName = userName;

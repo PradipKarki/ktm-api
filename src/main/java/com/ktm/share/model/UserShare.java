@@ -3,19 +3,21 @@ package com.ktm.share.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
 
-import com.ktm.utils.KtmSharableEntity;
+import com.ktm.utils.MediaType;
 
 @Entity
 public class UserShare extends UserEntityInfo {
 	@Id
 	@Column(name="USER_SHARE_ID", nullable=false)
 	private long id;
-	private String shareLocation;
+	@NotEmpty
+	private String socialMediaName;
 	
-	public UserShare(String entityId, KtmSharableEntity entityType, String userId, String shareLocation) {
+	public UserShare(String entityId, MediaType entityType, String userId, String shareLocation) {
 		super(entityId, entityType, userId);
-		this.shareLocation = shareLocation;
+		this.socialMediaName = shareLocation;
 	}
 
 	public long getId() {
@@ -27,11 +29,11 @@ public class UserShare extends UserEntityInfo {
 	}
 
 	public String getShareLocation() {
-		return this.shareLocation;
+		return this.socialMediaName;
 	}
 
 	public void setShareLocation(String shareLocation) {
-		this.shareLocation = shareLocation;
+		this.socialMediaName = shareLocation;
 	}
 	
 }

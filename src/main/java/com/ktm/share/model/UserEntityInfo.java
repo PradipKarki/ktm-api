@@ -8,24 +8,28 @@ import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
 
 import org.springframework.data.annotation.CreatedDate;
 
-import com.ktm.utils.KtmSharableEntity;
+import com.ktm.utils.MediaType;
 
 @MappedSuperclass
 public abstract class UserEntityInfo {
+	@NotEmpty
 	private String entityId;
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "SMALLINT") //smallint= 2 bytes
-    private KtmSharableEntity entityType;
+	@NotEmpty
+    private MediaType entityType;
+	@NotEmpty
     private String userId;
     @Column(nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate
     private Date createdDate;
     
-	public UserEntityInfo(String entityId, KtmSharableEntity entityType, String userId) {
+	public UserEntityInfo(String entityId, MediaType entityType, String userId) {
 		this.entityId = entityId;
 		this.entityType = entityType;
 		this.userId = userId;
@@ -37,10 +41,10 @@ public abstract class UserEntityInfo {
 	public void setEntityId(String entityId) {
 		this.entityId = entityId;
 	}
-	public KtmSharableEntity getEntityType() {
+	public MediaType getEntityType() {
 		return this.entityType;
 	}
-	public void setEntityType(KtmSharableEntity entityType) {
+	public void setEntityType(MediaType entityType) {
 		this.entityType = entityType;
 	}
 	public String getUserId() {

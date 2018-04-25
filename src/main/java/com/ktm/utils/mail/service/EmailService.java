@@ -28,7 +28,7 @@ public class EmailService {
 		          .to(myEmail.getToName(), myEmail.getToAddress())
 //		          .withRecipients(myEmail.getRecipients())
 		          .withSubject(myEmail.getSubject())
-		          .withHTMLText(myEmail.gethtmlText())
+		          .withHTMLText(myEmail.getHtmlText())
 		          .withPlainText(myEmail.getText())
 //		          .withEmbeddedImage("wink1", Base64.getDecoder().decode(myEmail.getBase64String()), "image/png")
 //		          .withHeader("X-Priority", myEmail.getHeaders().get("X-Priority"))

@@ -1,6 +1,6 @@
 package com.ktm.utils;
 
-public enum KtmSharableEntity {
+public enum MediaType {
 	TWITTER(0),
 	YOUTUBE(1),
 	RSS_NEWS(2),
@@ -11,7 +11,7 @@ public enum KtmSharableEntity {
      */
     public final int value;
  
-    private KtmSharableEntity(int value) {
+    private MediaType(int value) {
         this.value = value;
     }
 }

@@ -4,22 +4,23 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name="YOUTUBE")
 public class YouTubePO {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)	
 	@Column(name="YOUTUBE_ID")
+	@NotEmpty
 	private String videoId;
+    @NotEmpty
 	private String title;
+	@NotEmpty
 	private String url;
 	private String thumbnailUrl;
 	@Temporal(TemporalType.TIMESTAMP)

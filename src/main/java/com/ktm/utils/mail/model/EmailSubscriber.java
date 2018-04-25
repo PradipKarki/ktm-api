@@ -1,6 +1,9 @@
 package com.ktm.utils.mail.model;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -25,10 +28,17 @@ public class EmailSubscriber {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="EMAIL_SUBSCRIBER_ID")
 	private long id;
-	@NotNull(message = "email address can not be null")
 	@NotEmpty(message = "email address can not be empty")
+	@Email
 	private String emailAddress;
+	@NotEmpty
 	boolean isSubscribed;
+	@NotEmpty
+	boolean isConfirmed;
+	@NotEmpty
+	String verifyToken;
+	@NotEmpty
+	Date expirationDate;
     @Column(nullable = false, updatable = false)
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
@@ -46,6 +56,9 @@ public class EmailSubscriber {
 		super();
 		this.emailAddress = emailAddress;
 		this.isSubscribed = isSubscribed;
+		this.isConfirmed = false;
+		this.verifyToken = UUID.randomUUID().toString();
+		this.expirationDate = Date.from(LocalDateTime.now().plusWeeks(1).toInstant(ZoneOffset.UTC));
 	}
 
 	public long getId() {
@@ -67,6 +80,30 @@ public class EmailSubscriber {
 	}
 	public void setSubscribed(boolean isSubscribed) {
 		this.isSubscribed = isSubscribed;
+	}
+
+	public boolean isConfirmed() {
+		return this.isConfirmed;
+	}
+
+	public void setConfirmed(boolean isConfirmed) {
+		this.isConfirmed = isConfirmed;
+	}
+
+	public String getVerifyToken() {
+		return this.verifyToken;
+	}
+
+	public void setVerifyToken(String verifyToken) {
+		this.verifyToken = verifyToken;
+	}
+
+	public Date getExpirationDate() {
+		return this.expirationDate;
+	}
+
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
 	}
 
 	public Date getLastModifiedDate() {

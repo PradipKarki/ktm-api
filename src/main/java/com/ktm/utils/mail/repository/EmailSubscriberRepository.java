@@ -12,5 +12,7 @@ public interface EmailSubscriberRepository extends JpaRepository<EmailSubscriber
     public Optional<EmailSubscriber> findByEmailAddress(String emailAddress);
 
 	public List<EmailSubscriber> findByIsSubscribed(boolean isSubscribed);
+	
+    public Optional<EmailSubscriber> findByVerifyToken(String token);
 
 }
