@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,7 @@ import twitter4j.TwitterException;
 @RestController
 @PropertySource("classpath:messages.properties")
 @RequestMapping("/twitter")
+@RefreshScope
 public class TwitterController {
 
 	@Autowired

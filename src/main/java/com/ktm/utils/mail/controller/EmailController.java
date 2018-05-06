@@ -1,6 +1,7 @@
 package com.ktm.utils.mail.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import com.ktm.utils.mail.service.EmailService;
 
 @RestController
 @RequestMapping("/mail")
+@RefreshScope
 public class EmailController {
 
 	@Autowired

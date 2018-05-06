@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import com.ktm.utils.mail.service.EmailConfirmationService;
 
 @RestController
 @RequestMapping("/verify_email")
+@RefreshScope
 public class EmailConfirmationController {
 	@Autowired
 	private EmailConfirmationService emailConfirmationService;

@@ -8,6 +8,7 @@ import javax.mail.internet.InternetAddress;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,6 +22,7 @@ import com.ktm.utils.mail.repository.EmailSubscriberRepository;
 
 @RestController
 @RequestMapping("/subscribe")
+@RefreshScope
 public class EmailSubscriberController {
 
 	@Autowired

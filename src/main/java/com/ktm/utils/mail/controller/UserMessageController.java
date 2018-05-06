@@ -3,6 +3,7 @@ package com.ktm.utils.mail.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import com.ktm.utils.mail.repository.UserMessageRepository;
 
 @RestController
 @RequestMapping("/contact")
+@RefreshScope
 public class UserMessageController {
 	@Autowired
 	private UserMessageRepository userMessageRepository;

@@ -6,11 +6,13 @@ import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ktm.utils.mail.model.EmailPO;
 import com.ktm.utils.mail.model.EmailSubscriber;
 import com.ktm.utils.mail.repository.EmailSubscriberRepository;
 
+@Service
 public class EmailConfirmationService {
 	@Autowired
 	private EmailService emailService;

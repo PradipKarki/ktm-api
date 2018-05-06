@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,6 +18,7 @@ import com.ktm.youtube.service.YouTubeService;
 @RestController
 @PropertySource("classpath:messages.properties")
 @RequestMapping("/youtube")
+@RefreshScope
 public class YouTubeController {
 
 	@Autowired Environment env;
