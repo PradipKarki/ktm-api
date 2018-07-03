@@ -1,21 +1,15 @@
 package com.ktm.utils.mail.model;
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.Date;
 import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -24,100 +18,103 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class EmailSubscriber {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="EMAIL_SUBSCRIBER_ID")
-	private long id;
-	@NotEmpty(message = "email address can not be empty")
-	@Email
-	private String emailAddress;
-	@NotEmpty
-	boolean isSubscribed;
-	@NotEmpty
-	boolean isConfirmed;
-	@NotEmpty
-	String verifyToken;
-	@NotEmpty
-	Date expirationDate;
+    @NotEmpty
+    private boolean isSubscribed;
+    @NotEmpty
+    private boolean isConfirmed;
+    @NotEmpty
+    private String verifyToken;
+    @NotEmpty
+    private LocalDateTime expirationDate;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "EMAIL_SUBSCRIBER_ID")
+    private long id;
+    @NotEmpty(message = "email address can not be empty")
+    @Email
+    private String emailAddress;
     @Column(nullable = false, updatable = false)
     @LastModifiedDate
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
     @Column(nullable = false, updatable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	@CreatedDate
-    private Date createdDate;
-    
-	public EmailSubscriber() {
-		super();
-	}
+    @CreatedDate
+    private LocalDateTime createdDate;
 
-	public EmailSubscriber(String emailAddress, boolean isSubscribed) {
-		super();
-		this.emailAddress = emailAddress;
-		this.isSubscribed = isSubscribed;
-		this.isConfirmed = false;
-		this.verifyToken = UUID.randomUUID().toString();
-		this.expirationDate = Date.from(LocalDateTime.now().plusWeeks(1).toInstant(ZoneOffset.UTC));
-	}
+    public EmailSubscriber() {
+        super();
+    }
 
-	public long getId() {
-		return this.id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
+    public EmailSubscriber(String emailAddress, boolean isSubscribed) {
+        super();
+        this.emailAddress = emailAddress;
+        this.isSubscribed = isSubscribed;
+        this.isConfirmed = false;
+        this.verifyToken = UUID.randomUUID().toString();
+        this.expirationDate = LocalDateTime.now().plusWeeks(1L);
+    }
 
-	public String getEmailAddress() {
-		return this.emailAddress;
-	}
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
-	}
+    public long getId() {
+        return this.id;
+    }
 
-	public boolean isSubscribed() {
-		return this.isSubscribed;
-	}
-	public void setSubscribed(boolean isSubscribed) {
-		this.isSubscribed = isSubscribed;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public boolean isConfirmed() {
-		return this.isConfirmed;
-	}
+    public String getEmailAddress() {
+        return this.emailAddress;
+    }
 
-	public void setConfirmed(boolean isConfirmed) {
-		this.isConfirmed = isConfirmed;
-	}
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
 
-	public String getVerifyToken() {
-		return this.verifyToken;
-	}
+    public boolean isSubscribed() {
+        return this.isSubscribed;
+    }
 
-	public void setVerifyToken(String verifyToken) {
-		this.verifyToken = verifyToken;
-	}
+    public void setSubscribed(boolean isSubscribed) {
+        this.isSubscribed = isSubscribed;
+    }
 
-	public Date getExpirationDate() {
-		return this.expirationDate;
-	}
+    public boolean isConfirmed() {
+        return this.isConfirmed;
+    }
 
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
-	}
+    public void setConfirmed(boolean isConfirmed) {
+        this.isConfirmed = isConfirmed;
+    }
 
-	public Date getLastModifiedDate() {
-		return this.lastModifiedDate;
-	}
-	public void setLastModifiedDate(Date lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
+    public String getVerifyToken() {
+        return this.verifyToken;
+    }
 
-	public Date getCreatedDate() {
-		return this.createdDate;
-	}
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-	
+    public void setVerifyToken(String verifyToken) {
+        this.verifyToken = verifyToken;
+    }
+
+    public LocalDateTime getExpirationDate() {
+        return this.expirationDate;
+    }
+
+    public void setExpirationDate(LocalDateTime expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public LocalDateTime getLastModifiedDate() {
+        return this.lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return this.createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
 }

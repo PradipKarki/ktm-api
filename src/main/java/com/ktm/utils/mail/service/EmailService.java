@@ -1,5 +1,6 @@
 package com.ktm.utils.mail.service;
 
+import com.ktm.utils.mail.model.EmailPO;
 import org.simplejavamail.MailException;
 import org.simplejavamail.email.Email;
 import org.simplejavamail.email.EmailBuilder;
@@ -11,36 +12,32 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import com.ktm.utils.mail.model.EmailPO;
-
 @Service
 @Configuration
 @PropertySource("classpath:simplejavamail.properties")
 @Import(SimpleJavaMailSpringSupport.class)
 public class EmailService {
 
-	@Autowired
-	private Mailer mailer; // configured completely using default properties
-	
-	public boolean sendMail(EmailPO myEmail) {
-		Email email = EmailBuilder.startingBlank()
-				  .from(myEmail.getFromName(), myEmail.getFromAddress())
-		          .to(myEmail.getToName(), myEmail.getToAddress())
+    @Autowired
+    private Mailer mailer; // configured completely using default properties
+
+    public void sendMail(EmailPO myEmail) {
+        Email email = EmailBuilder.startingBlank()
+                                  .from(myEmail.getFromName(), myEmail.getFromAddress())
+                                  .to(myEmail.getToName(), myEmail.getToAddress())
 //		          .withRecipients(myEmail.getRecipients())
-		          .withSubject(myEmail.getSubject())
-		          .withHTMLText(myEmail.getHtmlText())
-		          .withPlainText(myEmail.getText())
+                                  .withSubject(myEmail.getSubject())
+                                  .withHTMLText(myEmail.getHtmlText())
+                                  .withPlainText(myEmail.getText())
 //		          .withEmbeddedImage("wink1", Base64.getDecoder().decode(myEmail.getBase64String()), "image/png")
 //		          .withHeader("X-Priority", myEmail.getHeaders().get("X-Priority"))
-		          .withBounceTo(myEmail.getFromAddress())
-		          .buildEmail();
-		try {
-			this.mailer.sendMail(email);
-		} catch (MailException e) {
-			System.err.println(e.getStackTrace());
-			return false;
-		}
-		return true;
-	}
+                                  .withBounceTo(myEmail.getFromAddress())
+                                  .buildEmail();
+        try {
+            this.mailer.sendMail(email);
+        } catch (MailException e) {
+            System.err.println("error");
+        }
+    }
 
 }

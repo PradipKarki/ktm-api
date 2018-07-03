@@ -2,6 +2,7 @@ package com.ktm.twitter.service;
 
 import com.ktm.twitter.model.TwitterPO;
 import com.ktm.twitter.model.TwitterUser;
+import com.ktm.utils.DateUtility;
 import com.ktm.utils.TextUtility;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,9 +79,8 @@ public class TwitterService {
                 twitterUser.setMiniProfileImageURL(user.getMiniProfileImageURL());
                 twitterUser.setName(user.getName());
                 twitterUser.setUserName(user.getScreenName());
-                TwitterPO twitterPO = new TwitterPO(twitterID, tweet, mediaURL, url, status
-                        .getCreatedAt(),
-                        twitterUser);
+                TwitterPO twitterPO = new TwitterPO(twitterID, tweet, mediaURL, url, DateUtility
+                        .convertToLocalDateTime(status.getCreatedAt()), twitterUser);
                 tweetHM.put(twitterID, tweet);
                 twitterPOHM.put(twitterID, twitterPO);
             }
