@@ -1,13 +1,12 @@
 package com.ktm;
 
-import static springfox.documentation.builders.PathSelectors.regex;
-
 import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -25,13 +24,12 @@ public class SwaggerConfig {
 
     @Bean
     public Docket twitterApi() {
-        return new Docket(DocumentationType.SWAGGER_2).select()
-                                                      .apis(RequestHandlerSelectors
-                                                              .basePackage(this.env
-                                                                      .getProperty("SwaggerConfig.BasePackage"))) //$NON-NLS-1$
-                                                      .paths(regex(this.env
-                                                              .getProperty("SwaggerConfig.Paths"))) //$NON-NLS-1$
-                                                      .build().apiInfo(metaData());
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
+                .build();
+
     }
 
     private ApiInfo metaData() {
