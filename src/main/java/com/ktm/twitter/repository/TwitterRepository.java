@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TwitterRepository extends JpaRepository<TwitterPO, Long> {
 
-    List<TwitterPO> findByTwitterUser(TwitterUser twitterUser);
+  List<TwitterPO> findByTwitterUser(TwitterUser twitterUser);
 
 }

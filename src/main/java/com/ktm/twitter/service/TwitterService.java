@@ -80,7 +80,7 @@ public class TwitterService {
                 twitterUser.setName(user.getName());
                 twitterUser.setUserName(user.getScreenName());
                 TwitterPO twitterPO = new TwitterPO(twitterID, tweet, mediaURL, url, DateUtility
-                        .convertToLocalDateTime(status.getCreatedAt()), twitterUser);
+                  .convertToLocalDateTime(status.getCreatedAt()), twitterUser);
                 tweetHM.put(twitterID, tweet);
                 twitterPOHM.put(twitterID, twitterPO);
             }
@@ -107,13 +107,13 @@ public class TwitterService {
     private boolean isTweetDuplicate(String tweet, String mediaURL, String articleURI,
                                      Map<Long, TwitterPO> twitterPOHM, Map<Long, String> tweetHM) {
         String regexSequenceOfWhiteCharacters = this.env
-                .getProperty("Twitter.RegexSequenceOfWhiteCharacters"); //$NON-NLS-1$
+          .getProperty("Twitter.RegexSequenceOfWhiteCharacters"); //$NON-NLS-1$
         String middleOfTheTweetString = TextUtility.getMiddleOfText(tweet);
         for (String tweetFromTheList : new ArrayList<>(tweetHM.values())) {
             String tweetFromTheListLC = tweetFromTheList.toLowerCase();
             if (tweetFromTheListLC.contains(middleOfTheTweetString.toLowerCase())
-                    || tweet.toLowerCase().contains(tweetFromTheListLC) ||
-                    tweetFromTheListLC.equalsIgnoreCase(tweet)) {
+              || tweet.toLowerCase().contains(tweetFromTheListLC) ||
+              tweetFromTheListLC.equalsIgnoreCase(tweet)) {
                 if (mediaURL.isEmpty() || articleURI.isEmpty())
                     return true;
                 ifDuplicateRemoveTwitterPOFromList(twitterPOHM, tweetHM, tweetFromTheList);
@@ -127,8 +127,8 @@ public class TwitterService {
             String[] splitStr = tweet.toLowerCase().split(regexSequenceOfWhiteCharacters);
             int length = splitStr.length;
             if (length > 5 && tweetFromTheListLC.contains(splitStr[1]) && tweetFromTheListLC
-                    .contains(splitStr[2])
-                    && tweetFromTheListLC.contains(splitStr[3])) {
+              .contains(splitStr[2])
+              && tweetFromTheListLC.contains(splitStr[3])) {
                 if (mediaURL.isEmpty() || articleURI.isEmpty())
                     return true;
                 ifDuplicateRemoveTwitterPOFromList(twitterPOHM, tweetHM, tweetFromTheList);
@@ -136,9 +136,9 @@ public class TwitterService {
 
             // check also if last three words in the tweeterList
             if (length > 5 && tweetFromTheListLC
-                    .contains(splitStr[length - 1]) && tweetFromTheListLC
-                    .contains(splitStr[length - 2])
-                    && tweetFromTheListLC.contains(splitStr[length - 3])) {
+              .contains(splitStr[length - 1]) && tweetFromTheListLC
+              .contains(splitStr[length - 2])
+              && tweetFromTheListLC.contains(splitStr[length - 3])) {
                 if (mediaURL.isEmpty() || articleURI.isEmpty())
                     return true;
                 ifDuplicateRemoveTwitterPOFromList(twitterPOHM, tweetHM, tweetFromTheList);

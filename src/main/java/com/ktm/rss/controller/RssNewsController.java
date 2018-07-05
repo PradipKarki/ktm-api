@@ -18,23 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RefreshScope
 public class RssNewsController {
 
-    @Autowired
-    private InternationalRssService internationalRssService;
+  @Autowired
+  private InternationalRssService internationalRssService;
 
-    @Autowired
-    private NationalRssService nationalRssService;
+  @Autowired
+  private NationalRssService nationalRssService;
 
-    @RequestMapping(value = "/international/getAll", method = RequestMethod.GET)
-    @CrossOrigin(origins = "http://localhost:4200")
-    public List<RssNews> fetchInternationalRssFeedByQuery()
-            throws IOException, FeedException {
-        return this.internationalRssService.fetchRssFeedByQuery();
-    }
+  @RequestMapping(value = "/international/getAll", method = RequestMethod.GET)
+  @CrossOrigin(origins = "http://localhost:4200")
+  public List<RssNews> fetchInternationalRssFeedByQuery()
+    throws IOException, FeedException {
+    return this.internationalRssService.fetchRssFeedByQuery();
+  }
 
-    @RequestMapping(value = "/national/getAll", method = RequestMethod.GET)
-    @CrossOrigin(origins = "http://localhost:4200")
-    public List<RssNews> fetchNationalRssFeedByQuery() throws IOException, FeedException {
-        return this.nationalRssService.fetchRssFeedByQuery();
-    }
+  @RequestMapping(value = "/national/getAll", method = RequestMethod.GET)
+  @CrossOrigin(origins = "http://localhost:4200")
+  public List<RssNews> fetchNationalRssFeedByQuery() throws IOException, FeedException {
+    return this.nationalRssService.fetchRssFeedByQuery();
+  }
 
 }

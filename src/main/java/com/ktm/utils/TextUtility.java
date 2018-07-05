@@ -36,7 +36,7 @@ public class TextUtility {
     public String cleanTweetText(String tweet) {
         String httpPrefix = this.env.getProperty("TextUtility.HttpPrefix"); //$NON-NLS-1$
         String specialCharactersExceptSpaces = this.env
-                .getProperty("TextUtility.SpecialCharactersExceptSpaces"); //$NON-NLS-1$
+          .getProperty("TextUtility.SpecialCharactersExceptSpaces"); //$NON-NLS-1$
         String rtKeyword = this.env.getProperty("TextUtility.RTWord"); //$NON-NLS-1$
         String cleanText = tweet;
         if (cleanText.contains(httpPrefix)) {

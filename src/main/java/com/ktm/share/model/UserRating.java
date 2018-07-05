@@ -9,36 +9,36 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class UserRating extends UserEntityInfo {
-    @Id
-    @Column(name = "USER_RATING_ID", nullable = false)
-    private long id;
-    @NotEmpty
-    @Max(10)
-    private int userRatingScore;
+  @Id
+  @Column(name = "USER_RATING_ID", nullable = false)
+  private long id;
+  @NotEmpty
+  @Max(10)
+  private int userRatingScore;
 
-    public UserRating() {
-        super();
-    }
+  public UserRating() {
+    super();
+  }
 
-    public UserRating(String entityId, MediaType entityType, String userId, int userRatingScore) {
-        super(entityId, entityType, userId);
-        this.setUserRatingScore(userRatingScore);
-    }
+  public UserRating(String entityId, MediaType entityType, String userId, int userRatingScore) {
+    super(entityId, entityType, userId);
+    this.setUserRatingScore(userRatingScore);
+  }
 
-    public long getId() {
-        return this.id;
-    }
+  public long getId() {
+    return this.id;
+  }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+  public void setId(long id) {
+    this.id = id;
+  }
 
-    public int getUserRatingScore() {
-        return this.userRatingScore;
-    }
+  public int getUserRatingScore() {
+    return this.userRatingScore;
+  }
 
-    public void setUserRatingScore(int userRatingScore) {
-        this.userRatingScore = userRatingScore;
-    }
+  public void setUserRatingScore(int userRatingScore) {
+    this.userRatingScore = userRatingScore;
+  }
 
 }

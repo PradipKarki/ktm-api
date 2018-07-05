@@ -20,14 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RefreshScope
 @Api(tags = EMAIL)
 public class UserMessageController {
-    @Autowired
-    private UserMessageRepository userMessageRepository;
+  @Autowired
+  private UserMessageRepository userMessageRepository;
 
-    @PostMapping("/")
-    @CrossOrigin(origins = "http://localhost:4200")
-    @ApiOperation("Save Message Send by Users in Database")
-    public void saveUserMessage(@Valid @RequestBody UserMessage userMessage) {
-        this.userMessageRepository.save(userMessage);
-    }
+  @PostMapping("/")
+  @CrossOrigin(origins = "http://localhost:4200")
+  @ApiOperation("Save Message Send by Users in Database")
+  public void saveUserMessage(@Valid @RequestBody UserMessage userMessage) {
+    this.userMessageRepository.save(userMessage);
+  }
 
 }

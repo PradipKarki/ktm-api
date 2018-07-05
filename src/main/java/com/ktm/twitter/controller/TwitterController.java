@@ -29,77 +29,77 @@ import twitter4j.TwitterException;
 @RefreshScope
 public class TwitterController {
 
-    @Autowired
-    Environment env;
-    @Autowired
-    TwitterRepository twitterRepository;
-    @Autowired
-    private TwitterService twitterService;
+  @Autowired
+  Environment env;
+  @Autowired
+  TwitterRepository twitterRepository;
+  @Autowired
+  private TwitterService twitterService;
 
-    @RequestMapping(value = "/nepal", method = RequestMethod.GET)
-    @CrossOrigin(origins = "http://localhost:4200")
-    public List<TwitterPO> getTweetsNepal() throws TwitterException {
-        String searchQuery = this.env
-                .getProperty("App.Nepal.TwitterSearchQueryKeyWord"); //$NON-NLS-1$
-        return this.twitterService.getTweetsByQuery(searchQuery);
-    }
+  @RequestMapping(value = "/nepal", method = RequestMethod.GET)
+  @CrossOrigin(origins = "http://localhost:4200")
+  public List<TwitterPO> getTweetsNepal() throws TwitterException {
+    String searchQuery = this.env
+      .getProperty("App.Nepal.TwitterSearchQueryKeyWord"); //$NON-NLS-1$
+    return this.twitterService.getTweetsByQuery(searchQuery);
+  }
 
-    @RequestMapping(value = "/everest", method = RequestMethod.GET)
-    @CrossOrigin(origins = "http://localhost:4200")
-    public List<TwitterPO> getTweetsEverest() throws TwitterException {
-        String searchQuery = this.env
-                .getProperty("App.Everest.TwitterSearchQueryKeyWord"); //$NON-NLS-1$
-        return this.twitterService.getTweetsByQuery(searchQuery);
-    }
+  @RequestMapping(value = "/everest", method = RequestMethod.GET)
+  @CrossOrigin(origins = "http://localhost:4200")
+  public List<TwitterPO> getTweetsEverest() throws TwitterException {
+    String searchQuery = this.env
+      .getProperty("App.Everest.TwitterSearchQueryKeyWord"); //$NON-NLS-1$
+    return this.twitterService.getTweetsByQuery(searchQuery);
+  }
 
-    @RequestMapping(value = "/kathmandu", method = RequestMethod.GET)
-    @CrossOrigin(origins = "http://localhost:4200")
-    public List<TwitterPO> getTweetsKathmandu() throws TwitterException {
-        String searchQuery = this.env
-                .getProperty("App.Kathmandu.TwitterSearchQueryKeyWord"); //$NON-NLS-1$
-        return this.twitterService.getTweetsByQuery(searchQuery);
-    }
+  @RequestMapping(value = "/kathmandu", method = RequestMethod.GET)
+  @CrossOrigin(origins = "http://localhost:4200")
+  public List<TwitterPO> getTweetsKathmandu() throws TwitterException {
+    String searchQuery = this.env
+      .getProperty("App.Kathmandu.TwitterSearchQueryKeyWord"); //$NON-NLS-1$
+    return this.twitterService.getTweetsByQuery(searchQuery);
+  }
 
-    // Get All TwitterPOs
-    @GetMapping("/")
-    public List<TwitterPO> getAllTwitterPOs() {
-        return this.twitterRepository.findAll();
-    }
+  // Get All TwitterPOs
+  @GetMapping("/")
+  public List<TwitterPO> getAllTwitterPOs() {
+    return this.twitterRepository.findAll();
+  }
 
-    // Create a new TwitterPO
-    @PostMapping("/")
-    public TwitterPO createTwitterPO(@Valid @RequestBody TwitterPO twitterPO) {
-        return this.twitterRepository.save(twitterPO);
-    }
+  // Create a new TwitterPO
+  @PostMapping("/")
+  public TwitterPO createTwitterPO(@Valid @RequestBody TwitterPO twitterPO) {
+    return this.twitterRepository.save(twitterPO);
+  }
 
-    // Get a Single TwitterPO by Id
-    @GetMapping("/{id}")
-    public TwitterPO getTwitterPOById(@PathVariable Long id) {
-        return this.twitterRepository.findById(id)
-                                     .orElseThrow(ResourceNotFoundException::new);
-    }
+  // Get a Single TwitterPO by Id
+  @GetMapping("/{id}")
+  public TwitterPO getTwitterPOById(@PathVariable Long id) {
+    return this.twitterRepository.findById(id)
+                                 .orElseThrow(ResourceNotFoundException::new);
+  }
 
-    // Update a TwitterPO
-    @PutMapping("/{id}")
-    public TwitterPO updateTwitterPO(@PathVariable Long id,
-                                     @Valid @RequestBody TwitterPO twitterPODetails) {
-        TwitterPO twitterPO = this.twitterRepository.findById(id)
-                                                    .orElseThrow(ResourceNotFoundException::new);
-        twitterPO.setTitle(twitterPODetails.getTitle());
-        twitterPO.setImageURI(twitterPODetails.getImageURI());
-        twitterPO.setArticleURI(twitterPODetails.getArticleURI());
-        twitterPO.setPublishedDate(twitterPODetails.getPublishedDate());
-        twitterPO.setTwitterUser(twitterPODetails.getTwitterUser());
-        return this.twitterRepository.save(twitterPO);
-    }
+  // Update a TwitterPO
+  @PutMapping("/{id}")
+  public TwitterPO updateTwitterPO(@PathVariable Long id,
+                                   @Valid @RequestBody TwitterPO twitterPODetails) {
+    TwitterPO twitterPO = this.twitterRepository.findById(id)
+                                                .orElseThrow(ResourceNotFoundException::new);
+    twitterPO.setTitle(twitterPODetails.getTitle());
+    twitterPO.setImageURI(twitterPODetails.getImageURI());
+    twitterPO.setArticleURI(twitterPODetails.getArticleURI());
+    twitterPO.setPublishedDate(twitterPODetails.getPublishedDate());
+    twitterPO.setTwitterUser(twitterPODetails.getTwitterUser());
+    return this.twitterRepository.save(twitterPO);
+  }
 
-    // Delete a TwitterPO
-    @DeleteMapping("/{id}")
-    public ResponseEntity<TwitterPO> deleteTwitterPO(@PathVariable Long id) {
-        TwitterPO twitterPO = this.twitterRepository.findById(id)
-                                                    .orElseThrow(ResourceNotFoundException::new);
-        this.twitterRepository.delete(twitterPO);
-        return ResponseEntity.ok().build();
-    }
+  // Delete a TwitterPO
+  @DeleteMapping("/{id}")
+  public ResponseEntity<TwitterPO> deleteTwitterPO(@PathVariable Long id) {
+    TwitterPO twitterPO = this.twitterRepository.findById(id)
+                                                .orElseThrow(ResourceNotFoundException::new);
+    this.twitterRepository.delete(twitterPO);
+    return ResponseEntity.ok().build();
+  }
 
 }

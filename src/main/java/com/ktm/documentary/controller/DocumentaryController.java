@@ -23,25 +23,25 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "documentary", description = "Retrieve Documentary from Data Source")
 public class DocumentaryController {
 
-    @Value("#{'${documentary.nepal.youtube}'.split(',')}")
-    private final List<String> youTubeDocumentary = new ArrayList<>();
-    @Value("#{'${documentary.nepal.vimeo}'.split(',')}")
-    private final List<String> vimeoDocumentary = new ArrayList<>();
-    @Autowired
-    private DocumentaryService documentaryService;
+  @Value("#{'${documentary.nepal.youtube}'.split(',')}")
+  private final List<String> youTubeDocumentary = new ArrayList<>();
+  @Value("#{'${documentary.nepal.vimeo}'.split(',')}")
+  private final List<String> vimeoDocumentary = new ArrayList<>();
+  @Autowired
+  private DocumentaryService documentaryService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    @CrossOrigin(origins = "http://localhost:4200")
-    @ApiOperation("Retrieve all Documentary Videos")
-    public List<Documentary> getAllDocumentaryVideos() throws IOException {
-        return this.documentaryService.getDocumentaryVideos(this.youTubeDocumentary);
-    }
+  @RequestMapping(value = "/", method = RequestMethod.GET)
+  @CrossOrigin(origins = "http://localhost:4200")
+  @ApiOperation("Retrieve all Documentary Videos")
+  public List<Documentary> getAllDocumentaryVideos() throws IOException {
+    return this.documentaryService.getDocumentaryVideos(this.youTubeDocumentary);
+  }
 
-    @GetMapping("/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
-    @ApiOperation("Return a Single Documentary Video by Video Id")
-    public Documentary getDocumentaryVideoById(@PathVariable String id) throws IOException {
-        return this.documentaryService.getDocumentaryVideoByVideoId(id);
-    }
+  @GetMapping("/{id}")
+  @CrossOrigin(origins = "http://localhost:4200")
+  @ApiOperation("Return a Single Documentary Video by Video Id")
+  public Documentary getDocumentaryVideoById(@PathVariable String id) throws IOException {
+    return this.documentaryService.getDocumentaryVideoByVideoId(id);
+  }
 
 }

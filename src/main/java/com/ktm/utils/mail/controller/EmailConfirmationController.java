@@ -41,7 +41,7 @@ public class EmailConfirmationController {
         }
 
         Optional<EmailSubscriber> emailSubscriber = this.emailSubscriberRepository
-                .findByVerifyToken(token);
+          .findByVerifyToken(token);
 
         if (!emailSubscriber.isPresent()) {
             // it's already confirmed, show page showing the email is already confirmed

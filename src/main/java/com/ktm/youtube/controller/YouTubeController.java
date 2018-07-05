@@ -19,18 +19,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RefreshScope
 public class YouTubeController {
 
-    @Autowired
-    Environment env;
+  @Autowired
+  Environment env;
 
-    @Autowired
-    private YouTubeService youtubeService;
+  @Autowired
+  private YouTubeService youtubeService;
 
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    @CrossOrigin(origins = "http://localhost:4200")
-    public List<YouTubePO> getYouTubeVideos() throws IOException {
-        String searchQueryNepal = this.env
-                .getProperty("App.Nepal.SearchQueryKeyWord"); //$NON-NLS-1$
-        return this.youtubeService.fetchVideosByQuery(searchQueryNepal);
-    }
+  @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+  @CrossOrigin(origins = "http://localhost:4200")
+  public List<YouTubePO> getYouTubeVideos() throws IOException {
+    String searchQueryNepal = this.env
+      .getProperty("App.Nepal.SearchQueryKeyWord"); //$NON-NLS-1$
+    return this.youtubeService.fetchVideosByQuery(searchQueryNepal);
+  }
 
 }

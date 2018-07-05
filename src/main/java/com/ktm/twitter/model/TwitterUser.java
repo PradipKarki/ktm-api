@@ -13,65 +13,65 @@ import javax.persistence.OneToMany;
 @Entity
 public class TwitterUser {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TWITTER_USER_ID")
-    private long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "TWITTER_USER_ID")
+  private long id;
 
-    private String userName;
-    private String miniProfileImageURL;
-    private String name;
+  private String userName;
+  private String miniProfileImageURL;
+  private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "twitterUser", cascade = CascadeType.ALL)
-    private List<TwitterPO> tweets;
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "twitterUser", cascade = CascadeType.ALL)
+  private List<TwitterPO> tweets;
 
-    public TwitterUser() {
-    }
+  public TwitterUser() {
+  }
 
-    public TwitterUser(String userName, String miniProfileImageURL, String name) {
-        super();
-        this.userName = userName;
-        this.miniProfileImageURL = miniProfileImageURL;
-        this.name = name;
-    }
+  public TwitterUser(String userName, String miniProfileImageURL, String name) {
+    super();
+    this.userName = userName;
+    this.miniProfileImageURL = miniProfileImageURL;
+    this.name = name;
+  }
 
-    public long getId() {
-        return this.id;
-    }
+  public long getId() {
+    return this.id;
+  }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+  public void setId(long id) {
+    this.id = id;
+  }
 
-    public String getUserName() {
-        return this.userName;
-    }
+  public String getUserName() {
+    return this.userName;
+  }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
 
-    public String getMiniProfileImageURL() {
-        return this.miniProfileImageURL;
-    }
+  public String getMiniProfileImageURL() {
+    return this.miniProfileImageURL;
+  }
 
-    public void setMiniProfileImageURL(String miniProfileImageURL) {
-        this.miniProfileImageURL = miniProfileImageURL;
-    }
+  public void setMiniProfileImageURL(String miniProfileImageURL) {
+    this.miniProfileImageURL = miniProfileImageURL;
+  }
 
-    public String getName() {
-        return this.name;
-    }
+  public String getName() {
+    return this.name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public List<TwitterPO> getTweets() {
-        return this.tweets;
-    }
+  public List<TwitterPO> getTweets() {
+    return this.tweets;
+  }
 
-    public void setTweets(List<TwitterPO> tweets) {
-        this.tweets = tweets;
-    }
+  public void setTweets(List<TwitterPO> tweets) {
+    this.tweets = tweets;
+  }
 }

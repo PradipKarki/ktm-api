@@ -21,25 +21,25 @@ import org.springframework.stereotype.Service;
 @PropertySource("classpath:messages.properties")
 public class InternationalRssService implements RssService {
 
-    @Autowired
-    Environment env;
+  @Autowired
+  Environment env;
 
-    @Value("${rss.international.india.tribune-india-1}")
-    private String url;
+  @Value("${rss.international.india.tribune-india-1}")
+  private String url;
 
-    public List<RssNews> fetchRssFeedByQuery() throws FeedException, IOException {
-        String searchQueryNepal = this.env
-                .getProperty("App.Nepal.SearchQueryKeyWord"); //$NON-NLS-1$
-        URL feedUrl = new URL(this.url);
-        SyndFeedInput input = new SyndFeedInput();
-        try (Reader xmlReader = new XmlReader(feedUrl)) {
-            SyndFeed feed = input.build(xmlReader);
-            List<SyndEntry> entries = feed.getEntries().stream()
-                                          .filter(item -> item.getTitle().toLowerCase()
-                                                              .contains(searchQueryNepal))
-                                          .collect(Collectors.toList());
-            return readAndParseRssEntries(entries);
-        }
+  public List<RssNews> fetchRssFeedByQuery() throws FeedException, IOException {
+    String searchQueryNepal = this.env
+      .getProperty("App.Nepal.SearchQueryKeyWord"); //$NON-NLS-1$
+    URL feedUrl = new URL(this.url);
+    SyndFeedInput input = new SyndFeedInput();
+    try (Reader xmlReader = new XmlReader(feedUrl)) {
+      SyndFeed feed = input.build(xmlReader);
+      List<SyndEntry> entries = feed.getEntries().stream()
+                                    .filter(item -> item.getTitle().toLowerCase()
+                                                        .contains(searchQueryNepal))
+                                    .collect(Collectors.toList());
+      return readAndParseRssEntries(entries);
     }
+  }
 
 }

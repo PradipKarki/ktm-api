@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EmailSubscriberRepository extends JpaRepository<EmailSubscriber, Long> {
 
-    Optional<EmailSubscriber> findByEmailAddress(String emailAddress);
+  Optional<EmailSubscriber> findByEmailAddress(String emailAddress);
 
-    List<EmailSubscriber> findByIsSubscribed(boolean isSubscribed);
+  List<EmailSubscriber> findByIsSubscribed(boolean isSubscribed);
 
-    Optional<EmailSubscriber> findByVerifyToken(String token);
+  Optional<EmailSubscriber> findByVerifyToken(String token);
 
 }
