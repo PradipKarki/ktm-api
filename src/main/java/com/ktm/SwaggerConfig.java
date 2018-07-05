@@ -23,13 +23,23 @@ public class SwaggerConfig {
   Environment env;
 
   @Bean
-  public Docket twitterApi() {
+  public Docket twitterApi1() {
     return new Docket(DocumentationType.SWAGGER_2)
+      .groupName("1. ktm-times app")
       .select()
       .apis(RequestHandlerSelectors.basePackage("com.ktm"))
       .paths(PathSelectors.any())
       .build().apiInfo(metaData());
+  }
 
+  @Bean
+  public Docket twitterApi2() {
+    return new Docket(DocumentationType.SWAGGER_2)
+      .groupName("2. application health/metrics")
+      .select()
+      .apis(RequestHandlerSelectors.basePackage("org.springframework"))
+      .paths(PathSelectors.regex("(?!/error).+"))
+      .build().apiInfo(metaData());
   }
 
   private ApiInfo metaData() {
