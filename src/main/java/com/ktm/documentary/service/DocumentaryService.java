@@ -23,9 +23,8 @@ public class DocumentaryService {
   private YouTubeService youtubeService;
 
   public Documentary getDocumentaryVideoByVideoId(String videoId) throws IOException {
-    Documentary documentaryVideo = new Documentary();
     Video video = this.youtubeService.getVideoByVideoId(videoId);
-    documentaryVideo.setId(video.getId());
+    Documentary documentaryVideo = new Documentary(video.getId());
     String title = video.getSnippet().getTitle();
     documentaryVideo.setTitle(title);
     documentaryVideo.setUrl(this.youtubeService.buildVideoUrl(videoId));

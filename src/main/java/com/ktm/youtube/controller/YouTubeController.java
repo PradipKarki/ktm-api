@@ -1,7 +1,10 @@
 package com.ktm.youtube.controller;
 
+import com.ktm.ApiConstants;
 import com.ktm.youtube.model.YouTubePO;
 import com.ktm.youtube.service.YouTubeService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @PropertySource("classpath:messages.properties")
 @RequestMapping("/youtube")
 @RefreshScope
+@Api(tags = ApiConstants.YOUTUBE, description = "Retrieve YouTube Videos from Data Source")
 public class YouTubeController {
 
   @Autowired
@@ -27,6 +31,7 @@ public class YouTubeController {
 
   @RequestMapping(value = "/getAll", method = RequestMethod.GET)
   @CrossOrigin(origins = "http://localhost:4200")
+  @ApiOperation("Retrieve all YouTube Videos Related to Nepal News")
   public List<YouTubePO> getYouTubeVideos() throws IOException {
     String searchQueryNepal = this.env
       .getProperty("App.Nepal.SearchQueryKeyWord"); //$NON-NLS-1$

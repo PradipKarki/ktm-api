@@ -1,5 +1,6 @@
 package com.ktm.documentary.controller;
 
+import com.ktm.ApiConstants;
 import com.ktm.documentary.model.Documentary;
 import com.ktm.documentary.service.DocumentaryService;
 import io.swagger.annotations.Api;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/documentary")
 @RefreshScope
-@Api(tags = "documentary", description = "Retrieve Documentary from Data Source")
+@Api(tags = ApiConstants.DOCUMENTARY, description = "Retrieve Documentary from Data Source")
 public class DocumentaryController {
 
   @Value("#{'${documentary.nepal.youtube}'.split(',')}")

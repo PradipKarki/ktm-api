@@ -1,9 +1,12 @@
 package com.ktm.rss.controller;
 
+import com.ktm.ApiConstants;
 import com.ktm.rss.model.RssNews;
 import com.ktm.rss.service.InternationalRssService;
 import com.ktm.rss.service.NationalRssService;
 import com.rometools.rome.io.FeedException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/news")
 @RefreshScope
+@Api(tags = ApiConstants.RSS, description = "Retrieve all RSS News Feed from Data Source")
 public class RssNewsController {
 
   @Autowired
@@ -26,6 +30,7 @@ public class RssNewsController {
 
   @RequestMapping(value = "/international/getAll", method = RequestMethod.GET)
   @CrossOrigin(origins = "http://localhost:4200")
+  @ApiOperation("Retrieve all RSS News Feed international media")
   public List<RssNews> fetchInternationalRssFeedByQuery()
     throws IOException, FeedException {
     return this.internationalRssService.fetchRssFeedByQuery();
@@ -33,6 +38,7 @@ public class RssNewsController {
 
   @RequestMapping(value = "/national/getAll", method = RequestMethod.GET)
   @CrossOrigin(origins = "http://localhost:4200")
+  @ApiOperation("Retrieve all RSS News Feed from national media")
   public List<RssNews> fetchNationalRssFeedByQuery() throws IOException, FeedException {
     return this.nationalRssService.fetchRssFeedByQuery();
   }
