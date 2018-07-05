@@ -4,3 +4,14 @@ spring:
   cloud:
     config:
       uri: ${SPRING_CONFIG_URI:http://localhost:8888}
+logging:
+  level:
+    org:
+      springframework:
+        security: INFO
+    hibernate: INFO
+
+#  path: concretepage/logs
+  pattern:
+    file: '%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n'
+    console: '%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n'

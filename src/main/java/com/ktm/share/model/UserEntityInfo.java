@@ -11,46 +11,46 @@ import org.springframework.data.annotation.CreatedDate;
 
 @MappedSuperclass
 public abstract class UserEntityInfo {
-    @NotEmpty
-    private String entityId;
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "SMALLINT") //smallint= 2 bytes
-    @NotEmpty
-    private MediaType entityType;
-    @NotEmpty
-    private String userId;
-    @Column(nullable = false, updatable = false)
-    @CreatedDate
-    private LocalDateTime createdDate;
+  @NotEmpty
+  private String entityId;
+  @Enumerated(EnumType.STRING)
+  @Column(columnDefinition = "SMALLINT") //smallint= 2 bytes
+  @NotEmpty
+  private MediaType entityType;
+  @NotEmpty
+  private String userId;
+  @Column(nullable = false, updatable = false)
+  @CreatedDate
+  private LocalDateTime createdDate;
 
-    public UserEntityInfo(String entityId, MediaType entityType, String userId) {
-        this.entityId = entityId;
-        this.entityType = entityType;
-        this.userId = userId;
-    }
+  public UserEntityInfo(String entityId, MediaType entityType, String userId) {
+    this.entityId = entityId;
+    this.entityType = entityType;
+    this.userId = userId;
+  }
 
-    public String getEntityId() {
-        return this.entityId;
-    }
+  public String getEntityId() {
+    return this.entityId;
+  }
 
-    public void setEntityId(String entityId) {
-        this.entityId = entityId;
-    }
+  public void setEntityId(String entityId) {
+    this.entityId = entityId;
+  }
 
-    public MediaType getEntityType() {
-        return this.entityType;
-    }
+  public MediaType getEntityType() {
+    return this.entityType;
+  }
 
-    public void setEntityType(MediaType entityType) {
-        this.entityType = entityType;
-    }
+  public void setEntityType(MediaType entityType) {
+    this.entityType = entityType;
+  }
 
-    public String getUserId() {
-        return this.userId;
-    }
+  public String getUserId() {
+    return this.userId;
+  }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
 
 }
