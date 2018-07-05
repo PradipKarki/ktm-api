@@ -26,7 +26,7 @@ public class SwaggerConfig {
   public Docket twitterApi() {
     return new Docket(DocumentationType.SWAGGER_2)
       .select()
-      .apis(RequestHandlerSelectors.any())
+      .apis(RequestHandlerSelectors.basePackage("com.ktm"))
       .paths(PathSelectors.any())
       .build().apiInfo(metaData());
 

@@ -29,10 +29,10 @@ public class YouTubeController {
   @Autowired
   private YouTubeService youtubeService;
 
-  @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+  @RequestMapping(value = "/nepal/", method = RequestMethod.GET)
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all YouTube Videos Related to Nepal News")
-  public List<YouTubePO> getYouTubeVideos() throws IOException {
+  public List<YouTubePO> getYouTubeNepalVideos() throws IOException {
     String searchQueryNepal = this.env
       .getProperty("App.Nepal.SearchQueryKeyWord"); //$NON-NLS-1$
     return this.youtubeService.fetchVideosByQuery(searchQueryNepal);

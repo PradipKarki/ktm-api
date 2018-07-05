@@ -28,7 +28,7 @@ public class RssNewsController {
   @Autowired
   private NationalRssService nationalRssService;
 
-  @RequestMapping(value = "/international/getAll", method = RequestMethod.GET)
+  @RequestMapping(value = "/international/", method = RequestMethod.GET)
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all RSS News Feed international media")
   public List<RssNews> fetchInternationalRssFeedByQuery()
@@ -36,7 +36,7 @@ public class RssNewsController {
     return this.internationalRssService.fetchRssFeedByQuery();
   }
 
-  @RequestMapping(value = "/national/getAll", method = RequestMethod.GET)
+  @RequestMapping(value = "/national/", method = RequestMethod.GET)
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all RSS News Feed from national media")
   public List<RssNews> fetchNationalRssFeedByQuery() throws IOException, FeedException {
