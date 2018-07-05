@@ -26,7 +26,6 @@ public class TwitterUser {
     private List<TwitterPO> tweets;
 
     public TwitterUser() {
-        super();
     }
 
     public TwitterUser(String userName, String miniProfileImageURL, String name) {

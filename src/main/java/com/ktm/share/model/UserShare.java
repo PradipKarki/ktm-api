@@ -8,31 +8,35 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class UserShare extends UserEntityInfo {
-    @Id
-    @Column(name = "USER_SHARE_ID", nullable = false)
-    private long id;
-    @NotEmpty
-    private String socialMediaName;
+  @Id
+  @Column(name = "USER_SHARE_ID", nullable = false)
+  private long id;
+  @NotEmpty
+  private String socialMediaName;
 
-    public UserShare(String entityId, MediaType entityType, String userId, String shareLocation) {
-        super(entityId, entityType, userId);
-        this.socialMediaName = shareLocation;
-    }
+  public UserShare() {
+    super();
+  }
 
-    public long getId() {
-        return this.id;
-    }
+  public UserShare(String entityId, MediaType entityType, String userId, String shareLocation) {
+    super(entityId, entityType, userId);
+    this.socialMediaName = shareLocation;
+  }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+  public long getId() {
+    return this.id;
+  }
 
-    public String getShareLocation() {
-        return this.socialMediaName;
-    }
+  public void setId(long id) {
+    this.id = id;
+  }
 
-    public void setShareLocation(String shareLocation) {
-        this.socialMediaName = shareLocation;
-    }
+  public String getShareLocation() {
+    return this.socialMediaName;
+  }
+
+  public void setShareLocation(String shareLocation) {
+    this.socialMediaName = shareLocation;
+  }
 
 }

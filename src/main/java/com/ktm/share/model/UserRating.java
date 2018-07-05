@@ -16,6 +16,10 @@ public class UserRating extends UserEntityInfo {
     @Max(10)
     private int userRatingScore;
 
+    public UserRating() {
+        super();
+    }
+
     public UserRating(String entityId, MediaType entityType, String userId, int userRatingScore) {
         super(entityId, entityType, userId);
         this.setUserRatingScore(userRatingScore);

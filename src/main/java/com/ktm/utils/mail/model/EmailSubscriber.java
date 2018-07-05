@@ -41,7 +41,6 @@ public class EmailSubscriber {
     private LocalDateTime createdDate;
 
     public EmailSubscriber() {
-        super();
     }
 
     public EmailSubscriber(String emailAddress, boolean isSubscribed) {

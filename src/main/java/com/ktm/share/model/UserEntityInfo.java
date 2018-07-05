@@ -23,6 +23,9 @@ public abstract class UserEntityInfo {
   @CreatedDate
   private LocalDateTime createdDate;
 
+  public UserEntityInfo() {
+  }
+
   public UserEntityInfo(String entityId, MediaType entityType, String userId) {
     this.entityId = entityId;
     this.entityType = entityType;

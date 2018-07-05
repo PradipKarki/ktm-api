@@ -19,30 +19,30 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    @Autowired
-    Environment env;
+  @Autowired
+  Environment env;
 
-    @Bean
-    public Docket twitterApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
-                .build().apiInfo(metaData());
+  @Bean
+  public Docket twitterApi() {
+    return new Docket(DocumentationType.SWAGGER_2)
+      .select()
+      .apis(RequestHandlerSelectors.any())
+      .paths(PathSelectors.any())
+      .build().apiInfo(metaData());
 
-    }
+  }
 
-    private ApiInfo metaData() {
-        return new ApiInfo(this.env.getProperty("SwaggerConfig.Title"), this.env
-                .getProperty("SwaggerConfig.Description"), //$NON-NLS-1$ //$NON-NLS-2$
-                this.env.getProperty("SwaggerConfig.Version"), this.env
-                .getProperty("SwaggerConfig.TermsofServiceUrl"), //$NON-NLS-1$ //$NON-NLS-2$
-                new Contact(this.env.getProperty("SwaggerConfig.Name"), this.env
-                        .getProperty("SwaggerConfig.Url"), //$NON-NLS-1$ //$NON-NLS-2$
-                        this.env.getProperty("SwaggerConfig.Email")), this.env
-                .getProperty("SwaggerConfig.License"), //$NON-NLS-1$ //$NON-NLS-2$
-                this.env.getProperty("SwaggerConfig.LicenseUrl"), Collections
-                .emptyList()); //$NON-NLS-1$
-    }
+  private ApiInfo metaData() {
+    return new ApiInfo(this.env.getProperty("SwaggerConfig.Title"),
+      this.env.getProperty("SwaggerConfig.Description"), //$NON-NLS-1$ //$NON-NLS-2$
+      this.env.getProperty("SwaggerConfig.Version"),
+      this.env.getProperty("SwaggerConfig.TermsofServiceUrl"), //$NON-NLS-1$ //$NON-NLS-2$
+      new Contact(this.env.getProperty("SwaggerConfig.Name"),
+        this.env.getProperty("SwaggerConfig.Url"), //$NON-NLS-1$ //$NON-NLS-2$
+        this.env.getProperty("SwaggerConfig.Email")),
+      this.env.getProperty("SwaggerConfig.License"), //$NON-NLS-1$ //$NON-NLS-2$
+      this.env.getProperty("SwaggerConfig.LicenseUrl"),
+      Collections.emptyList()); //$NON-NLS-1$
+  }
 
 }

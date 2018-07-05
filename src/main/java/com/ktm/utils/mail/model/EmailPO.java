@@ -62,7 +62,6 @@ public final class EmailPO {
     private Map<String, String> headers;
 
     public EmailPO() {
-        super();
     }
 
     public EmailPO(String toName, String toAddress, String text, String htmlText, String subject) {

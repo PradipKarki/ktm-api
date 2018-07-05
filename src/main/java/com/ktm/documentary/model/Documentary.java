@@ -17,101 +17,104 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class Documentary {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "DOCUMENTARY_ID")
-    private String id;
-    @NotEmpty
-    private String title;
-    @NotEmpty
-    private String url;
-    private boolean isFeatured;
-    private String thumbnailUrl;
-    private LocalDateTime publishedDate;
-    private String description;
-    @JsonIgnore
-    @Column(nullable = false, updatable = false)
-    @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
-    @JsonIgnore
-    @Column(nullable = false, updatable = false)
-    @CreatedDate
-    private LocalDateTime createdDate;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "DOCUMENTARY_ID")
+  private String id;
+  @NotEmpty
+  private String title;
+  @NotEmpty
+  private String url;
+  private boolean isFeatured;
+  private String thumbnailUrl;
+  private LocalDateTime publishedDate;
+  private String description;
+  @JsonIgnore
+  @Column(nullable = false, updatable = false)
+  @LastModifiedDate
+  private LocalDateTime lastModifiedDate;
+  @JsonIgnore
+  @Column(nullable = false, updatable = false)
+  @CreatedDate
+  private LocalDateTime createdDate;
 
-    public Documentary() {
-        super();
-    }
+  public Documentary() {
+  }
 
-    public String getId() {
-        return this.id;
-    }
+  public Documentary(String id) {
+    this.id = id;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public String getId() {
+    return this.id;
+  }
 
-    public String getTitle() {
-        return this.title;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public String getTitle() {
+    return this.title;
+  }
 
-    public String getUrl() {
-        return this.url;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+  public String getUrl() {
+    return this.url;
+  }
 
-    public boolean isFeatured() {
-        return this.isFeatured;
-    }
+  public void setUrl(String url) {
+    this.url = url;
+  }
 
-    public void setFeatured(boolean isFeatured) {
-        this.isFeatured = isFeatured;
-    }
+  public boolean isFeatured() {
+    return this.isFeatured;
+  }
 
-    public String getThumbnailUrl() {
-        return this.thumbnailUrl;
-    }
+  public void setFeatured(boolean isFeatured) {
+    this.isFeatured = isFeatured;
+  }
 
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
-    }
+  public String getThumbnailUrl() {
+    return this.thumbnailUrl;
+  }
 
-    public LocalDateTime getPublishedDate() {
-        return this.publishedDate;
-    }
+  public void setThumbnailUrl(String thumbnailUrl) {
+    this.thumbnailUrl = thumbnailUrl;
+  }
 
-    public void setPublishedDate(LocalDateTime publishedDate) {
-        this.publishedDate = publishedDate;
-    }
+  public LocalDateTime getPublishedDate() {
+    return this.publishedDate;
+  }
 
-    public String getDescription() {
-        return this.description;
-    }
+  public void setPublishedDate(LocalDateTime publishedDate) {
+    this.publishedDate = publishedDate;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public String getDescription() {
+    return this.description;
+  }
 
-    public LocalDateTime getLastModifiedDate() {
-        return this.lastModifiedDate;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
+  public LocalDateTime getLastModifiedDate() {
+    return this.lastModifiedDate;
+  }
 
-    public LocalDateTime getCreatedDate() {
-        return this.createdDate;
-    }
+  public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+    this.lastModifiedDate = lastModifiedDate;
+  }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
+  public LocalDateTime getCreatedDate() {
+    return this.createdDate;
+  }
+
+  public void setCreatedDate(LocalDateTime createdDate) {
+    this.createdDate = createdDate;
+  }
 
 }

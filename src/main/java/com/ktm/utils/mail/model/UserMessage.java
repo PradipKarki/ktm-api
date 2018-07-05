@@ -44,7 +44,6 @@ public class UserMessage {
     private LocalDateTime createdDate;
 
     public UserMessage() {
-        super();
     }
 
     public UserMessage(String name, String email, String phone, String messageCategory, String message,

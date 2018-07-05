@@ -26,7 +26,6 @@ public class TwitterPO {
     private TwitterUser twitterUser;
 
     public TwitterPO() {
-        super();
     }
 
     public TwitterPO(long id, String title, String imageURI, String articleURI, LocalDateTime publishedDate, TwitterUser twitterUser) {

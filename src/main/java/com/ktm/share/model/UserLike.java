@@ -7,20 +7,24 @@ import javax.persistence.Id;
 
 @Entity
 public class UserLike extends UserEntityInfo {
-    @Id
-    @Column(name = "USER_LIKE_ID", nullable = false)
-    private long id;
+  @Id
+  @Column(name = "USER_LIKE_ID", nullable = false)
+  private long id;
 
-    public UserLike(String entityId, MediaType entityType, String userId) {
-        super(entityId, entityType, userId);
-    }
+  public UserLike() {
+    super();
+  }
 
-    public long getId() {
-        return this.id;
-    }
+  public UserLike(String entityId, MediaType entityType, String userId) {
+    super(entityId, entityType, userId);
+  }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+  public long getId() {
+    return this.id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
 
 }
