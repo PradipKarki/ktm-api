@@ -1,8 +1,12 @@
 package com.ktm.utils.mail.controller;
 
+import static com.ktm.ApiConstants.EMAIL;
+
 import com.ktm.utils.exception.ResourceNotFoundException;
 import com.ktm.utils.mail.model.EmailSubscriber;
 import com.ktm.utils.mail.repository.EmailSubscriberRepository;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import java.util.Optional;
 import javax.mail.internet.AddressException;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/subscribe")
 @RefreshScope
+@Api(tags = EMAIL)
 public class EmailSubscriberController {
 
     @Autowired
@@ -27,24 +32,28 @@ public class EmailSubscriberController {
 
     // Get All EmailSubscribers
     @GetMapping("/")
+    @ApiOperation("Retrieve all Email Subscribers")
     public List<EmailSubscriber> getAllEmailSubscribers() {
         return this.emailSubscriberRepository.findAll();
     }
 
     // Get All EmailSubscribers
     @GetMapping("/active")
+    @ApiOperation("Retrieve all Active Email Subscribers")
     public List<EmailSubscriber> getAllActiveEmailSubscribers() {
         return this.emailSubscriberRepository.findByIsSubscribed(true);
     }
 
     // Get All EmailSubscribers
     @GetMapping("/inactive")
+    @ApiOperation("Retrieve all Inactive Email Subscribers")
     public List<EmailSubscriber> getAllInactiveEmailSubscribers() {
         return this.emailSubscriberRepository.findByIsSubscribed(false);
     }
 
     // Create a new EmailSubscriber
     @PostMapping("/")
+    @ApiOperation("Add a new Email Subscriber")
     public EmailSubscriber createEmailSubscriber(@Valid @RequestBody EmailSubscriber emailSubscriberDetails) {
         String emailAddress = emailSubscriberDetails.getEmailAddress().toLowerCase();
         try {
@@ -63,9 +72,9 @@ public class EmailSubscriberController {
         return this.emailSubscriberRepository.save(emailSubscriber.get());
     }
 
-    // Update a EmailSubscriber, put on unsubscribe list
     // always be false for requests coming from other apps -> unsubscribe email
     @PutMapping("/")
+    @ApiOperation("Update an Existing Active Email Subscriber to Inactive")
     public EmailSubscriber updateEmailSubscriberStatus(@Valid @RequestBody EmailSubscriber emailSubscriberDetails) {
         String emailAddress = emailSubscriberDetails.getEmailAddress().toLowerCase();
         boolean isSubscribed = emailSubscriberDetails.isSubscribed();

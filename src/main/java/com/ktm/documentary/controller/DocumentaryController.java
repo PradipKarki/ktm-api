@@ -2,6 +2,8 @@ package com.ktm.documentary.controller;
 
 import com.ktm.documentary.model.Documentary;
 import com.ktm.documentary.service.DocumentaryService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/documentary")
 @RefreshScope
+@Api(tags = "documentary", description = "Retrieve Documentary from Data Source")
 public class DocumentaryController {
 
     @Value("#{'${documentary.nepal.youtube}'.split(',')}")
@@ -27,16 +30,18 @@ public class DocumentaryController {
     @Autowired
     private DocumentaryService documentaryService;
 
-    @GetMapping("/{id}")
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:4200")
-    public Documentary getDocumentaryVideoById(@PathVariable String id) throws IOException {
-        return this.documentaryService.getDocumentaryVideoByVideoId(id);
+    @ApiOperation("Retrieve all Documentary Videos")
+    public List<Documentary> getAllDocumentaryVideos() throws IOException {
+        return this.documentaryService.getDocumentaryVideos(this.youTubeDocumentary);
     }
 
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+    @GetMapping("/{id}")
     @CrossOrigin(origins = "http://localhost:4200")
-    public List<Documentary> getDocumentaryVideos() throws IOException {
-        return this.documentaryService.getDocumentaryVideos(this.youTubeDocumentary);
+    @ApiOperation("Return a Single Documentary Video by Video Id")
+    public Documentary getDocumentaryVideoById(@PathVariable String id) throws IOException {
+        return this.documentaryService.getDocumentaryVideoByVideoId(id);
     }
 
 }

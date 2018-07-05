@@ -1,5 +1,6 @@
 package com.ktm.utils.mail.controller;
 
+import static com.ktm.ApiConstants.EMAIL;
 import static com.ktm.utils.mail.controller.EmailConfirmationStatus.ALREADY_CONFIRMED;
 import static com.ktm.utils.mail.controller.EmailConfirmationStatus.CONFIRMATION_DATE_EXPIRED;
 import static com.ktm.utils.mail.controller.EmailConfirmationStatus.CONFIRMED;
@@ -8,6 +9,8 @@ import static com.ktm.utils.mail.controller.EmailConfirmationStatus.INVALID_TOKE
 import com.ktm.utils.mail.model.EmailSubscriber;
 import com.ktm.utils.mail.repository.EmailSubscriberRepository;
 import com.ktm.utils.mail.service.EmailConfirmationService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/verify_email")
 @RefreshScope
+@Api(tags = EMAIL, description = "Save User Message/Email, Send Mail from Support/News Domain, Verify new User Email Token, Maintain Subscribe/Unsubscribe List")
 public class EmailConfirmationController {
     @Autowired
     private EmailConfirmationService emailConfirmationService;
@@ -30,6 +34,7 @@ public class EmailConfirmationController {
 
     @GetMapping("/{token}")
     @CrossOrigin(origins = "http://localhost:4200")
+    @ApiOperation("Confirm User Registration by Verifying Email Token")
     public EmailConfirmationStatus confirmRegistration(@PathVariable("token") String token) {
         if (StringUtils.isEmpty(token)) {
             return INVALID_TOKEN;
