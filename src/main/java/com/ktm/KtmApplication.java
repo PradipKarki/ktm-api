@@ -16,7 +16,7 @@ public class KtmApplication {
     logger
       .info("Starting KTM TIMES DOT COM application, current time: {}", Instant.now());
     SpringApplication.run(KtmApplication.class, args);
-    logger.info("shutting down application, current time: {}", Instant.now());
+    logger.info("Shutting down application, current time: {}", Instant.now());
   }
 
 }

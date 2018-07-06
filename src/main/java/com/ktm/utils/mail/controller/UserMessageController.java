@@ -23,7 +23,7 @@ public class UserMessageController {
   @Autowired
   private UserMessageRepository userMessageRepository;
 
-  @PostMapping("/")
+  @PostMapping
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Save Message Send by Users in Database")
   public void saveUserMessage(@Valid @RequestBody UserMessage userMessage) {

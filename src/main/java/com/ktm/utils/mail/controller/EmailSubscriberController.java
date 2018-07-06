@@ -31,7 +31,7 @@ public class EmailSubscriberController {
   EmailSubscriberRepository emailSubscriberRepository;
 
   // Get All EmailSubscribers
-  @GetMapping("/")
+  @GetMapping
   @ApiOperation("Retrieve all Email Subscribers")
   public List<EmailSubscriber> getAllEmailSubscribers() {
     return this.emailSubscriberRepository.findAll();
@@ -52,7 +52,7 @@ public class EmailSubscriberController {
   }
 
   // Create a new EmailSubscriber
-  @PostMapping("/")
+  @PostMapping
   @ApiOperation("Add a new Email Subscriber")
   public EmailSubscriber createEmailSubscriber(@Valid @RequestBody EmailSubscriber emailSubscriberDetails) {
     String emailAddress = emailSubscriberDetails.getEmailAddress().toLowerCase();
@@ -73,7 +73,7 @@ public class EmailSubscriberController {
   }
 
   // always be false for requests coming from other apps -> unsubscribe email
-  @PutMapping("/")
+  @PutMapping
   @ApiOperation("Update an Existing Active Email Subscriber to Inactive")
   public EmailSubscriber updateEmailSubscriberStatus(@Valid @RequestBody EmailSubscriber emailSubscriberDetails) {
     String emailAddress = emailSubscriberDetails.getEmailAddress().toLowerCase();

@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import twitter4j.TwitterException;
 
@@ -40,7 +39,7 @@ public class TwitterController {
   @Autowired
   private TwitterService twitterService;
 
-  @RequestMapping(value = "/nepal", method = RequestMethod.GET)
+  @GetMapping("/nepal")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all Tweets Related to Nepal")
   public List<TwitterPO> getTweetsNepal() throws TwitterException {
@@ -49,7 +48,7 @@ public class TwitterController {
     return this.twitterService.getTweetsByQuery(searchQuery);
   }
 
-  @RequestMapping(value = "/everest", method = RequestMethod.GET)
+  @GetMapping("/everest")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all Tweets Related to Everest")
   public List<TwitterPO> getTweetsEverest() throws TwitterException {
@@ -58,7 +57,7 @@ public class TwitterController {
     return this.twitterService.getTweetsByQuery(searchQuery);
   }
 
-  @RequestMapping(value = "/kathmandu", method = RequestMethod.GET)
+  @GetMapping("/kathmandu")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all Tweets Related to Kathmandu")
   public List<TwitterPO> getTweetsKathmandu() throws TwitterException {
@@ -74,13 +73,13 @@ public class TwitterController {
     return this.twitterService.getTweetsByQuery(tweetKeyWord);
   }
 
-  @GetMapping("/")
+  @GetMapping
   @ApiOperation("Retrieve all Tweets from Data Source")
   public List<TwitterPO> getAllTwitterPOs() {
     return this.twitterRepository.findAll();
   }
 
-  @PostMapping("/")
+  @PostMapping
   @ApiOperation("Create a new Tweet")
   public TwitterPO createTwitterPO(@Valid @RequestBody TwitterPO twitterPO) {
     return this.twitterRepository.save(twitterPO);

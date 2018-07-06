@@ -10,9 +10,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,14 +26,14 @@ public class EmailController {
   @Autowired
   private EmailRepository emailRepository;
 
-  @RequestMapping(value = "/support", method = RequestMethod.POST)
+  @PostMapping("/support")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Send Email to Users from Support Domain")
   public void sendMailFromSupportDomain(@RequestBody EmailPO myEmail) {
     sendMail(myEmail);
   }
 
-  @RequestMapping(value = "/news", method = RequestMethod.POST)
+  @PostMapping("/news")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Send Email to Users from News Domain")
   public void sendMailFromNewsDomain(@RequestBody EmailPO myEmail) {

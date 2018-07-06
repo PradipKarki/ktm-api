@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -31,7 +30,7 @@ public class DocumentaryController {
   @Autowired
   private DocumentaryService documentaryService;
 
-  @RequestMapping(value = "/", method = RequestMethod.GET)
+  @GetMapping
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all Documentary Videos")
   public List<Documentary> getAllDocumentaryVideos() throws IOException {
