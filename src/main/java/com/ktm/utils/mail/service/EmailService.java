@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Configuration
-@PropertySource("classpath:simplejavamail.properties")
+@PropertySource("classpath:simplejavamail.yml")
 @Import(SimpleJavaMailSpringSupport.class)
 public class EmailService {
   private static final Logger logger = LoggerFactory.getLogger(EmailService.class);

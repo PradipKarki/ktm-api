@@ -1,11 +1,9 @@
 package com.ktm;
 
 import java.util.Collections;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -15,12 +13,27 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@PropertySource("classpath:messages.properties")
 @EnableSwagger2
 public class SwaggerConfig {
 
-  @Autowired
-  Environment env;
+  @Value("${SwaggerConfig.Title}")
+  private String title;
+  @Value("${SwaggerConfig.Description}")
+  private String description;
+  @Value("${SwaggerConfig.Version}")
+  private String version;
+  @Value("${SwaggerConfig.TermsofServiceUrl}")
+  private String termsOfServiceUrl;
+  @Value("${SwaggerConfig.Name}")
+  private String name;
+  @Value("${SwaggerConfig.Url}")
+  private String url;
+  @Value("${SwaggerConfig.Email}")
+  private String email;
+  @Value("${SwaggerConfig.License}")
+  private String license;
+  @Value("${SwaggerConfig.LicenseUrl}")
+  private String licenseUrl;
 
   @Bean
   public Docket twitterApi1() {
@@ -43,16 +56,9 @@ public class SwaggerConfig {
   }
 
   private ApiInfo metaData() {
-    return new ApiInfo(this.env.getProperty("SwaggerConfig.Title"),
-      this.env.getProperty("SwaggerConfig.Description"), //$NON-NLS-1$ //$NON-NLS-2$
-      this.env.getProperty("SwaggerConfig.Version"),
-      this.env.getProperty("SwaggerConfig.TermsofServiceUrl"), //$NON-NLS-1$ //$NON-NLS-2$
-      new Contact(this.env.getProperty("SwaggerConfig.Name"),
-        this.env.getProperty("SwaggerConfig.Url"), //$NON-NLS-1$ //$NON-NLS-2$
-        this.env.getProperty("SwaggerConfig.Email")),
-      this.env.getProperty("SwaggerConfig.License"), //$NON-NLS-1$ //$NON-NLS-2$
-      this.env.getProperty("SwaggerConfig.LicenseUrl"),
-      Collections.emptyList()); //$NON-NLS-1$
+    return new ApiInfo((title), (description), (version), (termsOfServiceUrl),
+      new Contact((name), (url), (email)), (license), (licenseUrl), Collections
+      .emptyList());
   }
 
 }

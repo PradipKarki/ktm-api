@@ -1,5 +1,6 @@
 package com.ktm.twitter.service;
 
+import com.ktm.twitter.builder.TwitterKtmApp;
 import com.ktm.twitter.model.TwitterPO;
 import com.ktm.twitter.model.TwitterUser;
 import com.ktm.utils.DateUtility;
@@ -11,8 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import twitter4j.MediaEntity;
 import twitter4j.Query;
@@ -20,31 +20,36 @@ import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 import twitter4j.URLEntity;
 import twitter4j.User;
 
 @Service
-@PropertySource("classpath:twitter4j.properties")
-@PropertySource("classpath:messages.properties")
 public class TwitterService {
 
   private static final String EMPTY_STRING = ""; //$NON-NLS-1$
+
+  @Value("${App.English.Language}")
+  private String englishLanguage;
+  @Value("${Twitter.RegexSequenceOfWhiteCharacters}")
+  private String regexSequenceOfWhiteCharacters;
+  @Value("${Twitter.IrrelevantTwitterUsers}")
+  private String[] irrelevantTwitterUsers;
+
   @Autowired
-  Environment env;
+  private TextUtility textUtility;
   @Autowired
-  TextUtility textUtility;
+  private TwitterKtmApp twitterKtmApp;
 
   private static void ifDuplicateRemoveTwitterPOFromList(Map<Long, TwitterPO> twitterPOHM,
-                                                         Map<Long, String> tweetHM, String tweetFromTheList) {
+                                                         Map<Long, String> tweetHM, String
+                                                           tweetFromTheList) {
     tweetHM.entrySet().stream()
            .filter(x -> tweetFromTheList.equals(x.getValue())).map(Map.Entry::getKey)
            .forEach(twitterPOHM::remove);
   }
 
   public List<TwitterPO> getTweetsByQuery(String queryString) throws TwitterException {
-    String englishLanguage = this.env.getProperty("App.English.Language"); //$NON-NLS-1$
-    Twitter twitter = TwitterFactory.getSingleton();
+    Twitter twitter = twitterKtmApp.getInstance();
     Query query = new Query(queryString);
     query.lang(englishLanguage);
     query.setCount(100);
@@ -91,7 +96,6 @@ public class TwitterService {
   }
 
   private boolean isThisTweetFromIrrelevantUsers(Status status) {
-    String[] irrelevantTwitterUsers = {this.env.getProperty("Twitter.IrrelevantTwitterUsers")}; //$NON-NLS-1$
     return Arrays.asList(irrelevantTwitterUsers)
                  .contains(status.getUser().getScreenName());
   }
@@ -106,8 +110,6 @@ public class TwitterService {
    */
   private boolean isTweetDuplicate(String tweet, String mediaURL, String articleURI,
                                    Map<Long, TwitterPO> twitterPOHM, Map<Long, String> tweetHM) {
-    String regexSequenceOfWhiteCharacters = this.env
-      .getProperty("Twitter.RegexSequenceOfWhiteCharacters"); //$NON-NLS-1$
     String middleOfTheTweetString = TextUtility.getMiddleOfText(tweet);
     for (String tweetFromTheList : new ArrayList<>(tweetHM.values())) {
       String tweetFromTheListLC = tweetFromTheList.toLowerCase();

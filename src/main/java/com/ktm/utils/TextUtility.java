@@ -1,18 +1,19 @@
 package com.ktm.utils;
 
 import java.lang.Character.UnicodeBlock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-@PropertySource("classpath:messages.properties")
 public class TextUtility {
 
-  private static final String EMPTY_STRING = ""; //$NON-NLS-1$
-  @Autowired
-  Environment env;
+  private static final String EMPTY_STRING = "";
+  @Value("${TextUtility.HttpPrefix}")
+  private String httpPrefix;
+  @Value("${TextUtility.SpecialCharactersExceptSpaces}")
+  private String specialCharactersExceptSpaces;
+  @Value("${TextUtility.RTWord}")
+  private String rtKeyword;
 
   public static String getMiddleOfText(String text) {
     // get the middle of the text
@@ -34,10 +35,6 @@ public class TextUtility {
   }
 
   public String cleanTweetText(String tweet) {
-    String httpPrefix = this.env.getProperty("TextUtility.HttpPrefix"); //$NON-NLS-1$
-    String specialCharactersExceptSpaces = this.env
-      .getProperty("TextUtility.SpecialCharactersExceptSpaces"); //$NON-NLS-1$
-    String rtKeyword = this.env.getProperty("TextUtility.RTWord"); //$NON-NLS-1$
     String cleanText = tweet;
     if (cleanText.contains(httpPrefix)) {
       int index = cleanText.indexOf(httpPrefix);

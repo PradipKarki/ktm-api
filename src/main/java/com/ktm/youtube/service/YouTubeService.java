@@ -17,22 +17,37 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 @Service
-@PropertySource("classpath:messages.properties")
 public class YouTubeService {
   private static final Logger logger = LoggerFactory.getLogger(YouTubeService.class);
-
-  @Autowired
-  Environment env;
-
+  @Value("${YouTube.VideoSearchSetFields}")
+  private String youtubeVideoSearchSetFields;
+  @Value("${YouTube.CategoryNewsPolitics}")
+  private String categoryNewsPolitics;
+  @Value("${YouTube.OrderBy}")
+  private String orderBy;
+  @Value("${YouTube.VideoEmbeddableTrue}")
+  private String videoEmbeddableTrue;
+  @Value("${YouTube.VideoTypeModerate}")
+  private String videoTypeModerate;
+  @Value("${YouTube.MediaTypeVideo}")
+  private String mediaTypeVideo;
+  @Value("${YouTube.IdSnippet}")
+  private String idSnippet;
+  @Value("${App.English.Language}")
+  private String englishLanguage;
   @Value("${youtube.apikey}")
   private String apiValue;
+  @Value("${Twitter.RegexSequenceOfWhiteCharacters}")
+  private String regexSequenceOfWhiteCharacters;
+  @Value("${YouTube.VideoUrlPrefix}")
+  private String youtubeVideoUrlPrefix;
+  @Value("${YouTube.AppName}")
+  private String youtubeSpringApp;
+
 
   private static DateTime getDateTimeOfWeekAgo() {
     // set seven days ago
@@ -60,21 +75,7 @@ public class YouTubeService {
    * @throws IOException IOException
    */
   public List<YouTubePO> fetchVideosByQuery(String queryTerm) throws IOException {
-    String youtubeVideoSearchSetFields = this.env
-      .getProperty("YouTube.VideoSearchSetFields"); //$NON-NLS-1$
-    String categoryNewsPolitics = this.env
-      .getProperty("YouTube.CategoryNewsPolitics"); //$NON-NLS-1$
-    String orderBy = this.env.getProperty("YouTube.OrderBy"); //$NON-NLS-1$
-    String videoEmbeddableTrue = this.env
-      .getProperty("YouTube.VideoEmbeddableTrue"); //$NON-NLS-1$
-    String videoTypeModerate = this.env
-      .getProperty("YouTube.VideoTypeModerate"); //$NON-NLS-1$
-    String mediaTypeVideo = this.env
-      .getProperty("YouTube.MediaTypeVideo"); //$NON-NLS-1$
-    String idSnippet = this.env.getProperty("YouTube.IdSnippet"); //$NON-NLS-1$
-    String englishLanguage = this.env.getProperty("App.English.Language"); //$NON-NLS-1$
     Long maxSearchResults = 50L;
-
     YouTube youtube = getYouTube();
     YouTube.Search.List search = youtube.search().list(idSnippet);
     search.setKey(this.apiValue);
@@ -89,7 +90,6 @@ public class YouTubeService {
     search.setMaxResults(maxSearchResults);
     DateTime lastWeek = getDateTimeOfWeekAgo();
     search.setPublishedAfter(lastWeek);
-
     return executeYouTubeSearch(search);
   }
 
@@ -134,8 +134,6 @@ public class YouTubeService {
    * Constructs the URL to play the YouTube video
    */
   public String buildVideoUrl(String videoId) {
-    String youtubeVideoUrlPrefix = this.env
-      .getProperty("YouTube.VideoUrlPrefix"); //$NON-NLS-1$
     return youtubeVideoUrlPrefix + videoId;
   }
 
@@ -144,7 +142,6 @@ public class YouTubeService {
    */
   @SuppressWarnings("squid:S1611")
   private YouTube getYouTube() {
-    String youtubeSpringApp = this.env.getProperty("YouTube.AppName"); //$NON-NLS-1$
     return new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), (request) -> {
       /* empty block */
     }).setApplicationName(youtubeSpringApp).build();
@@ -155,8 +152,6 @@ public class YouTubeService {
    * video list if it's there, it's duplicate, ignore it
    */
   private boolean isYouTubeVideoDuplicate(String youTubeTitle, List<YouTubePO> videos) {
-    String regexSequenceOfWhiteCharacters = this.env
-      .getProperty("Twitter.RegexSequenceOfWhiteCharacters"); //$NON-NLS-1$
     String middleOfTitleString = TextUtility.getMiddleOfText(youTubeTitle);
     List<String> youTubeTitles = videos.stream().map(YouTubePO::getTitle)
                                        .collect(Collectors.toList());

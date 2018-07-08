@@ -1,0 +1,41 @@
+simplejavamail:
+    defaults:
+        bcc:
+            address: ''
+            name: ''
+        cc:
+            address: ''
+            name: ''
+        from:
+            address: support@ktmtimes.com
+            name: Support - KTMTimes
+        poolsize: 10
+        replyto:
+            address: ''
+            name: ''
+        sessiontimeoutmillis: 60000
+        subject: KTMTimes News
+        to:
+            address: ''
+            name: ''
+    javaxmail:
+        debug: true
+    opportunistic:
+        tls: true
+    proxy:
+        host: ''
+        password: ''
+        port: ''
+        socks5bridge:
+            port: ''
+        username: ''
+    smtp:
+        host: smtpout.secureserver.net
+        password: ^%K@TMt$<im.es178**@
+        port: 465
+        username: support@ktmtimes.com
+    transport:
+        mode:
+            logging:
+                only: true
+    transportstrategy: SMTPS

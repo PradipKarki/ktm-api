@@ -11,25 +11,19 @@ import java.io.Reader;
 import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 @Service
-@PropertySource("classpath:messages.properties")
 public class NationalRssService implements RssService {
 
-  @Autowired
-  Environment env;
+  @Value("${rss.national.nepal.himalayan-times-1}")
+  private String searchQueryNepal;
 
   @Value("${rss.national.nepal.himalayan-times-1}")
   private String url;
 
   public List<RssNews> fetchRssFeedByQuery() throws FeedException, IOException {
-    String searchQueryNepal = this.env
-      .getProperty("App.Nepal.SearchQueryKeyWord"); //$NON-NLS-1$
     URL feedUrl = new URL(this.url);
     SyndFeedInput input = new SyndFeedInput();
     try (Reader xmlReader = new XmlReader(feedUrl)) {

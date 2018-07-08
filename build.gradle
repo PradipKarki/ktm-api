@@ -46,6 +46,7 @@ dependencies {
     compile group: 'com.rometools', name: 'rome', version: '1.9.0'
     compile group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.0.0.RELEASE'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
+    compile group: 'org.owasp.esapi', name: 'esapi', version: '2.1.0.1'
     runtime group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '2.0.0.RELEASE'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.0.0.RELEASE'
 }

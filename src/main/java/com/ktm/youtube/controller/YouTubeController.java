@@ -8,23 +8,21 @@ import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@PropertySource("classpath:messages.properties")
 @RequestMapping("/youtube")
 @RefreshScope
 @Api(tags = ApiConstants.YOUTUBE, description = "Retrieve YouTube Videos from Data Source")
 public class YouTubeController {
 
-  @Autowired
-  Environment env;
+  @Value("${YouTube.VideoSearchSetFields}")
+  private String searchQueryNepal;
 
   @Autowired
   private YouTubeService youtubeService;
@@ -33,8 +31,6 @@ public class YouTubeController {
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all YouTube Videos Related to Nepal News")
   public List<YouTubePO> getYouTubeNepalVideos() throws IOException {
-    String searchQueryNepal = this.env
-      .getProperty("App.Nepal.SearchQueryKeyWord"); //$NON-NLS-1$
     return this.youtubeService.fetchVideosByQuery(searchQueryNepal);
   }
 

@@ -10,9 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,16 +25,20 @@ import org.springframework.web.bind.annotation.RestController;
 import twitter4j.TwitterException;
 
 @RestController
-@PropertySource("classpath:messages.properties")
 @RequestMapping("/twitter")
 @RefreshScope
 @Api(tags = ApiConstants.TWITTER, description = "KTM Times Twitter CRUD operations")
 public class TwitterController {
 
+  @Value("${App.Nepal.TwitterSearchQueryKeyWord}")
+  private String searchNepalQuery;
+  @Value("${App.Everest.TwitterSearchQueryKeyWord}")
+  private String searchEverestQuery;
+  @Value("${App.Kathmandu.TwitterSearchQueryKeyWord}")
+  private String searchKathmanduQuery;
+
   @Autowired
-  Environment env;
-  @Autowired
-  TwitterRepository twitterRepository;
+  private TwitterRepository twitterRepository;
   @Autowired
   private TwitterService twitterService;
 
@@ -43,33 +46,28 @@ public class TwitterController {
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all Tweets Related to Nepal")
   public List<TwitterPO> getTweetsNepal() throws TwitterException {
-    String searchQuery = this.env
-      .getProperty("App.Nepal.TwitterSearchQueryKeyWord"); //$NON-NLS-1$
-    return this.twitterService.getTweetsByQuery(searchQuery);
+    return this.twitterService.getTweetsByQuery(searchNepalQuery);
   }
 
   @GetMapping("/everest")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all Tweets Related to Everest")
   public List<TwitterPO> getTweetsEverest() throws TwitterException {
-    String searchQuery = this.env
-      .getProperty("App.Everest.TwitterSearchQueryKeyWord"); //$NON-NLS-1$
-    return this.twitterService.getTweetsByQuery(searchQuery);
+    return this.twitterService.getTweetsByQuery(searchEverestQuery);
   }
 
   @GetMapping("/kathmandu")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all Tweets Related to Kathmandu")
   public List<TwitterPO> getTweetsKathmandu() throws TwitterException {
-    String searchQuery = this.env
-      .getProperty("App.Kathmandu.TwitterSearchQueryKeyWord"); //$NON-NLS-1$
-    return this.twitterService.getTweetsByQuery(searchQuery);
+    return this.twitterService.getTweetsByQuery(searchKathmanduQuery);
   }
 
   @GetMapping("/search/{tweetKeyWord}")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all Tweets Related to Search KeyWord")
-  public List<TwitterPO> getTweetsByKeyWord(@PathVariable String tweetKeyWord) throws TwitterException {
+  public List<TwitterPO> getTweetsByKeyWord(@PathVariable String tweetKeyWord) throws
+    TwitterException {
     return this.twitterService.getTweetsByQuery(tweetKeyWord);
   }
 
