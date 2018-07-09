@@ -2,7 +2,7 @@ package com.ktm.utils.mail.controller;
 
 import static com.ktm.ApiConstants.EMAIL;
 
-import com.ktm.utils.exception.ResourceNotFoundException;
+import com.ktm.exception.ResourceNotFoundException;
 import com.ktm.utils.mail.model.EmailSubscriber;
 import com.ktm.utils.mail.repository.EmailSubscriberRepository;
 import io.swagger.annotations.Api;

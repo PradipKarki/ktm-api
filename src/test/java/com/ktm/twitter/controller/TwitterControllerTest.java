@@ -39,16 +39,18 @@ public class TwitterControllerTest {
     twitterPo.setTitle("my title");
     List<TwitterPO> twitterPoList = Arrays.asList(twitterPo);
 
+    mvc.perform(get("/twitter/nepal").accept(MediaType.APPLICATION_JSON_VALUE))
+       .andExpect(status().isUnauthorized());
+
     given(twitterService.getTweetsByQuery("nepal")).willReturn(twitterPoList);
-    mvc.perform(get("/twitter/nepal").accept(MediaType
-      .APPLICATION_JSON_VALUE))
+    mvc.perform(get("/twitter/nepal").accept(MediaType.APPLICATION_JSON_VALUE))
        .andExpect(status().isOk())
        .andExpect(jsonPath("$.id", is(1L)))
        .andExpect(jsonPath("$.title", is("my title")));
   }
 
   @Configuration
-  @ComponentScan(basePackageClasses = {RssNewsController.class})
+  @ComponentScan(basePackageClasses = RssNewsController.class)
   public static class TestConf {
   }
 }

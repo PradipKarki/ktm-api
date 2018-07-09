@@ -1,10 +1,10 @@
 package com.ktm.twitter.controller;
 
 import com.ktm.ApiConstants;
+import com.ktm.exception.ResourceNotFoundException;
 import com.ktm.twitter.model.TwitterPO;
 import com.ktm.twitter.repository.TwitterRepository;
 import com.ktm.twitter.service.TwitterService;
-import com.ktm.utils.exception.ResourceNotFoundException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
@@ -67,7 +67,7 @@ public class TwitterController {
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all Tweets Related to Search KeyWord")
   public List<TwitterPO> getTweetsByKeyWord(@PathVariable String tweetKeyWord) throws
-    TwitterException {
+      TwitterException {
     return this.twitterService.getTweetsByQuery(tweetKeyWord);
   }
 
@@ -93,7 +93,7 @@ public class TwitterController {
   @PutMapping("/{id}")
   @ApiOperation("Update a Tweet by Id")
   public TwitterPO updateTwitterPO(@PathVariable Long id,
-                                   @Valid @RequestBody TwitterPO twitterPODetails) {
+      @Valid @RequestBody TwitterPO twitterPODetails) {
     TwitterPO twitterPO = this.twitterRepository.findById(id)
                                                 .orElseThrow(ResourceNotFoundException::new);
     twitterPO.setTitle(twitterPODetails.getTitle());

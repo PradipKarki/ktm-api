@@ -15,6 +15,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests().antMatchers("/").permitAll().and() //$NON-NLS-1$
         .authorizeRequests().antMatchers("/h2/**").permitAll(); //$NON-NLS-1$
     http.csrf().disable();
+    http.headers().frameOptions().disable();
   }
 
 }
