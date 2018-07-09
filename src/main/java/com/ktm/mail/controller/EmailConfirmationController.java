@@ -1,14 +1,14 @@
-package com.ktm.utils.mail.controller;
+package com.ktm.mail.controller;
 
 import static com.ktm.ApiConstants.EMAIL;
-import static com.ktm.utils.mail.controller.EmailConfirmationStatus.ALREADY_CONFIRMED;
-import static com.ktm.utils.mail.controller.EmailConfirmationStatus.CONFIRMATION_DATE_EXPIRED;
-import static com.ktm.utils.mail.controller.EmailConfirmationStatus.CONFIRMED;
-import static com.ktm.utils.mail.controller.EmailConfirmationStatus.INVALID_TOKEN;
+import static com.ktm.mail.controller.EmailConfirmationStatus.ALREADY_CONFIRMED;
+import static com.ktm.mail.controller.EmailConfirmationStatus.CONFIRMATION_DATE_EXPIRED;
+import static com.ktm.mail.controller.EmailConfirmationStatus.CONFIRMED;
+import static com.ktm.mail.controller.EmailConfirmationStatus.INVALID_TOKEN;
 
-import com.ktm.utils.mail.model.EmailSubscriber;
-import com.ktm.utils.mail.repository.EmailSubscriberRepository;
-import com.ktm.utils.mail.service.EmailConfirmationService;
+import com.ktm.mail.model.EmailSubscriber;
+import com.ktm.mail.repository.EmailSubscriberRepository;
+import com.ktm.mail.service.EmailConfirmationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.time.LocalDateTime;

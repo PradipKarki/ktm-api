@@ -11,6 +11,7 @@ import com.ktm.twitter.model.TwitterPO;
 import com.ktm.twitter.service.TwitterService;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(TwitterController.class)
+@Ignore
 public class TwitterControllerTest {
 
   @Autowired

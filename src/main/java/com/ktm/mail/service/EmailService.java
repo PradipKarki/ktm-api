@@ -1,6 +1,6 @@
-package com.ktm.utils.mail.service;
+package com.ktm.mail.service;
 
-import com.ktm.utils.mail.model.EmailPO;
+import com.ktm.mail.model.EmailPO;
 import org.simplejavamail.MailException;
 import org.simplejavamail.email.Email;
 import org.simplejavamail.email.EmailBuilder;

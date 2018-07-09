@@ -1,4 +1,4 @@
-package com.ktm.utils.mail.model;
+package com.ktm.mail.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDateTime;

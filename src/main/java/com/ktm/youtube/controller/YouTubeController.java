@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = ApiConstants.YOUTUBE, description = "Retrieve YouTube Videos from Data Source")
 public class YouTubeController {
 
-  @Value("${YouTube.VideoSearchSetFields}")
+  @Value("${App.Nepal.SearchQueryKeyWord}")
   private String searchQueryNepal;
 
   @Autowired

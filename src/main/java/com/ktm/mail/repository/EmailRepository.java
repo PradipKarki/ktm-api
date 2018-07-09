@@ -1,6 +1,6 @@
-package com.ktm.utils.mail.repository;
+package com.ktm.mail.repository;
 
-import com.ktm.utils.mail.model.EmailPO;
+import com.ktm.mail.model.EmailPO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EmailRepository extends JpaRepository<EmailPO, Long> {

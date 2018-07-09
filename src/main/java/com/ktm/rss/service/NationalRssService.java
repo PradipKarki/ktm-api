@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class NationalRssService implements RssService {
 
-  @Value("${rss.national.nepal.himalayan-times-1}")
+  @Value("${App.Nepal.SearchQueryKeyWord}")
   private String searchQueryNepal;
 
   @Value("${rss.national.nepal.himalayan-times-1}")

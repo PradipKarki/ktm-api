@@ -1,8 +1,8 @@
-package com.ktm.utils.mail.service;
+package com.ktm.mail.service;
 
-import com.ktm.utils.mail.model.EmailPO;
-import com.ktm.utils.mail.model.EmailSubscriber;
-import com.ktm.utils.mail.repository.EmailSubscriberRepository;
+import com.ktm.mail.model.EmailPO;
+import com.ktm.mail.model.EmailSubscriber;
+import com.ktm.mail.repository.EmailSubscriberRepository;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;

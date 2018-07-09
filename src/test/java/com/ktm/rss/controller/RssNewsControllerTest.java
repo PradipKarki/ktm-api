@@ -11,6 +11,7 @@ import com.ktm.rss.service.InternationalRssService;
 import com.ktm.rss.service.NationalRssService;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(RssNewsController.class)
+@Ignore
 public class RssNewsControllerTest {
 
   @Autowired
@@ -50,12 +52,11 @@ public class RssNewsControllerTest {
        .andExpect(jsonPath("$.age", is(25)));
   }
 
-  //  @Test
   public void fetchNationalRssFeedByQuery() {
   }
 
   @Configuration
-  @ComponentScan(basePackageClasses = {RssNewsController.class})
+  @ComponentScan(basePackageClasses = RssNewsController.class)
   public static class TestConf {
   }
 }

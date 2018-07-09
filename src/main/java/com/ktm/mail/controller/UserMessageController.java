@@ -1,9 +1,9 @@
-package com.ktm.utils.mail.controller;
+package com.ktm.mail.controller;
 
 import static com.ktm.ApiConstants.EMAIL;
 
-import com.ktm.utils.mail.model.UserMessage;
-import com.ktm.utils.mail.repository.UserMessageRepository;
+import com.ktm.mail.model.UserMessage;
+import com.ktm.mail.repository.UserMessageRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javax.validation.Valid;

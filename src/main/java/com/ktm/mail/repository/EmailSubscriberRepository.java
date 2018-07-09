@@ -1,6 +1,6 @@
-package com.ktm.utils.mail.repository;
+package com.ktm.mail.repository;
 
-import com.ktm.utils.mail.model.EmailSubscriber;
+import com.ktm.mail.model.EmailSubscriber;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

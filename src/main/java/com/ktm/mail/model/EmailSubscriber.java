@@ -1,4 +1,4 @@
-package com.ktm.utils.mail.model;
+package com.ktm.mail.model;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

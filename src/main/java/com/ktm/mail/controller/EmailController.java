@@ -1,10 +1,10 @@
-package com.ktm.utils.mail.controller;
+package com.ktm.mail.controller;
 
 import static com.ktm.ApiConstants.EMAIL;
 
-import com.ktm.utils.mail.model.EmailPO;
-import com.ktm.utils.mail.repository.EmailRepository;
-import com.ktm.utils.mail.service.EmailService;
+import com.ktm.mail.model.EmailPO;
+import com.ktm.mail.repository.EmailRepository;
+import com.ktm.mail.service.EmailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
