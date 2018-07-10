@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.ktm.rss.model.RssNews;
 import com.ktm.rss.service.InternationalRssService;
 import com.ktm.rss.service.NationalRssService;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -42,7 +42,7 @@ public class RssNewsControllerTest {
     RssNews rssNews = new RssNews();
     rssNews.setId(1L);
     rssNews.setTitle("my title");
-    List<RssNews> rssNewsList = Arrays.asList(rssNews);
+    List<RssNews> rssNewsList = Collections.singletonList(rssNews);
 
     given(internationalRssService.fetchRssFeedByQuery()).willReturn(rssNewsList);
     mvc.perform(get("/news/international").accept(MediaType.APPLICATION_JSON_VALUE))

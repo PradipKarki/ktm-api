@@ -1,8 +1,8 @@
 package com.ktm.rss.repository;
 
-import com.ktm.mail.model.EmailPO;
+import com.ktm.rss.model.RssNews;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RssNewsRepository extends JpaRepository<EmailPO, Long> {
+public interface RssNewsRepository extends JpaRepository<RssNews, Long> {
   /* no custom method */
 }
