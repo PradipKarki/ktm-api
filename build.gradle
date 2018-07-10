@@ -27,7 +27,7 @@ tasks.withType(JavaCompile) {
 
 test {
     exclude '**/*IT.class'
-    exclude '**/*IntegrationTestSuite.class'
+    exclude '**/IntegrationTestSuite.class'
 }
 
 task integrationTest(type: Test, dependsOn: testClasses) {
@@ -35,7 +35,7 @@ task integrationTest(type: Test, dependsOn: testClasses) {
 }
 
 task smokeTest(type: Test) {
-    include 'SmokeTestSuite.class'
+    include '**/SmokeTestSuite.class'
 }
 
 repositories {

@@ -11,12 +11,13 @@ import com.ktm.rss.service.InternationalRssService;
 import com.ktm.rss.service.NationalRssService;
 import java.util.Collections;
 import java.util.List;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -24,8 +25,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(RssNewsController.class)
-@Ignore
+@WebMvcTest(secure = false)
+@ImportAutoConfiguration(RefreshAutoConfiguration.class)
 public class RssNewsControllerTest {
 
   @Autowired
@@ -38,25 +39,51 @@ public class RssNewsControllerTest {
   private NationalRssService nationalRssService;
 
   @Test
-  public void fetchInternationalRssFeedByQuery() throws Exception {
+  public void fetchInternationalRssFeed_thenReturnJsonArray() throws Exception {
     RssNews rssNews = new RssNews();
-    rssNews.setId(1L);
-    rssNews.setTitle("my title");
+    rssNews.setId(0L);
+    rssNews.setTitle("international news title");
     List<RssNews> rssNewsList = Collections.singletonList(rssNews);
 
     given(internationalRssService.fetchRssFeedByQuery()).willReturn(rssNewsList);
     mvc.perform(get("/news/international").accept(MediaType.APPLICATION_JSON_VALUE))
        .andExpect(status().isOk())
-       .andExpect(jsonPath("$.id", is(1)))
-       .andExpect(jsonPath("$.name", is("John")))
-       .andExpect(jsonPath("$.age", is(25)));
+       .andExpect(jsonPath("$[0].id", is(0)))
+       .andExpect(jsonPath("$[0].title", is("international news title")));
   }
 
-  public void fetchNationalRssFeedByQuery() {
+  @Test
+  public void fetchNationalRssFeed_thenReturnJsonArray() throws Exception {
+    RssNews rssNews = new RssNews();
+    rssNews.setId(1L);
+    rssNews.setTitle("national news title");
+    List<RssNews> rssNewsList = Collections.singletonList(rssNews);
+
+    given(internationalRssService.fetchRssFeedByQuery()).willReturn(rssNewsList);
+    mvc.perform(get("/news/international").accept(MediaType.APPLICATION_JSON_VALUE))
+       .andExpect(status().isOk())
+       .andExpect(jsonPath("$[0].id", is(1)))
+       .andExpect(jsonPath("$[0].title", is("national news title")));
+  }
+
+  @Test
+  public void getRssNewsFeed_emptyCollection_verify200HttpStatus() throws Exception {
+    given(internationalRssService.fetchRssFeedByQuery()).willReturn(Collections.emptyList());
+
+    mvc.perform(get("/news/international").accept(MediaType
+        .APPLICATION_JSON_VALUE))
+       .andExpect(status().isOk());
+
+    given(internationalRssService.fetchRssFeedByQuery()).willReturn(null);
+
+    mvc.perform(get("/news/international").accept(MediaType
+        .APPLICATION_JSON_VALUE))
+       .andExpect(status().isOk());
   }
 
   @Configuration
-  @ComponentScan(basePackageClasses = RssNewsController.class)
+  @ComponentScan
   public static class TestConf {
   }
+
 }
