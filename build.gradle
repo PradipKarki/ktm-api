@@ -25,6 +25,19 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
+test {
+    exclude '**/*IT.class'
+    exclude '**/*IntegrationTestSuite.class'
+}
+
+task integrationTest(type: Test, dependsOn: testClasses) {
+    include '**/IntegrationTestSuite.class'
+}
+
+task smokeTest(type: Test) {
+    include 'SmokeTestSuite.class'
+}
+
 repositories {
     mavenCentral()
 }
