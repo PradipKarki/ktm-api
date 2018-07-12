@@ -2,7 +2,7 @@ package com.ktm.mail.controller;
 
 import static com.ktm.ApiConstants.EMAIL;
 
-import com.ktm.mail.model.EmailPO;
+import com.ktm.mail.model.EmailPo;
 import com.ktm.mail.repository.EmailRepository;
 import com.ktm.mail.service.EmailService;
 import io.swagger.annotations.Api;
@@ -29,18 +29,18 @@ public class EmailController {
   @PostMapping("/support")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Send Email to Users from Support Domain")
-  public void sendMailFromSupportDomain(@RequestBody EmailPO myEmail) {
+  public void sendMailFromSupportDomain(@RequestBody EmailPo myEmail) {
     sendMail(myEmail);
   }
 
   @PostMapping("/news")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Send Email to Users from News Domain")
-  public void sendMailFromNewsDomain(@RequestBody EmailPO myEmail) {
+  public void sendMailFromNewsDomain(@RequestBody EmailPo myEmail) {
     sendMail(myEmail);
   }
 
-  private void sendMail(@RequestBody EmailPO myEmail) {
+  private void sendMail(@RequestBody EmailPo myEmail) {
     this.emailService.sendMail(myEmail);
     this.emailRepository.save(myEmail);
   }

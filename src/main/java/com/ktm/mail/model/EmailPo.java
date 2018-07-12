@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(value = "sendAt", allowGetters = true)
 @Data
 @NoArgsConstructor
-public final class EmailPO {
+public final class EmailPo {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,7 +65,7 @@ public final class EmailPO {
   @Transient
   private Map<String, String> headers;
 
-  public EmailPO(String toName, String toAddress, String text, String htmlText, String subject) {
+  public EmailPo(String toName, String toAddress, String text, String htmlText, String subject) {
     this.toName = toName;
     this.toAddress = toAddress;
     this.text = text;

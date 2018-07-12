@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.ktm.twitter.model.TwitterPO;
+import com.ktm.twitter.model.TwitterPo;
 import com.ktm.twitter.repository.TwitterRepository;
 import com.ktm.twitter.service.TwitterService;
 import java.util.Arrays;
@@ -43,10 +43,10 @@ public class TwitterControllerTest {
 
   @Test
   public void givenTweets_whenGetTweets_thenReturnJsonArray() throws Exception {
-    TwitterPO twitterPo = new TwitterPO();
+    TwitterPo twitterPo = new TwitterPo();
     twitterPo.setId(1L);
     twitterPo.setTitle("my title");
-    List<TwitterPO> twitterPoList = Arrays.asList(twitterPo);
+    List<TwitterPo> twitterPoList = Arrays.asList(twitterPo);
 
     given(twitterService.getTweetsByQuery(anyString())).willReturn(twitterPoList);
 

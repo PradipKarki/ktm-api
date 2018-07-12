@@ -27,7 +27,7 @@ public class TwitterUser {
   private String name;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "twitterUser", cascade = CascadeType.ALL)
-  private List<TwitterPO> tweets;
+  private List<TwitterPo> tweets;
 
   public TwitterUser(String userName, String miniProfileImageURL, String name) {
     this.userName = userName;

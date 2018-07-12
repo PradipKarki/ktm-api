@@ -1,6 +1,6 @@
 package com.ktm.mail.service;
 
-import com.ktm.mail.model.EmailPO;
+import com.ktm.mail.model.EmailPo;
 import com.ktm.mail.model.EmailSubscriber;
 import com.ktm.mail.repository.EmailSubscriberRepository;
 import java.time.LocalDateTime;
@@ -35,7 +35,7 @@ public class EmailConfirmationService {
   public void sendEmailStatingEmailIsVerified(String toAddress) {
     String subject = "Verify Your email"; //$NON-NLS-1$
     String text = "If you are having any issues with your account, please don't hesitate to contact us by replying to this email. Thanks!"; //$NON-NLS-1$
-    EmailPO emailConfirmation = new EmailPO();
+    EmailPo emailConfirmation = new EmailPo();
     emailConfirmation.setFromAddress(FROM_ADDRESS);
     emailConfirmation.setToAddress(toAddress);
     emailConfirmation.setSubject(subject);
@@ -46,7 +46,7 @@ public class EmailConfirmationService {
   public void sendReConfirmationEmail(String toAddress) {
     String subject = "Email Confirmation"; //$NON-NLS-1$
     String text = "Hey there, Please click the big yellow button below to verify your email address. Thanks!"; //$NON-NLS-1$
-    EmailPO emailReConfirmation = new EmailPO();
+    EmailPo emailReConfirmation = new EmailPo();
     emailReConfirmation.setFromAddress(FROM_ADDRESS);
     emailReConfirmation.setToAddress(toAddress);
     emailReConfirmation.setSubject(subject);

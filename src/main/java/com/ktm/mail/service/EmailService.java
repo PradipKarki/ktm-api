@@ -1,6 +1,6 @@
 package com.ktm.mail.service;
 
-import com.ktm.mail.model.EmailPO;
+import com.ktm.mail.model.EmailPo;
 import org.simplejavamail.MailException;
 import org.simplejavamail.email.Email;
 import org.simplejavamail.email.EmailBuilder;
@@ -24,7 +24,7 @@ public class EmailService {
   @Autowired
   private Mailer mailer; // configured completely using default properties
 
-  public void sendMail(EmailPO myEmail) {
+  public void sendMail(EmailPo myEmail) {
     Email email = EmailBuilder.startingBlank()
                               .from(myEmail.getFromName(), myEmail.getFromAddress())
                               .to(myEmail.getToName(), myEmail.getToAddress())

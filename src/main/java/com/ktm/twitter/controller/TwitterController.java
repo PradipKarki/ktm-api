@@ -2,7 +2,7 @@ package com.ktm.twitter.controller;
 
 import com.ktm.ApiConstants;
 import com.ktm.exception.ResourceNotFoundException;
-import com.ktm.twitter.model.TwitterPO;
+import com.ktm.twitter.model.TwitterPo;
 import com.ktm.twitter.repository.TwitterRepository;
 import com.ktm.twitter.service.TwitterService;
 import io.swagger.annotations.Api;
@@ -45,71 +45,71 @@ public class TwitterController {
   @GetMapping("/nepal")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all Tweets Related to Nepal")
-  public List<TwitterPO> getTweetsNepal() throws TwitterException {
+  public List<TwitterPo> getTweetsNepal() throws TwitterException {
     return this.twitterService.getTweetsByQuery(searchNepalQuery);
   }
 
   @GetMapping("/everest")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all Tweets Related to Everest")
-  public List<TwitterPO> getTweetsEverest() throws TwitterException {
+  public List<TwitterPo> getTweetsEverest() throws TwitterException {
     return this.twitterService.getTweetsByQuery(searchEverestQuery);
   }
 
   @GetMapping("/kathmandu")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all Tweets Related to Kathmandu")
-  public List<TwitterPO> getTweetsKathmandu() throws TwitterException {
+  public List<TwitterPo> getTweetsKathmandu() throws TwitterException {
     return this.twitterService.getTweetsByQuery(searchKathmanduQuery);
   }
 
   @GetMapping("/search/{tweetKeyWord}")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all Tweets Related to Search KeyWord")
-  public List<TwitterPO> getTweetsByKeyWord(@PathVariable String tweetKeyWord) throws
+  public List<TwitterPo> getTweetsByKeyWord(@PathVariable String tweetKeyWord) throws
       TwitterException {
     return this.twitterService.getTweetsByQuery(tweetKeyWord);
   }
 
   @GetMapping
   @ApiOperation("Retrieve all Tweets from Data Source")
-  public List<TwitterPO> getAllTwitterPOs() {
+  public List<TwitterPo> getAllTwitterPOs() {
     return this.twitterRepository.findAll();
   }
 
   @PostMapping
   @ApiOperation("Create a new Tweet")
-  public TwitterPO createTwitterPO(@Valid @RequestBody TwitterPO twitterPO) {
-    return this.twitterRepository.save(twitterPO);
+  public TwitterPo createTwitterPO(@Valid @RequestBody TwitterPo twitterPo) {
+    return this.twitterRepository.save(twitterPo);
   }
 
   @GetMapping("/{id}")
   @ApiOperation("Get a Single Tweet by Id")
-  public TwitterPO getTwitterPOById(@PathVariable Long id) {
+  public TwitterPo getTwitterPOById(@PathVariable Long id) {
     return this.twitterRepository.findById(id)
                                  .orElseThrow(ResourceNotFoundException::new);
   }
 
   @PutMapping("/{id}")
   @ApiOperation("Update a Tweet by Id")
-  public TwitterPO updateTwitterPO(@PathVariable Long id,
-      @Valid @RequestBody TwitterPO twitterPODetails) {
-    TwitterPO twitterPO = this.twitterRepository.findById(id)
+  public TwitterPo updateTwitterPO(@PathVariable Long id,
+      @Valid @RequestBody TwitterPo twitterPoDetails) {
+    TwitterPo twitterPo = this.twitterRepository.findById(id)
                                                 .orElseThrow(ResourceNotFoundException::new);
-    twitterPO.setTitle(twitterPODetails.getTitle());
-    twitterPO.setImageUri(twitterPODetails.getImageUri());
-    twitterPO.setArticleUri(twitterPODetails.getArticleUri());
-    twitterPO.setPublishedDate(twitterPODetails.getPublishedDate());
-    twitterPO.setTwitterUser(twitterPODetails.getTwitterUser());
-    return this.twitterRepository.save(twitterPO);
+    twitterPo.setTitle(twitterPoDetails.getTitle());
+    twitterPo.setImageUri(twitterPoDetails.getImageUri());
+    twitterPo.setArticleUri(twitterPoDetails.getArticleUri());
+    twitterPo.setPublishedDate(twitterPoDetails.getPublishedDate());
+    twitterPo.setTwitterUser(twitterPoDetails.getTwitterUser());
+    return this.twitterRepository.save(twitterPo);
   }
 
   @DeleteMapping("/{id}")
   @ApiOperation("Delete a Tweet by Id")
-  public ResponseEntity<TwitterPO> deleteTwitterPO(@PathVariable Long id) {
-    TwitterPO twitterPO = this.twitterRepository.findById(id)
+  public ResponseEntity<TwitterPo> deleteTwitterPO(@PathVariable Long id) {
+    TwitterPo twitterPo = this.twitterRepository.findById(id)
                                                 .orElseThrow(ResourceNotFoundException::new);
-    this.twitterRepository.delete(twitterPO);
+    this.twitterRepository.delete(twitterPo);
     return ResponseEntity.ok().build();
   }
 

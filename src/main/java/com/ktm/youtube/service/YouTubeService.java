@@ -9,7 +9,7 @@ import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.Video;
 import com.ktm.utils.DateUtility;
 import com.ktm.utils.TextUtility;
-import com.ktm.youtube.model.YouTubePO;
+import com.ktm.youtube.model.YouTubePo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,7 +74,7 @@ public class YouTubeService {
    *
    * @throws IOException IOException
    */
-  public List<YouTubePO> fetchVideosByQuery(String queryTerm) throws IOException {
+  public List<YouTubePo> fetchVideosByQuery(String queryTerm) throws IOException {
     Long maxSearchResults = 50L;
     YouTube youtube = getYouTube();
     YouTube.Search.List search = youtube.search().list(idSnippet);
@@ -93,15 +93,15 @@ public class YouTubeService {
     return executeYouTubeSearch(search);
   }
 
-  private List<YouTubePO> executeYouTubeSearch(YouTube.Search.List search) throws IOException {
-    List<YouTubePO> videos = new ArrayList<>();
+  private List<YouTubePo> executeYouTubeSearch(YouTube.Search.List search) throws IOException {
+    List<YouTubePo> videos = new ArrayList<>();
     // perform the search and parse the results
     SearchListResponse searchResponse = search.execute();
     List<SearchResult> searchResultList = searchResponse.getItems();
     if (null == searchResultList)
       return videos;
     for (SearchResult result : searchResultList) {
-      YouTubePO video = convertResultToYouTubePO(result);
+      YouTubePo video = convertResultToYouTubePo(result);
       if (!isYouTubeVideoDuplicate(video.getTitle(), videos)
         && !TextUtility
         .isThisUnicode(video.getTitle(), Character.UnicodeBlock.DEVANAGARI)) {
@@ -112,8 +112,8 @@ public class YouTubeService {
     return videos;
   }
 
-  private YouTubePO convertResultToYouTubePO(SearchResult result) {
-    YouTubePO video = new YouTubePO();
+  private YouTubePo convertResultToYouTubePo(SearchResult result) {
+    YouTubePo video = new YouTubePo();
 
     video.setVideoId(result.getId().getVideoId());
     String title = result.getSnippet().getTitle();
@@ -151,9 +151,9 @@ public class YouTubeService {
    * take a piece of the youTube video title check if it is already in the youTube
    * video list if it's there, it's duplicate, ignore it
    */
-  private boolean isYouTubeVideoDuplicate(String youTubeTitle, List<YouTubePO> videos) {
+  private boolean isYouTubeVideoDuplicate(String youTubeTitle, List<YouTubePo> videos) {
     String middleOfTitleString = TextUtility.getMiddleOfText(youTubeTitle);
-    List<String> youTubeTitles = videos.stream().map(YouTubePO::getTitle)
+    List<String> youTubeTitles = videos.stream().map(YouTubePo::getTitle)
                                        .collect(Collectors.toList());
     for (String titleFromList : youTubeTitles) {
       String titleFromListLC = titleFromList.toLowerCase();

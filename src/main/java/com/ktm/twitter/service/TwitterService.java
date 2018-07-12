@@ -1,7 +1,7 @@
 package com.ktm.twitter.service;
 
 import com.ktm.twitter.builder.TwitterKtmApp;
-import com.ktm.twitter.model.TwitterPO;
+import com.ktm.twitter.model.TwitterPo;
 import com.ktm.twitter.model.TwitterUser;
 import com.ktm.utils.DateUtility;
 import com.ktm.utils.TextUtility;
@@ -40,26 +40,26 @@ public class TwitterService {
   @Autowired
   private TwitterKtmApp twitterKtmApp;
 
-  private static void ifDuplicateRemoveTwitterPOFromList(Map<Long, TwitterPO> twitterPOHM,
+  private static void ifDuplicateRemoveTwitterPoFromList(Map<Long, TwitterPo> twitterPoHM,
                                                          Map<Long, String> tweetHM, String
                                                            tweetFromTheList) {
     tweetHM.entrySet().stream()
            .filter(x -> tweetFromTheList.equals(x.getValue())).map(Map.Entry::getKey)
-           .forEach(twitterPOHM::remove);
+           .forEach(twitterPoHM::remove);
   }
 
-  public List<TwitterPO> getTweetsByQuery(String queryString) throws TwitterException {
+  public List<TwitterPo> getTweetsByQuery(String queryString) throws TwitterException {
     Twitter twitter = twitterKtmApp.getInstance();
     Query query = new Query(queryString);
     query.lang(englishLanguage);
     query.setCount(100);
     QueryResult result = twitter.search(query);
-    return getTwitterPOList(result);
+    return getTwitterPoList(result);
   }
 
   // parse the tweets
-  private List<TwitterPO> getTwitterPOList(QueryResult result) {
-    Map<Long, TwitterPO> twitterPOHM = new HashMap<>();
+  private List<TwitterPo> getTwitterPoList(QueryResult result) {
+    Map<Long, TwitterPo> twitterPoHM = new HashMap<>();
     Map<Long, String> tweetHM = new HashMap<>();
     for (Status status : result.getTweets()) {
       long twitterID = status.getId();
@@ -77,22 +77,22 @@ public class TwitterService {
                                   .orElse(null);
       url = (null != urlEntity) ? urlEntity.getURL() : EMPTY_STRING;
       boolean isThisTweetFromIrrelevantUsers = isThisTweetFromIrrelevantUsers(status);
-      boolean isTweetDuplicate = isTweetDuplicate(tweet, mediaURL, url, twitterPOHM, tweetHM);
+      boolean isTweetDuplicate = isTweetDuplicate(tweet, mediaURL, url, twitterPoHM, tweetHM);
       if (!isTweetDuplicate && !tweet.isEmpty() && !isThisTweetFromIrrelevantUsers) {
         User user = status.getUser();
         TwitterUser twitterUser = new TwitterUser();
         twitterUser.setMiniProfileImageURL(user.getMiniProfileImageURL());
         twitterUser.setName(user.getName());
         twitterUser.setUserName(user.getScreenName());
-        TwitterPO twitterPO = new TwitterPO(twitterID, tweet, mediaURL, url, DateUtility
+        TwitterPo twitterPo = new TwitterPo(twitterID, tweet, mediaURL, url, DateUtility
           .convertToLocalDateTime(status.getCreatedAt()), twitterUser);
         tweetHM.put(twitterID, tweet);
-        twitterPOHM.put(twitterID, twitterPO);
+        twitterPoHM.put(twitterID, twitterPo);
       }
     }
-    List<TwitterPO> twitterPOList = new ArrayList<>(twitterPOHM.values());
-    twitterPOList.sort((a, b) -> b.getImageUri().compareTo(a.getImageUri()));
-    return twitterPOList;
+    List<TwitterPo> twitterPoList = new ArrayList<>(twitterPoHM.values());
+    twitterPoList.sort((a, b) -> b.getImageUri().compareTo(a.getImageUri()));
+    return twitterPoList;
   }
 
   private boolean isThisTweetFromIrrelevantUsers(Status status) {
@@ -109,7 +109,7 @@ public class TwitterService {
    * @param articleURI articleURI
    */
   private boolean isTweetDuplicate(String tweet, String mediaURL, String articleURI,
-                                   Map<Long, TwitterPO> twitterPOHM, Map<Long, String> tweetHM) {
+      Map<Long, TwitterPo> twitterPoHM, Map<Long, String> tweetHM) {
     String middleOfTheTweetString = TextUtility.getMiddleOfText(tweet);
     for (String tweetFromTheList : new ArrayList<>(tweetHM.values())) {
       String tweetFromTheListLC = tweetFromTheList.toLowerCase();
@@ -118,7 +118,7 @@ public class TwitterService {
         tweetFromTheListLC.equalsIgnoreCase(tweet)) {
         if (mediaURL.isEmpty() || articleURI.isEmpty())
           return true;
-        ifDuplicateRemoveTwitterPOFromList(twitterPOHM, tweetHM, tweetFromTheList);
+        ifDuplicateRemoveTwitterPoFromList(twitterPoHM, tweetHM, tweetFromTheList);
       }
 
       // if it's not duplicate let's check it matches few words
@@ -133,7 +133,7 @@ public class TwitterService {
         && tweetFromTheListLC.contains(splitStr[3])) {
         if (mediaURL.isEmpty() || articleURI.isEmpty())
           return true;
-        ifDuplicateRemoveTwitterPOFromList(twitterPOHM, tweetHM, tweetFromTheList);
+        ifDuplicateRemoveTwitterPoFromList(twitterPoHM, tweetHM, tweetFromTheList);
       }
 
       // check also if last three words in the tweeterList
@@ -143,7 +143,7 @@ public class TwitterService {
         && tweetFromTheListLC.contains(splitStr[length - 3])) {
         if (mediaURL.isEmpty() || articleURI.isEmpty())
           return true;
-        ifDuplicateRemoveTwitterPOFromList(twitterPOHM, tweetHM, tweetFromTheList);
+        ifDuplicateRemoveTwitterPoFromList(twitterPoHM, tweetHM, tweetFromTheList);
       }
     }
     return false;
