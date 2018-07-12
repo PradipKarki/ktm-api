@@ -7,18 +7,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class HealthCheck implements HealthIndicator {
 
-  @Override
-  public Health health() {
-    int errorCode = check(); // perform some specific health check
-    if (errorCode != 1) {
-      return Health.down()
-                   .withDetail("Error Code", errorCode).build();
-    }
-    return Health.up().build();
+  private static boolean isError() {
+    // Our logic to check healths
+    return Boolean.TRUE;
   }
 
-  public int check() {
-    // Our logic to check health
-    return 1;
+  @Override
+  public Health health() {
+    boolean isError = isError(); // perform some specific health check
+    if (!isError) {
+      return Health.down()
+                   .withDetail("Error Code", Boolean.FALSE).build();
+    }
+    return Health.up().build();
   }
 }

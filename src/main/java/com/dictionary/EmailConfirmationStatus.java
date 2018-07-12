@@ -1,4 +1,4 @@
-package com.ktm.mail.controller;
+package com.dictionary;
 
 public enum EmailConfirmationStatus {
   CONFIRMED,

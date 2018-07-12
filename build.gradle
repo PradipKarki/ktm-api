@@ -60,6 +60,7 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.0.3.RELEASE'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
     compile group: 'org.owasp.esapi', name: 'esapi', version: '2.1.0.1'
+    compileOnly "org.projectlombok:lombok:1.18.0"
     runtime group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '2.0.3.RELEASE'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.0.3.RELEASE'
 }

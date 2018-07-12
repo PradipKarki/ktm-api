@@ -14,13 +14,21 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Entity
+@Data
+@RequiredArgsConstructor
+@NoArgsConstructor
 public class RssNews {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "RSS_NEWS_ID")
+  @NonNull
   private long id;
   @ElementCollection
   @Transient
@@ -46,124 +54,5 @@ public class RssNews {
   private String uri;
   private LocalDateTime publishedDate;
   private LocalDateTime updatedDate;
-
-  public RssNews() {
-  }
-
-  public RssNews(long id) {
-    this.id = id;
-  }
-
-  public long getId() {
-    return this.id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
-  }
-
-  public List<SyndPerson> getAuthors() {
-    return this.authors;
-  }
-
-  public void setAuthors(List<SyndPerson> authors) {
-    this.authors = authors;
-  }
-
-  public List<SyndPerson> getContributors() {
-    return this.contributors;
-  }
-
-  public void setContributors(List<SyndPerson> contributors) {
-    this.contributors = contributors;
-  }
-
-  public List<String> getTags() {
-    return this.tags;
-  }
-
-  public void setTags(List<String> tags) {
-    this.tags = tags;
-  }
-
-  public String getFeedType() {
-    return this.feedType;
-  }
-
-  public void setFeedType(String feedType) {
-    this.feedType = feedType;
-  }
-
-  public String getComments() {
-    return this.comments;
-  }
-
-  public void setComments(String comments) {
-    this.comments = comments;
-  }
-
-  public List<String> getContents() {
-    return this.contents;
-  }
-
-  public void setContents(List<String> contents) {
-    this.contents = contents;
-  }
-
-  public SyndImage getIcon() {
-    return this.icon;
-  }
-
-  public void setIcon(SyndImage icon) {
-    this.icon = icon;
-  }
-
-  public SyndImage getImage() {
-    return this.image;
-  }
-
-  public void setImage(SyndImage image) {
-    this.image = image;
-  }
-
-  public String getTitle() {
-    return this.title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public String getDescription() {
-    return this.description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public String getUri() {
-    return this.uri;
-  }
-
-  public void setUri(String uri) {
-    this.uri = uri;
-  }
-
-  public LocalDateTime getPublishedDate() {
-    return this.publishedDate;
-  }
-
-  public void setPublishedDate(LocalDateTime publishedDate) {
-    this.publishedDate = publishedDate;
-  }
-
-  public LocalDateTime getUpdatedDate() {
-    return this.updatedDate;
-  }
-
-  public void setUpdatedDate(LocalDateTime updatedDate) {
-    this.updatedDate = updatedDate;
-  }
 
 }

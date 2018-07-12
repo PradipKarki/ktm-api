@@ -13,9 +13,13 @@ import javax.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Data
+@NoArgsConstructor
 public class EmailSubscriber {
 
   @NotEmpty
@@ -40,9 +44,6 @@ public class EmailSubscriber {
   @CreatedDate
   private LocalDateTime createdDate;
 
-  public EmailSubscriber() {
-  }
-
   public EmailSubscriber(String emailAddress, boolean isSubscribed) {
     super();
     this.emailAddress = emailAddress;
@@ -50,70 +51,6 @@ public class EmailSubscriber {
     this.isConfirmed = false;
     this.verifyToken = UUID.randomUUID().toString();
     this.expirationDate = LocalDateTime.now().plusWeeks(1L);
-  }
-
-  public long getId() {
-    return this.id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
-  }
-
-  public String getEmailAddress() {
-    return this.emailAddress;
-  }
-
-  public void setEmailAddress(String emailAddress) {
-    this.emailAddress = emailAddress;
-  }
-
-  public boolean isSubscribed() {
-    return this.isSubscribed;
-  }
-
-  public void setSubscribed(boolean isSubscribed) {
-    this.isSubscribed = isSubscribed;
-  }
-
-  public boolean isConfirmed() {
-    return this.isConfirmed;
-  }
-
-  public void setConfirmed(boolean isConfirmed) {
-    this.isConfirmed = isConfirmed;
-  }
-
-  public String getVerifyToken() {
-    return this.verifyToken;
-  }
-
-  public void setVerifyToken(String verifyToken) {
-    this.verifyToken = verifyToken;
-  }
-
-  public LocalDateTime getExpirationDate() {
-    return this.expirationDate;
-  }
-
-  public void setExpirationDate(LocalDateTime expirationDate) {
-    this.expirationDate = expirationDate;
-  }
-
-  public LocalDateTime getLastModifiedDate() {
-    return this.lastModifiedDate;
-  }
-
-  public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
-    this.lastModifiedDate = lastModifiedDate;
-  }
-
-  public LocalDateTime getCreatedDate() {
-    return this.createdDate;
-  }
-
-  public void setCreatedDate(LocalDateTime createdDate) {
-    this.createdDate = createdDate;
   }
 
 }

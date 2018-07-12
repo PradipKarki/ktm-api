@@ -5,8 +5,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Entity
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class UserShare extends UserEntityInfo {
   @Id
   @Column(name = "USER_SHARE_ID", nullable = false)
@@ -20,22 +26,6 @@ public class UserShare extends UserEntityInfo {
 
   public UserShare(String entityId, MediaType entityType, String userId, String shareLocation) {
     super(entityId, entityType, userId);
-    this.socialMediaName = shareLocation;
-  }
-
-  public long getId() {
-    return this.id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
-  }
-
-  public String getShareLocation() {
-    return this.socialMediaName;
-  }
-
-  public void setShareLocation(String shareLocation) {
     this.socialMediaName = shareLocation;
   }
 

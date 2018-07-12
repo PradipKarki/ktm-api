@@ -97,8 +97,8 @@ public class TwitterController {
     TwitterPO twitterPO = this.twitterRepository.findById(id)
                                                 .orElseThrow(ResourceNotFoundException::new);
     twitterPO.setTitle(twitterPODetails.getTitle());
-    twitterPO.setImageURI(twitterPODetails.getImageURI());
-    twitterPO.setArticleURI(twitterPODetails.getArticleURI());
+    twitterPO.setImageUri(twitterPODetails.getImageUri());
+    twitterPO.setArticleUri(twitterPODetails.getArticleUri());
     twitterPO.setPublishedDate(twitterPODetails.getPublishedDate());
     twitterPO.setTwitterUser(twitterPODetails.getTwitterUser());
     return this.twitterRepository.save(twitterPO);

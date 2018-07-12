@@ -8,8 +8,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedDate;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @MappedSuperclass
+@Data
+@NoArgsConstructor
 public abstract class UserEntityInfo {
   @NotEmpty
   private String entityId;
@@ -23,36 +27,9 @@ public abstract class UserEntityInfo {
   @CreatedDate
   private LocalDateTime createdDate;
 
-  public UserEntityInfo() {
-  }
-
   public UserEntityInfo(String entityId, MediaType entityType, String userId) {
     this.entityId = entityId;
     this.entityType = entityType;
-    this.userId = userId;
-  }
-
-  public String getEntityId() {
-    return this.entityId;
-  }
-
-  public void setEntityId(String entityId) {
-    this.entityId = entityId;
-  }
-
-  public MediaType getEntityType() {
-    return this.entityType;
-  }
-
-  public void setEntityType(MediaType entityType) {
-    this.entityType = entityType;
-  }
-
-  public String getUserId() {
-    return this.userId;
-  }
-
-  public void setUserId(String userId) {
     this.userId = userId;
   }
 

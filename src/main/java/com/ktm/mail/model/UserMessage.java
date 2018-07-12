@@ -13,9 +13,13 @@ import javax.validation.constraints.Size;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Data
+@NoArgsConstructor
 public class UserMessage {
 
   @Id
@@ -43,9 +47,6 @@ public class UserMessage {
   @CreatedDate
   private LocalDateTime createdDate;
 
-  public UserMessage() {
-  }
-
   public UserMessage(String name, String email, String phone, String messageCategory, String message,
                      String subject) {
     super();
@@ -54,62 +55,6 @@ public class UserMessage {
     this.phone = phone;
     this.messageCategory = messageCategory;
     this.message = message;
-    this.subject = subject;
-  }
-
-  public long getId() {
-    return this.id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return this.name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getEmail() {
-    return this.email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getPhone() {
-    return this.phone;
-  }
-
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
-
-  public String getMessageCategory() {
-    return this.messageCategory;
-  }
-
-  public void setMessageCategory(String messageCategory) {
-    this.messageCategory = messageCategory;
-  }
-
-  public String getMessage() {
-    return this.message;
-  }
-
-  public void setMessage(String message) {
-    this.message = message;
-  }
-
-  public String getSubject() {
-    return this.subject;
-  }
-
-  public void setSubject(String subject) {
     this.subject = subject;
   }
 

@@ -91,7 +91,7 @@ public class TwitterService {
       }
     }
     List<TwitterPO> twitterPOList = new ArrayList<>(twitterPOHM.values());
-    twitterPOList.sort((a, b) -> b.getImageURI().compareTo(a.getImageURI()));
+    twitterPOList.sort((a, b) -> b.getImageUri().compareTo(a.getImageUri()));
     return twitterPOList;
   }
 

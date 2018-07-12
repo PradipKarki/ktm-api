@@ -9,8 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class TwitterUser {
 
   @Id
@@ -25,53 +29,10 @@ public class TwitterUser {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "twitterUser", cascade = CascadeType.ALL)
   private List<TwitterPO> tweets;
 
-  public TwitterUser() {
-  }
-
   public TwitterUser(String userName, String miniProfileImageURL, String name) {
-    super();
     this.userName = userName;
     this.miniProfileImageURL = miniProfileImageURL;
     this.name = name;
   }
 
-  public long getId() {
-    return this.id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
-  }
-
-  public String getUserName() {
-    return this.userName;
-  }
-
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
-
-  public String getMiniProfileImageURL() {
-    return this.miniProfileImageURL;
-  }
-
-  public void setMiniProfileImageURL(String miniProfileImageURL) {
-    this.miniProfileImageURL = miniProfileImageURL;
-  }
-
-  public String getName() {
-    return this.name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public List<TwitterPO> getTweets() {
-    return this.tweets;
-  }
-
-  public void setTweets(List<TwitterPO> tweets) {
-    this.tweets = tweets;
-  }
 }

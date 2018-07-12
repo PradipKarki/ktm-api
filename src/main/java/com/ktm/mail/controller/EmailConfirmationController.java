@@ -1,11 +1,12 @@
 package com.ktm.mail.controller;
 
+import static com.dictionary.EmailConfirmationStatus.ALREADY_CONFIRMED;
+import static com.dictionary.EmailConfirmationStatus.CONFIRMATION_DATE_EXPIRED;
+import static com.dictionary.EmailConfirmationStatus.CONFIRMED;
+import static com.dictionary.EmailConfirmationStatus.INVALID_TOKEN;
 import static com.ktm.ApiConstants.EMAIL;
-import static com.ktm.mail.controller.EmailConfirmationStatus.ALREADY_CONFIRMED;
-import static com.ktm.mail.controller.EmailConfirmationStatus.CONFIRMATION_DATE_EXPIRED;
-import static com.ktm.mail.controller.EmailConfirmationStatus.CONFIRMED;
-import static com.ktm.mail.controller.EmailConfirmationStatus.INVALID_TOKEN;
 
+import com.dictionary.EmailConfirmationStatus;
 import com.ktm.mail.model.EmailSubscriber;
 import com.ktm.mail.repository.EmailSubscriberRepository;
 import com.ktm.mail.service.EmailConfirmationService;
