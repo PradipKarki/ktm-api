@@ -1,4 +1,4 @@
-package com.ktm.utils;
+package com.dictionary;
 
 public enum MediaType {
   TWITTER(0),

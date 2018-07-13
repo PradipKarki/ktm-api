@@ -32,7 +32,7 @@ public class InternationalRssService implements RssService {
                                     .filter(item -> item.getTitle().toLowerCase()
                                                         .contains(searchQueryNepal))
                                     .collect(Collectors.toList());
-      return readAndParseRssEntries(entries);
+      return toRssNews(entries);
     }
   }
 

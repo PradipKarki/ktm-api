@@ -1,6 +1,6 @@
 package com.ktm.share.model;
 
-import com.ktm.utils.MediaType;
+import com.dictionary.MediaType;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.EnumType;

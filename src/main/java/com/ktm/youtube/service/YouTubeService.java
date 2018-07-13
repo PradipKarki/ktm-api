@@ -7,14 +7,15 @@ import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.Video;
-import com.ktm.utils.DateUtility;
 import com.ktm.utils.TextUtility;
+import com.ktm.youtube.mapper.VideoMapper;
 import com.ktm.youtube.model.YouTubePo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +24,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class YouTubeService {
   private static final Logger logger = LoggerFactory.getLogger(YouTubeService.class);
+  @Value("${YouTube.VideoUrlPrefix}")
+  private static String youtubeVideoUrlPrefix;
   @Value("${YouTube.VideoSearchSetFields}")
   private String youtubeVideoSearchSetFields;
   @Value("${YouTube.CategoryNewsPolitics}")
@@ -43,16 +46,20 @@ public class YouTubeService {
   private String apiValue;
   @Value("${Twitter.RegexSequenceOfWhiteCharacters}")
   private String regexSequenceOfWhiteCharacters;
-  @Value("${YouTube.VideoUrlPrefix}")
-  private String youtubeVideoUrlPrefix;
   @Value("${YouTube.AppName}")
   private String youtubeSpringApp;
-
 
   private static DateTime getDateTimeOfWeekAgo() {
     // set seven days ago
     long dayInMillSeconds = 1000L * 60L * 60L * 24L;
     return new DateTime(System.currentTimeMillis() - (7L * dayInMillSeconds));
+  }
+
+  /**
+   * Constructs the URL to play the YouTube video
+   */
+  public static String buildVideoUrl(String videoId) {
+    return youtubeVideoUrlPrefix + videoId;
   }
 
   public Video getVideoByVideoId(String videoId) throws IOException {
@@ -101,40 +108,15 @@ public class YouTubeService {
     if (null == searchResultList)
       return videos;
     for (SearchResult result : searchResultList) {
-      YouTubePo video = convertResultToYouTubePo(result);
+      YouTubePo video = Mappers.getMapper(VideoMapper.class).toYouTubePo(result);
       if (!isYouTubeVideoDuplicate(video.getTitle(), videos)
-        && !TextUtility
-        .isThisUnicode(video.getTitle(), Character.UnicodeBlock.DEVANAGARI)) {
+          && !TextUtility
+          .isThisUnicode(video.getTitle(), Character.UnicodeBlock.DEVANAGARI)) {
         videos.add(video);
       }
     }
     videos.sort((a, b) -> b.getPublishedDate().compareTo(a.getPublishedDate()));
     return videos;
-  }
-
-  private YouTubePo convertResultToYouTubePo(SearchResult result) {
-    YouTubePo video = new YouTubePo();
-
-    video.setVideoId(result.getId().getVideoId());
-    String title = result.getSnippet().getTitle();
-    video.setTitle(title);
-    video.setUrl(buildVideoUrl(result.getId().getVideoId()));
-    if (null != result.getSnippet().getThumbnails().getHigh())
-      video.setThumbnailUrl(result.getSnippet().getThumbnails().getHigh().getUrl());
-    else {
-      video.setThumbnailUrl(result.getSnippet().getThumbnails().getDefault().getUrl());
-    }
-    video.setPublishedDate(DateUtility
-      .convertToLocalDateTime(result.getSnippet().getPublishedAt().getValue()));
-    video.setDescription(result.getSnippet().getDescription());
-    return video;
-  }
-
-  /**
-   * Constructs the URL to play the YouTube video
-   */
-  public String buildVideoUrl(String videoId) {
-    return youtubeVideoUrlPrefix + videoId;
   }
 
   /**
@@ -158,8 +140,8 @@ public class YouTubeService {
     for (String titleFromList : youTubeTitles) {
       String titleFromListLC = titleFromList.toLowerCase();
       if (titleFromListLC.contains(middleOfTitleString.toLowerCase())
-        || youTubeTitle.toLowerCase().contains(titleFromListLC)
-        || titleFromListLC.equalsIgnoreCase(youTubeTitle)) {
+          || youTubeTitle.toLowerCase().contains(titleFromListLC)
+          || titleFromListLC.equalsIgnoreCase(youTubeTitle)) {
         return true;
       }
 
@@ -169,14 +151,14 @@ public class YouTubeService {
                                       .split(regexSequenceOfWhiteCharacters);
       int length = splitStr.length;
       if (length > 5 && titleFromListLC.contains(splitStr[1]) && titleFromListLC
-        .contains(splitStr[2])
-        && titleFromListLC.contains(splitStr[3]))
+          .contains(splitStr[2])
+          && titleFromListLC.contains(splitStr[3]))
         return true;
 
       // check also if last three words in the title List
       if (length > 5 && titleFromListLC.contains(splitStr[length - 1])
-        && titleFromListLC.contains(splitStr[length - 2]) && titleFromListLC
-        .contains(splitStr[length - 3]))
+          && titleFromListLC.contains(splitStr[length - 2]) && titleFromListLC
+          .contains(splitStr[length - 3]))
         return true;
     }
     return false;
