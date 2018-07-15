@@ -26,7 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/verify_email")
 @RefreshScope
-@Api(tags = EMAIL, description = "Save User Message/Email, Send Mail from Support/News Domain, Verify new User Email Token, Maintain Subscribe/Unsubscribe List")
+@Api(tags = EMAIL, description = "Save User Message/Email, Send Mail from Support/News Domain, " +
+    "Verify new User Email Token, Maintain Subscribe/Unsubscribe List")
 public class EmailConfirmationController {
   @Autowired
   private EmailConfirmationService emailConfirmationService;
@@ -42,24 +43,16 @@ public class EmailConfirmationController {
     }
 
     Optional<EmailSubscriber> emailSubscriber = this.emailSubscriberRepository
-      .findByVerifyToken(token);
-
+        .findByVerifyToken(token);
     if (!emailSubscriber.isPresent()) {
-      // it's already confirmed, show page showing the email is already confirmed
       return ALREADY_CONFIRMED;
     }
     EmailSubscriber email = emailSubscriber.get();
     if (email.getExpirationDate().isAfter(LocalDateTime.now())) {
-      // email verification time is expired, extend exp time, re-issue token
-      // show page showing the email needs to be confirmed with new link
       this.emailConfirmationService.extendExpTimeAndIssueNewToken(email);
-      // send new email verification to confirm
       this.emailConfirmationService.sendReConfirmationEmail(email.getEmailAddress());
       return CONFIRMATION_DATE_EXPIRED;
     }
-    // looks good, set to confirmed and null out token and expiry date, send
-    // confirmation email
-    // show page showing the email is confirmed
     this.emailConfirmationService.setEmailSubscriberStatusToConfirmed(email);
     this.emailConfirmationService.sendEmailStatingEmailIsVerified(email.getEmailAddress());
     return CONFIRMED;

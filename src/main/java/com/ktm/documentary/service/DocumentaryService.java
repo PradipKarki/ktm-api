@@ -31,6 +31,7 @@ public class DocumentaryService {
     if (logger.isInfoEnabled()) {
       logger.info(Arrays.toString(youTubeDocumentary.toArray()));
     }
+    //// TODO: 7/13/18 this is development code, need to change later
     List<Documentary> videos = new ArrayList<>();
     int i = 0;
     for (String videoId : youTubeDocumentary) {

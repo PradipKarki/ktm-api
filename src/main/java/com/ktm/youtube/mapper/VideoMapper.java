@@ -5,6 +5,7 @@ import com.google.api.services.youtube.model.Video;
 import com.ktm.utils.DateUtility;
 import com.ktm.youtube.model.YouTubePo;
 import com.ktm.youtube.service.YouTubeService;
+import java.util.List;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -25,6 +26,8 @@ public interface VideoMapper {
   @Mapping(expression = "java(YouTubeService.buildVideoUrl(result.getId().getVideoId()))", target
       = "url")
   YouTubePo toYouTubePo(SearchResult result);
+
+  List<YouTubePo> toYouTubePo(List<SearchResult> results);
 
   @Mapping(expression = "java(video.getId())", target = "videoId")
   @Mapping(expression = "java(video.getSnippet().getTitle())", target = "title")
