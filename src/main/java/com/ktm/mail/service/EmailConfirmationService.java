@@ -34,23 +34,21 @@ public class EmailConfirmationService {
 
   public void sendEmailStatingEmailIsVerified(String toAddress) {
     String subject = "Verify Your email"; //$NON-NLS-1$
-    String text = "If you are having any issues with your account, please don't hesitate to contact us by replying to this email. Thanks!"; //$NON-NLS-1$
-    EmailPo emailConfirmation = new EmailPo();
-    emailConfirmation.setFromAddress(FROM_ADDRESS);
-    emailConfirmation.setToAddress(toAddress);
-    emailConfirmation.setSubject(subject);
-    emailConfirmation.setText(text);
+    String text = "If you are having any issues with your account, please don't hesitate to " +
+        "contact us by replying to this email. Thanks!"; //$NON-NLS-1$
+    EmailPo emailConfirmation = EmailPo.builder()
+                                       .fromAddress(FROM_ADDRESS).toAddress(toAddress)
+                                       .subject(subject).text(text).build();
     this.emailService.sendMail(emailConfirmation);
   }
 
   public void sendReConfirmationEmail(String toAddress) {
     String subject = "Email Confirmation"; //$NON-NLS-1$
-    String text = "Hey there, Please click the big yellow button below to verify your email address. Thanks!"; //$NON-NLS-1$
-    EmailPo emailReConfirmation = new EmailPo();
-    emailReConfirmation.setFromAddress(FROM_ADDRESS);
-    emailReConfirmation.setToAddress(toAddress);
-    emailReConfirmation.setSubject(subject);
-    emailReConfirmation.setText(text);
+    String text = "Hey there, Please click the big yellow button below to verify your email " +
+        "address. Thanks!"; //$NON-NLS-1$
+    EmailPo emailReConfirmation = EmailPo.builder()
+                                         .fromAddress(FROM_ADDRESS).toAddress(toAddress)
+                                         .subject(subject).text(text).build();
     this.emailService.sendMail(emailReConfirmation);
   }
 

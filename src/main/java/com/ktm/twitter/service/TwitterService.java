@@ -1,152 +1,98 @@
 package com.ktm.twitter.service;
 
-import com.ktm.twitter.builder.TwitterKtmApp;
+import static java.lang.Character.UnicodeBlock.DEVANAGARI;
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.naturalOrder;
+import static java.util.Comparator.nullsLast;
+
+import com.ktm.twitter.builder.TwitterBuilder;
+import com.ktm.twitter.mapper.TwitterMapper;
 import com.ktm.twitter.model.TwitterPo;
-import com.ktm.twitter.model.TwitterUser;
-import com.ktm.utils.DateUtility;
 import com.ktm.utils.TextUtility;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.commons.lang3.StringUtils;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import twitter4j.MediaEntity;
-import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
-import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.URLEntity;
-import twitter4j.User;
 
 @Service
 public class TwitterService {
 
   private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
-  @Value("${App.English.Language}")
-  private String englishLanguage;
   @Value("${Twitter.RegexSequenceOfWhiteCharacters}")
   private String regexSequenceOfWhiteCharacters;
   @Value("${Twitter.IrrelevantTwitterUsers}")
   private String[] irrelevantTwitterUsers;
 
   @Autowired
-  private TextUtility textUtility;
-  @Autowired
-  private TwitterKtmApp twitterKtmApp;
+  private TwitterBuilder twitterBuilder;
 
-  private static void ifDuplicateRemoveTwitterPoFromList(Map<Long, TwitterPo> twitterPoHM,
-                                                         Map<Long, String> tweetHM, String
-                                                           tweetFromTheList) {
-    tweetHM.entrySet().stream()
-           .filter(x -> tweetFromTheList.equals(x.getValue())).map(Map.Entry::getKey)
-           .forEach(twitterPoHM::remove);
+  public static String getArticleUrl(Status status) {
+    return Stream.of(status.getURLEntities()).findAny()
+                 .filter(u -> !u.getURL().isEmpty())
+                 .map(URLEntity::getURL)
+                 .orElse(EMPTY_STRING);
   }
 
-  public List<TwitterPo> getTweetsByQuery(String queryString) throws TwitterException {
-    Twitter twitter = twitterKtmApp.getInstance();
-    Query query = new Query(queryString);
-    query.lang(englishLanguage);
-    query.setCount(100);
-    QueryResult result = twitter.search(query);
-    return getTwitterPoList(result);
-  }
-
-  // parse the tweets
-  private List<TwitterPo> getTwitterPoList(QueryResult result) {
-    Map<Long, TwitterPo> twitterPoHM = new HashMap<>();
-    Map<Long, String> tweetHM = new HashMap<>();
-    for (Status status : result.getTweets()) {
-      long twitterID = status.getId();
-      String tweet = status.getText();
-      String url;
-      String mediaURL;
-      tweet = this.textUtility.cleanTweetText(tweet);
-      // check if image URL is empty or has value
-      MediaEntity media = Stream.of(status.getMediaEntities()).findAny()
-                                .filter(m -> !m.getURL().isEmpty())
-                                .orElse(null);
-      mediaURL = (null != media) ? media.getMediaURL() : EMPTY_STRING;
-      URLEntity urlEntity = Stream.of(status.getURLEntities()).findAny()
-                                  .filter(u -> !u.getURL().isEmpty())
-                                  .orElse(null);
-      url = (null != urlEntity) ? urlEntity.getURL() : EMPTY_STRING;
-      boolean isThisTweetFromIrrelevantUsers = isThisTweetFromIrrelevantUsers(status);
-      boolean isTweetDuplicate = isTweetDuplicate(tweet, mediaURL, url, twitterPoHM, tweetHM);
-      if (!isTweetDuplicate && !tweet.isEmpty() && !isThisTweetFromIrrelevantUsers) {
-        User user = status.getUser();
-        TwitterUser twitterUser = new TwitterUser();
-        twitterUser.setMiniProfileImageURL(user.getMiniProfileImageURL());
-        twitterUser.setName(user.getName());
-        twitterUser.setUserName(user.getScreenName());
-        TwitterPo twitterPo = new TwitterPo(twitterID, tweet, mediaURL, url, DateUtility
-          .convertToLocalDateTime(status.getCreatedAt()), twitterUser);
-        tweetHM.put(twitterID, tweet);
-        twitterPoHM.put(twitterID, twitterPo);
-      }
-    }
-    List<TwitterPo> twitterPoList = new ArrayList<>(twitterPoHM.values());
-    twitterPoList.sort((a, b) -> b.getImageUri().compareTo(a.getImageUri()));
-    return twitterPoList;
-  }
-
-  private boolean isThisTweetFromIrrelevantUsers(Status status) {
-    return Arrays.asList(irrelevantTwitterUsers)
-                 .contains(status.getUser().getScreenName());
+  public static String getMediaUrl(Status status) {
+    return Stream.of(status.getMediaEntities()).findAny()
+                 .filter(m -> !m.getMediaURL().isEmpty())
+                 .map(MediaEntity::getMediaURL)
+                 .orElse(EMPTY_STRING);
   }
 
   /**
-   * take a piece of the tweet check if it is already in the tweeterList if it's
-   * there, it's duplicate, ignore it
+   * Helper method to return if Twitter is similar or Duplicate, and update original twitterPos
+   * list with removing duplicate item every iteration.
    *
-   * @param tweet      tweet
-   * @param mediaURL   mediaURL
-   * @param articleURI articleURI
+   * @param twitterPos List of the Twitter objects
+   * @param twitterPo  Twitter object
+   * @return Returns true if given Twitter object is already in the Twitter objects list
    */
-  private boolean isTweetDuplicate(String tweet, String mediaURL, String articleURI,
-      Map<Long, TwitterPo> twitterPoHM, Map<Long, String> tweetHM) {
-    String middleOfTheTweetString = TextUtility.getMiddleOfText(tweet);
-    for (String tweetFromTheList : new ArrayList<>(tweetHM.values())) {
-      String tweetFromTheListLC = tweetFromTheList.toLowerCase();
-      if (tweetFromTheListLC.contains(middleOfTheTweetString.toLowerCase())
-        || tweet.toLowerCase().contains(tweetFromTheListLC) ||
-        tweetFromTheListLC.equalsIgnoreCase(tweet)) {
-        if (mediaURL.isEmpty() || articleURI.isEmpty())
-          return true;
-        ifDuplicateRemoveTwitterPoFromList(twitterPoHM, tweetHM, tweetFromTheList);
-      }
-
-      // if it's not duplicate let's check it matches few words
-      // check also if three words in the tweeterList
-      if (null == regexSequenceOfWhiteCharacters) {
-        throw new AssertionError();
-      }
-      String[] splitStr = tweet.toLowerCase().split(regexSequenceOfWhiteCharacters);
-      int length = splitStr.length;
-      if (length > 5 && tweetFromTheListLC.contains(splitStr[1]) && tweetFromTheListLC
-        .contains(splitStr[2])
-        && tweetFromTheListLC.contains(splitStr[3])) {
-        if (mediaURL.isEmpty() || articleURI.isEmpty())
-          return true;
-        ifDuplicateRemoveTwitterPoFromList(twitterPoHM, tweetHM, tweetFromTheList);
-      }
-
-      // check also if last three words in the tweeterList
-      if (length > 5 && tweetFromTheListLC
-        .contains(splitStr[length - 1]) && tweetFromTheListLC
-        .contains(splitStr[length - 2])
-        && tweetFromTheListLC.contains(splitStr[length - 3])) {
-        if (mediaURL.isEmpty() || articleURI.isEmpty())
-          return true;
-        ifDuplicateRemoveTwitterPoFromList(twitterPoHM, tweetHM, tweetFromTheList);
-      }
+  private boolean isTwitterDuplicateOrSimilar(List<TwitterPo> twitterPos, TwitterPo twitterPo) {
+    String[] splitStr = twitterPo.getTitle().split(regexSequenceOfWhiteCharacters);
+    String titleSubString = TextUtility.extractMiddleText(twitterPo.getTitle());
+    Long count = twitterPos.stream()
+                           .filter(t -> t.getTitle().contains(titleSubString) ||
+                               TextUtility.containsFirstThreeWords(t.getTitle(), splitStr) ||
+                               TextUtility.containsLastThreeWords(t.getTitle(), splitStr))
+                           .count();
+    if (count > 1L &&
+        StringUtils.isAnyEmpty(twitterPo.getImageUri(), twitterPo.getArticleUri())) {
+      twitterPos.remove(twitterPo);
+      return true;
     }
     return false;
+  }
+
+  private boolean isThisTweetFromIrrelevantUsers(TwitterPo twitterPo) {
+    return Arrays.asList(irrelevantTwitterUsers)
+                 .contains(twitterPo.getTwitterUser().getUserName());
+  }
+
+  public List<TwitterPo> getTweetsByQuery(String queryString) throws TwitterException {
+    QueryResult result = twitterBuilder.getQueryResult(queryString);
+    List<TwitterPo> twitterPos = Mappers.getMapper(TwitterMapper.class)
+                                        .toTwitterPo(result.getTweets());
+    List<TwitterPo> tweets =
+        twitterPos.stream()
+                  .filter(t -> !TextUtility.isThisUnicode(t.getTitle(), DEVANAGARI))
+                  .filter(t -> !isThisTweetFromIrrelevantUsers(t))
+                  .filter(t -> !isTwitterDuplicateOrSimilar(twitterPos, t))
+                  .sorted(comparing(TwitterPo::getImageUri, nullsLast(naturalOrder())))
+                  .collect(Collectors.toList());
+    tweets.forEach(t -> t.setTitle(new TextUtility().cleanTweet(t.getTitle())));
+    return tweets;
   }
 
 }

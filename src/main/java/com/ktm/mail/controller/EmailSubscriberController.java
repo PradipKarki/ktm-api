@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -30,28 +31,20 @@ public class EmailSubscriberController {
   @Autowired
   EmailSubscriberRepository emailSubscriberRepository;
 
-  // Get All EmailSubscribers
   @GetMapping
   @ApiOperation("Retrieve all Email Subscribers")
   public List<EmailSubscriber> getAllEmailSubscribers() {
     return this.emailSubscriberRepository.findAll();
   }
 
-  // Get All EmailSubscribers
-  @GetMapping("/active")
-  @ApiOperation("Retrieve all Active Email Subscribers")
-  public List<EmailSubscriber> getAllActiveEmailSubscribers() {
-    return this.emailSubscriberRepository.findByIsSubscribed(true);
+  @GetMapping
+  @ApiOperation("Retrieve all Active/Inactive Email Subscribers by query parameter active = " +
+      "true/false")
+  public List<EmailSubscriber> getAllActiveEmailSubscribers
+      (@RequestParam("active") boolean isActive) {
+    return this.emailSubscriberRepository.findByIsSubscribed(isActive);
   }
 
-  // Get All EmailSubscribers
-  @GetMapping("/inactive")
-  @ApiOperation("Retrieve all Inactive Email Subscribers")
-  public List<EmailSubscriber> getAllInactiveEmailSubscribers() {
-    return this.emailSubscriberRepository.findByIsSubscribed(false);
-  }
-
-  // Create a new EmailSubscriber
   @PostMapping
   @ApiOperation("Add a new Email Subscriber")
   public EmailSubscriber createEmailSubscriber(@Valid @RequestBody EmailSubscriber emailSubscriberDetails) {

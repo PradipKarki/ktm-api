@@ -17,6 +17,8 @@ import javax.validation.constraints.NotEmpty;
 import org.simplejavamail.email.Recipient;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +27,9 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = "sendAt", allowGetters = true)
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public final class EmailPo {
 
   @Id
@@ -64,13 +68,5 @@ public final class EmailPo {
   private String base64String;
   @Transient
   private Map<String, String> headers;
-
-  public EmailPo(String toName, String toAddress, String text, String htmlText, String subject) {
-    this.toName = toName;
-    this.toAddress = toAddress;
-    this.text = text;
-    this.htmlText = htmlText;
-    this.subject = subject;
-  }
 
 }

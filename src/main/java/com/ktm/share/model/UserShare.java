@@ -1,6 +1,6 @@
 package com.ktm.share.model;
 
-import com.ktm.utils.MediaType;
+import com.dictionary.MediaType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
