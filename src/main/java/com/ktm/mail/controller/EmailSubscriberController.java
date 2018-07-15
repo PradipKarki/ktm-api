@@ -31,7 +31,7 @@ public class EmailSubscriberController {
   @Autowired
   EmailSubscriberRepository emailSubscriberRepository;
 
-  @GetMapping
+  @GetMapping("/emails")
   @ApiOperation("Retrieve all Email Subscribers")
   public List<EmailSubscriber> getAllEmailSubscribers() {
     return this.emailSubscriberRepository.findAll();
@@ -41,13 +41,14 @@ public class EmailSubscriberController {
   @ApiOperation("Retrieve all Active/Inactive Email Subscribers by query parameter active = " +
       "true/false")
   public List<EmailSubscriber> getAllActiveEmailSubscribers
-      (@RequestParam("active") boolean isActive) {
+      (@RequestParam(value = "active", defaultValue = "false") boolean isActive) {
     return this.emailSubscriberRepository.findByIsSubscribed(isActive);
   }
 
   @PostMapping
   @ApiOperation("Add a new Email Subscriber")
-  public EmailSubscriber createEmailSubscriber(@Valid @RequestBody EmailSubscriber emailSubscriberDetails) {
+  public EmailSubscriber createEmailSubscriber(
+      @Valid @RequestBody EmailSubscriber emailSubscriberDetails) {
     String emailAddress = emailSubscriberDetails.getEmailAddress().toLowerCase();
     try {
       InternetAddress internetAddress = new InternetAddress(emailAddress);
@@ -56,7 +57,7 @@ public class EmailSubscriberController {
       throw new ResourceNotFoundException(ex.getMessage());
     }
     Optional<EmailSubscriber> emailSubscriber = this.emailSubscriberRepository
-      .findByEmailAddress(emailAddress);
+        .findByEmailAddress(emailAddress);
     if (!emailSubscriber.isPresent()) {
       EmailSubscriber newEmailSubscriber = new EmailSubscriber(emailAddress, true);
       return this.emailSubscriberRepository.save(newEmailSubscriber);
@@ -68,12 +69,13 @@ public class EmailSubscriberController {
   // always be false for requests coming from other apps -> unsubscribe email
   @PutMapping
   @ApiOperation("Update an Existing Active Email Subscriber to Inactive")
-  public EmailSubscriber updateEmailSubscriberStatus(@Valid @RequestBody EmailSubscriber emailSubscriberDetails) {
+  public EmailSubscriber updateEmailSubscriberStatus(
+      @Valid @RequestBody EmailSubscriber emailSubscriberDetails) {
     String emailAddress = emailSubscriberDetails.getEmailAddress().toLowerCase();
     boolean isSubscribed = emailSubscriberDetails.isSubscribed();
     EmailSubscriber emailSubscriber = this.emailSubscriberRepository
-      .findByEmailAddress(emailAddress)
-      .orElseThrow(ResourceNotFoundException::new);
+        .findByEmailAddress(emailAddress)
+        .orElseThrow(ResourceNotFoundException::new);
     emailSubscriber.setSubscribed(isSubscribed);
     this.emailSubscriberRepository.save(emailSubscriber);
     return emailSubscriber;
