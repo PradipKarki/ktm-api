@@ -39,7 +39,7 @@ public interface VideoMapper {
       , target = "publishedDate")
   @Mapping(target = "thumbnailUrl", ignore = true)
   @Mapping(expression =
-      "java(new YouTubeService().buildVideoUrl(video.getId()))", target = "url")
+      "java(YouTubeService.buildVideoUrl(video.getId()))", target = "url")
   @Mapping(target = "lastModifiedDate", ignore = true)
   @Mapping(target = "createdDate", ignore = true)
   YouTubePo toYouTubePo(Video video);
