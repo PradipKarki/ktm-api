@@ -11,6 +11,6 @@ public interface EmailSubscriberRepository extends JpaRepository<EmailSubscriber
 
   List<EmailSubscriber> findByIsSubscribed(boolean isSubscribed);
 
-  Optional<EmailSubscriber> findByVerifyToken(String token);
+  Optional<EmailSubscriber> findByVerificationToken(String token);
 
 }

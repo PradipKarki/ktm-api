@@ -19,7 +19,7 @@ public class EmailConfirmationService {
   public void setEmailSubscriberStatusToConfirmed(EmailSubscriber emailSubscriber) {
     emailSubscriber.setConfirmed(true);
     emailSubscriber.setExpirationDate(null);
-    emailSubscriber.setVerifyToken(null);
+    emailSubscriber.setVerificationToken(null);
     this.emailSubscriberRepository.save(emailSubscriber);
   }
 
@@ -28,14 +28,14 @@ public class EmailConfirmationService {
     LocalDateTime expirationDate = LocalDateTime.now().plusWeeks(1L);
     emailSubscriber.setConfirmed(false);
     emailSubscriber.setExpirationDate(expirationDate);
-    emailSubscriber.setVerifyToken(uniqueId);
+    emailSubscriber.setVerificationToken(uniqueId);
     this.emailSubscriberRepository.save(emailSubscriber);
   }
 
   public void sendEmailStatingEmailIsVerified(String toAddress) {
-    String subject = "Verify Your email"; //$NON-NLS-1$
+    String subject = "Verify Your emailAddress"; //$NON-NLS-1$
     String text = "If you are having any issues with your account, please don't hesitate to " +
-        "contact us by replying to this email. Thanks!"; //$NON-NLS-1$
+        "contact us by replying to this emailAddress. Thanks!"; //$NON-NLS-1$
     EmailPo emailConfirmation = EmailPo.builder()
                                        .fromAddress(FROM_ADDRESS).toAddress(toAddress)
                                        .subject(subject).text(text).build();
@@ -44,7 +44,8 @@ public class EmailConfirmationService {
 
   public void sendReConfirmationEmail(String toAddress) {
     String subject = "Email Confirmation"; //$NON-NLS-1$
-    String text = "Hey there, Please click the big yellow button below to verify your email " +
+    String text = "Hey there, Please click the big yellow button below to verify your " +
+        "emailAddress " +
         "address. Thanks!"; //$NON-NLS-1$
     EmailPo emailReConfirmation = EmailPo.builder()
                                          .fromAddress(FROM_ADDRESS).toAddress(toAddress)

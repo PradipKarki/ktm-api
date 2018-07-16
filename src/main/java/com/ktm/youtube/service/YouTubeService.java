@@ -1,6 +1,9 @@
 package com.ktm.youtube.service;
 
 import static java.lang.Character.UnicodeBlock.DEVANAGARI;
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.nullsLast;
+import static java.util.Comparator.reverseOrder;
 
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchResult;
@@ -10,10 +13,12 @@ import com.ktm.youtube.builder.YouTubeBuilder;
 import com.ktm.youtube.mapper.VideoMapper;
 import com.ktm.youtube.model.YouTubePo;
 import java.io.IOException;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +26,12 @@ import org.springframework.stereotype.Service;
 public class YouTubeService {
 
   @Value("${YouTube.VideoUrlPrefix}")
-  private static String youtubeVideoUrlPrefix;
+  private String youtubeVideoUrlPrefix;
   @Value("${Twitter.RegexSequenceOfWhiteCharacters}")
   private String regexSequenceOfWhiteCharacters;
+
+  @Autowired
+  private YouTubeBuilder youTubeBuilder;
 
   /**
    * Constructs the URL to play the YouTube video.
@@ -31,22 +39,25 @@ public class YouTubeService {
    * @param videoId ID of the YouTube
    * @return URL of the YouTUBe video
    */
-  public static String buildVideoUrl(String videoId) {
+  public String buildVideoUrl(String videoId) {
     return youtubeVideoUrlPrefix + videoId;
   }
 
   public List<YouTubePo> fetchVideosByQuery(String queryTerm) throws IOException {
-    List<SearchResult> searchResults = new YouTubeBuilder().getSearchResults(queryTerm);
+    List<SearchResult> searchResults = youTubeBuilder.getSearchResults(queryTerm);
     List<YouTubePo> youTubePos = Mappers.getMapper(VideoMapper.class).toYouTubePo(searchResults);
-    return youTubePos.stream()
-                     .filter(y -> !TextUtility.isThisUnicode(y.getTitle(), DEVANAGARI))
-                     .filter(y -> !isYouTubeDuplicateOrSimilar(youTubePos, y))
-                     .sorted(Comparator.comparing(YouTubePo::getPublishedDate))
-                     .collect(Collectors.toList());
+    List<YouTubePo> unmodYouTubePos = new ArrayList(youTubePos);
+    return
+        unmodYouTubePos.stream()
+                       .filter(y -> StringUtils.isNotEmpty(y.getTitle()))
+                       .filter(y -> !TextUtility.isThisUnicode(y.getTitle(), DEVANAGARI))
+                       .filter(y -> !isYouTubeDuplicateOrSimilar(youTubePos, y))
+                       .sorted(comparing(YouTubePo::getPublishedDate, nullsLast(reverseOrder())))
+                       .collect(Collectors.toList());
   }
 
   public Video getVideoByVideoId(String videoId) throws IOException {
-    YouTube.Videos.List search = new YouTubeBuilder().getSearchByVideoId(videoId);
+    YouTube.Videos.List search = youTubeBuilder.getSearchByVideoId(videoId);
     return search.execute().getItems().get(0);
   }
 

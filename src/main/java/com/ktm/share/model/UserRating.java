@@ -1,9 +1,6 @@
 package com.ktm.share.model;
 
-import com.dictionary.MediaType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;
@@ -14,10 +11,8 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class UserRating extends UserEntityInfo {
-  @Id
-  @Column(name = "USER_RATING_ID", nullable = false)
-  private long id;
+public class UserRating extends UserEntity {
+
   @NotEmpty
   @Max(10)
   private int userRatingScore;
@@ -26,8 +21,9 @@ public class UserRating extends UserEntityInfo {
     super();
   }
 
-  public UserRating(String entityId, MediaType entityType, String userId, int userRatingScore) {
-    super(entityId, entityType, userId);
+  public UserRating(String entityId, String entityType, String userId, String fullName,
+      String emailAddress, int userRatingScore) {
+    super("UserRating", userId, fullName, emailAddress);
     this.setUserRatingScore(userRatingScore);
   }
 

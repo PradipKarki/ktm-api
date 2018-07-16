@@ -31,8 +31,7 @@ public class RssNewsController {
   @GetMapping("/international")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all RSS News Feed international media")
-  public List<RssNews> fetchInternationalRssFeedByQuery()
-    throws IOException, FeedException {
+  public List<RssNews> fetchInternationalRssFeedByQuery() throws IOException, FeedException {
     return this.internationalRssService.fetchRssFeedByQuery();
   }
 

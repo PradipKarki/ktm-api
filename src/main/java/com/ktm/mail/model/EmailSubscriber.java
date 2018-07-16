@@ -1,5 +1,6 @@
 package com.ktm.mail.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.persistence.Column;
@@ -27,19 +28,21 @@ public class EmailSubscriber {
   @NotEmpty
   private boolean isConfirmed;
   @NotEmpty
-  private String verifyToken;
+  private String verificationToken;
   @NotEmpty
   private LocalDateTime expirationDate;
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "EMAIL_SUBSCRIBER_ID")
   private long id;
-  @NotEmpty(message = "email address can not be empty")
+  @NotEmpty(message = "emailAddress address can not be empty")
   @Email
   private String emailAddress;
+  @JsonIgnore
   @Column(nullable = false, updatable = false)
   @LastModifiedDate
   private LocalDateTime lastModifiedDate;
+  @JsonIgnore
   @Column(nullable = false, updatable = false)
   @CreatedDate
   private LocalDateTime createdDate;
@@ -49,7 +52,7 @@ public class EmailSubscriber {
     this.emailAddress = emailAddress;
     this.isSubscribed = isSubscribed;
     this.isConfirmed = false;
-    this.verifyToken = UUID.randomUUID().toString();
+    this.verificationToken = UUID.randomUUID().toString();
     this.expirationDate = LocalDateTime.now().plusWeeks(1L);
   }
 

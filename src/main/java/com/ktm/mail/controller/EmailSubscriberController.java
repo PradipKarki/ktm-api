@@ -66,7 +66,7 @@ public class EmailSubscriberController {
     return this.emailSubscriberRepository.save(emailSubscriber.get());
   }
 
-  // always be false for requests coming from other apps -> unsubscribe email
+  // always be false for requests coming from other apps -> unsubscribe emailAddress
   @PutMapping
   @ApiOperation("Update an Existing Active Email Subscriber to Inactive")
   public EmailSubscriber updateEmailSubscriberStatus(

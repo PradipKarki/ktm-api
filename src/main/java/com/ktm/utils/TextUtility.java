@@ -2,19 +2,16 @@ package com.ktm.utils;
 
 import java.lang.Character.UnicodeBlock;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
-@Component
-public class TextUtility {
+public final class TextUtility {
 
   private static final String EMPTY_STRING = "";
-  @Value("${TextUtility.HttpPrefix}")
-  private String httpPrefix;
-  @Value("${TextUtility.SpecialCharactersExceptSpaces}")
-  private String specialCharactersExceptSpaces;
-  @Value("${TextUtility.RTWord}")
-  private String rtKeyword;
+  private static final String HTTP_PREFIX = "http";
+  private static final String SPECIAL_CHARACTERS_EXCEPT_SPACES = "[^a-zA-Z0-9 ]+";
+  private static final String RT_KEYWORD = "RT";
+
+  private TextUtility() {
+  }
 
   public static String extractMiddleText(String text) {
     int mid = text.length() / 2;
@@ -66,18 +63,18 @@ public class TextUtility {
    * @param tweet tweet
    * @return cleanTweet cleanTweet
    */
-  public String cleanTweet(String tweet) {
+  public static String cleanTweet(String tweet) {
     String cleanText = tweet;
-    if (cleanText.contains(httpPrefix)) {
-      int index = cleanText.indexOf(httpPrefix);
+    if (cleanText.contains(HTTP_PREFIX)) {
+      int index = cleanText.indexOf(HTTP_PREFIX);
       if (index != 0) cleanText = cleanText.substring(0, index);
     }
-    if (cleanText.contains(httpPrefix)) {
-      int index = cleanText.indexOf(httpPrefix);
+    if (cleanText.contains(HTTP_PREFIX)) {
+      int index = cleanText.indexOf(HTTP_PREFIX);
       if (index == 0) return EMPTY_STRING;
     }
-    cleanText = cleanText.replaceAll(specialCharactersExceptSpaces, EMPTY_STRING).trim();
-    cleanText = cleanText.replaceAll(rtKeyword, EMPTY_STRING);
+    cleanText = cleanText.replaceAll(SPECIAL_CHARACTERS_EXCEPT_SPACES, EMPTY_STRING).trim();
+    cleanText = cleanText.replaceAll(RT_KEYWORD, EMPTY_STRING);
     return cleanText;
   }
 

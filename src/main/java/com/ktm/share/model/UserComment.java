@@ -1,9 +1,6 @@
 package com.ktm.share.model;
 
-import com.dictionary.MediaType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,13 +10,10 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class UserComment extends UserEntityInfo {
-  @Id
-  @Column(name = "USER_COMMENT_ID", nullable = false)
-  private long id;
-  private String userName;
+public class UserComment extends UserEntity {
+
   @NotEmpty
-  private String email;
+  private String emailAddress;
   @NotEmpty
   private String comment;
 
@@ -27,11 +21,8 @@ public class UserComment extends UserEntityInfo {
     super();
   }
 
-  public UserComment(String entityId, MediaType entityType, String userId, String userName,
-      String email, String comment) {
-    super(entityId, entityType, userId);
-    this.userName = userName;
-    this.email = email;
+  public UserComment(String userId, String fullName, String emailAddress, String comment) {
+    super("UserComment", userId, fullName, emailAddress);
     this.comment = comment;
   }
 

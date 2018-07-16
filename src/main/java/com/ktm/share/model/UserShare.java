@@ -1,9 +1,6 @@
 package com.ktm.share.model;
 
-import com.dictionary.MediaType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,10 +10,8 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class UserShare extends UserEntityInfo {
-  @Id
-  @Column(name = "USER_SHARE_ID", nullable = false)
-  private long id;
+public class UserShare extends UserEntity {
+
   @NotEmpty
   private String socialMediaName;
 
@@ -24,8 +19,8 @@ public class UserShare extends UserEntityInfo {
     super();
   }
 
-  public UserShare(String entityId, MediaType entityType, String userId, String shareLocation) {
-    super(entityId, entityType, userId);
+  public UserShare(String userId, String fullName, String emailAddress, String shareLocation) {
+    super("UserShare", userId, fullName, emailAddress);
     this.socialMediaName = shareLocation;
   }
 

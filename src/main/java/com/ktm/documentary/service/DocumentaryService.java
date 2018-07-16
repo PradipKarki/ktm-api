@@ -23,7 +23,7 @@ public class DocumentaryService {
 
   public Documentary getDocumentaryVideoByVideoId(String videoId) throws IOException {
     Video video = this.youtubeService.getVideoByVideoId(videoId);
-    return (Documentary) Mappers.getMapper(VideoMapper.class).toYouTubePo(video);
+    return new Documentary(Mappers.getMapper(VideoMapper.class).toYouTubePo(video));
   }
 
   public List<Documentary> getDocumentaryVideos(

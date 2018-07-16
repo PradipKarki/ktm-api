@@ -1,60 +1,44 @@
 package com.ktm.mail.model;
 
-import java.time.LocalDateTime;
-import javax.persistence.Column;
+import com.ktm.share.model.UserEntity;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Data
-@NoArgsConstructor
-public class UserMessage {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "EMAIL_ID")
-  private long id;
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class UserMessage extends UserEntity {
 
   @NotEmpty
   @Size(min = 4)
-  private String name;
+  private String fullName;
   @NotEmpty
   @Email
-  private String email;
+  private String emailAddress;
   private String phone;
   @NotEmpty
-  private String messageCategory;
+  private String category;
   @NotEmpty
-  private String message;
+  private String content;
   @NotEmpty
   private String subject;
-  @Column(nullable = false, updatable = false)
-  @LastModifiedDate
-  private LocalDateTime lastModifiedDate;
-  @Column(nullable = false, updatable = false)
-  @CreatedDate
-  private LocalDateTime createdDate;
 
-  public UserMessage(String name, String email, String phone, String messageCategory, String message,
-                     String subject) {
+  public UserMessage() {
     super();
-    this.name = name;
-    this.email = email;
+  }
+
+  public UserMessage(String userId, String fullName, String emailAddress, String phone,
+      String category, String content, String subject) {
+    super("UserMessage", userId, fullName, emailAddress);
     this.phone = phone;
-    this.messageCategory = messageCategory;
-    this.message = message;
+    this.category = category;
+    this.content = content;
     this.subject = subject;
   }
 

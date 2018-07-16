@@ -1,5 +1,6 @@
 package com.ktm.mail.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,6 +17,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import org.simplejavamail.email.Recipient;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -68,5 +70,13 @@ public final class EmailPo {
   private String base64String;
   @Transient
   private Map<String, String> headers;
+  @JsonIgnore
+  @Column(nullable = false, updatable = false)
+  @LastModifiedDate
+  private LocalDateTime lastModifiedDate;
+  @JsonIgnore
+  @Column(nullable = false, updatable = false)
+  @CreatedDate
+  private LocalDateTime createdDate;
 
 }

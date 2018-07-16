@@ -14,7 +14,7 @@ public class KtmApplication {
 
   public static void main(String[] args) {
     logger
-      .info("Starting KTM TIMES DOT COM application, current time: {}", Instant.now());
+        .info("Starting KTM TIMES DOT COM application, current time: {}", Instant.now());
     SpringApplication.run(KtmApplication.class, args);
     logger.info("Shutting down application, current time: {}", Instant.now());
   }

@@ -43,7 +43,7 @@ public class EmailConfirmationController {
     }
 
     Optional<EmailSubscriber> emailSubscriber = this.emailSubscriberRepository
-        .findByVerifyToken(token);
+        .findByVerificationToken(token);
     if (!emailSubscriber.isPresent()) {
       return ALREADY_CONFIRMED;
     }
