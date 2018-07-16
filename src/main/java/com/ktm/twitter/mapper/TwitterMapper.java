@@ -21,6 +21,8 @@ public interface TwitterMapper {
       target = "twitterUser.userName")
   @Mapping(expression = "java(status.getUser().getMiniProfileImageURL())",
       target = "twitterUser.miniProfileImageURL")
+  @Mapping(target = "lastModifiedDate", ignore = true)
+  @Mapping(target = "createdDate", ignore = true)
   TwitterPo toTwitterPo(Status status);
 
   List<TwitterPo> toTwitterPo(List<Status> statuses);

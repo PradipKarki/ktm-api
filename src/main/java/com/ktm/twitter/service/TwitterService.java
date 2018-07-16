@@ -2,13 +2,14 @@ package com.ktm.twitter.service;
 
 import static java.lang.Character.UnicodeBlock.DEVANAGARI;
 import static java.util.Comparator.comparing;
-import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.nullsLast;
+import static java.util.Comparator.reverseOrder;
 
 import com.ktm.twitter.builder.TwitterBuilder;
 import com.ktm.twitter.mapper.TwitterMapper;
 import com.ktm.twitter.model.TwitterPo;
 import com.ktm.utils.TextUtility;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -84,14 +85,16 @@ public class TwitterService {
     QueryResult result = twitterBuilder.getQueryResult(queryString);
     List<TwitterPo> twitterPos = Mappers.getMapper(TwitterMapper.class)
                                         .toTwitterPo(result.getTweets());
+    List<TwitterPo> unmodTwitterPos = new ArrayList(twitterPos);
     List<TwitterPo> tweets =
-        twitterPos.stream()
-                  .filter(t -> !TextUtility.isThisUnicode(t.getTitle(), DEVANAGARI))
-                  .filter(t -> !isThisTweetFromIrrelevantUsers(t))
-                  .filter(t -> !isTwitterDuplicateOrSimilar(twitterPos, t))
-                  .sorted(comparing(TwitterPo::getImageUri, nullsLast(naturalOrder())))
-                  .collect(Collectors.toList());
-    tweets.forEach(t -> t.setTitle(new TextUtility().cleanTweet(t.getTitle())));
+        unmodTwitterPos.stream()
+                       .filter(t -> StringUtils.isNotEmpty(t.getTitle()))
+                       .filter(t -> !TextUtility.isThisUnicode(t.getTitle(), DEVANAGARI))
+                       .filter(t -> !isThisTweetFromIrrelevantUsers(t))
+                       .filter(t -> !isTwitterDuplicateOrSimilar(twitterPos, t))
+                       .sorted(comparing(TwitterPo::getImageUri, nullsLast(reverseOrder())))
+                       .collect(Collectors.toList());
+    tweets.forEach(t -> t.setTitle(TextUtility.cleanTweet(t.getTitle())));
     return tweets;
   }
 

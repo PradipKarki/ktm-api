@@ -10,7 +10,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.stereotype.Service;
 
+@Service
+@RefreshScope
 public class YouTubeBuilder {
   @Value("${YouTube.VideoSearchSetFields}")
   private String youtubeVideoSearchSetFields;

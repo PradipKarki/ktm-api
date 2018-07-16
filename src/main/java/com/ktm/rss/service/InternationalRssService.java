@@ -20,7 +20,7 @@ public class InternationalRssService implements RssService {
   @Value("${App.Nepal.SearchQueryKeyWord}")
   private String searchQueryNepal;
 
-  @Value("${rss.international.india.tribune-india-1}")
+  @Value("${rss.international.india.tribune-india-2}")
   private String url;
 
   public List<RssNews> fetchRssFeedByQuery() throws FeedException, IOException {

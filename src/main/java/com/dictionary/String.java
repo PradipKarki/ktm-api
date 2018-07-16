@@ -1,6 +1,6 @@
 package com.dictionary;
 
-public enum MediaType {
+public enum String {
   TWITTER(0),
   YOUTUBE(1),
   RSS_NEWS(2),
@@ -11,7 +11,7 @@ public enum MediaType {
    */
   public final int value;
 
-  MediaType(int value) {
+  String(int value) {
     this.value = value;
   }
 }
