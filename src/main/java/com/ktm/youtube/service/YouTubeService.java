@@ -25,6 +25,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class YouTubeService {
 
+  private static final String YOUTUBE_VIDEO_URL_PREFIX = "https://www.youtube.com/watch?v=";
+
   @Value("${YouTube.VideoUrlPrefix}")
   private String youtubeVideoUrlPrefix;
   @Value("${Twitter.RegexSequenceOfWhiteCharacters}")
@@ -39,8 +41,8 @@ public class YouTubeService {
    * @param videoId ID of the YouTube
    * @return URL of the YouTUBe video
    */
-  public String buildVideoUrl(String videoId) {
-    return youtubeVideoUrlPrefix + videoId;
+  public static String buildVideoUrl(String videoId) {
+    return YOUTUBE_VIDEO_URL_PREFIX + videoId;
   }
 
   public List<YouTubePo> fetchVideosByQuery(String queryTerm) throws IOException {
