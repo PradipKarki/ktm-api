@@ -22,3 +22,6 @@ out/
 gradle-app.setting
 !gradle-wrapper.jar
 .gradletasknamecache
+
+/.DS_Store
+.DS_Store

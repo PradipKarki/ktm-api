@@ -1,9 +1,9 @@
 package com.ktm;
 
-import com.ktm.documentary.controller.DocumentaryControllerIT;
-import com.ktm.rss.controller.RssNewsControllerIT;
-import com.ktm.twitter.controller.TwitterControllerIT;
-import com.ktm.youtube.controller.YouTubeControllerIT;
+import com.ktm.rest.documentary.controller.DocumentaryControllerIT;
+import com.ktm.rest.rss.controller.RssNewsControllerIT;
+import com.ktm.rest.twitter.controller.TwitterControllerIT;
+import com.ktm.rest.youtube.controller.YouTubeControllerIT;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
