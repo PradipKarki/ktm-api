@@ -43,25 +43,32 @@ repositories {
 }
 
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-security:2.0.3.RELEASE'
     compile 'org.springframework.boot:spring-boot-starter-web:2.0.3.RELEASE'
+    compile 'org.springframework.boot:spring-boot-configuration-processor:2.0.3.RELEASE'
     compile 'org.springframework.cloud:spring-cloud-starter-config:2.0.0.RELEASE'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa:2.0.3.RELEASE'
-    compile 'com.h2database:h2:1.4.197'
-    compile 'org.twitter4j:twitter4j-core:4.0.6'
-    compile 'javax.xml.bind:jaxb-api:2.3.0'
-    compile 'com.google.apis:google-api-services-youtube:v3-rev204-1.23.0'
+    compile 'org.springframework.boot:spring-boot-starter-security:2.0.3.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-cache:2.0.3.RELEASE'
     compile 'org.springframework.boot:spring-boot-starter-actuator:2.0.3.RELEASE'
-    compile 'io.springfox:springfox-swagger2:2.8.0'
-    compile 'io.springfox:springfox-swagger-ui:2.8.0'
+    testCompile 'org.springframework.boot:spring-boot-starter-test:2.0.3.RELEASE'
+    runtime 'org.springframework.boot:spring-boot-devtools:2.0.3.RELEASE'
+
+    compile 'javax.xml.bind:jaxb-api:2.3.0'
+    compile 'com.h2database:h2:1.4.197'
+    compile 'mysql:mysql-connector-java:8.0.11'
+    compile 'com.github.ben-manes.caffeine:caffeine:2.6.2'
+
+    compile 'org.twitter4j:twitter4j-core:4.0.6'
+    compile 'com.google.apis:google-api-services-youtube:v3-rev204-1.23.0'
     compile 'org.simplejavamail:simple-java-mail:5.0.3'
     compile 'com.rometools:rome:1.11.0'
-    compile 'org.springframework.boot:spring-boot-configuration-processor:2.0.3.RELEASE'
+
+    compile 'io.springfox:springfox-swagger2:2.8.0'
+    compile 'io.springfox:springfox-swagger-ui:2.8.0'
+
     compile 'org.apache.commons:commons-lang3:3.7'
     compile 'org.owasp.esapi:esapi:2.1.0.1'
-    compileOnly "org.projectlombok:lombok:1.18.0"
     compile 'org.mapstruct:mapstruct-jdk8:1.2.0.Final'
     compile 'org.mapstruct:mapstruct-processor:1.2.0.Final'
-    runtime 'org.springframework.boot:spring-boot-devtools:2.0.3.RELEASE'
-    testCompile 'org.springframework.boot:spring-boot-starter-test:2.0.3.RELEASE'
+    compileOnly 'org.projectlombok:lombok:1.18.0'
 }

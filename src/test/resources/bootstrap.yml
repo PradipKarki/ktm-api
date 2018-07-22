@@ -6,4 +6,4 @@ spring:
       uri: ${SPRING_CONFIG_URI:http://localhost:8888}
       failFast: true
   profiles:
-    active: "dev"
+    active: "local_test"
