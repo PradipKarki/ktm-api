@@ -17,9 +17,20 @@ In the pop-up dialog make sure to select Gradle's build.gradle file under the co
 IntelliJ IDEA will create a project with all the code from the guide ready to run.<br>
 
 <strong>To run the app:</strong>
+Change the bootstrap.yml property to</br>
+uri: ${SPRING_CONFIG_URI:http://localhost:8888}
+
 Go To:
 KtmApplication.java file, and right click on the file.
-Select the Run KtmApplication option, once the app is, it can be accessed:
+Select the Run KtmApplication option, once the app is, it can be accessed:</br>
+<strong>Localhost URL:</strong><br>
+http://localhost:8080
 
+<strong>To run the app in the docker</strong>
+Change the bootstrap.yml property to</br>
+uri: ${SPRING_CONFIG_URI:http://docker.for.mac.localhost:8888}
+
+Make sure the docker is installed in the host. In terminal, Run the below command:</br>
+docker-compose up</br>
 <strong>Localhost URL:</strong><br>
 http://localhost:8080
