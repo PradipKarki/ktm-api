@@ -7,6 +7,7 @@ import com.ktm.rest.youtube.service.YouTubeService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ public class DocumentaryService {
     if (logger.isInfoEnabled()) {
       logger.info(Arrays.toString(youTubeDocumentary.toArray()));
     }
-    //// TODO: 7/13/18 this is development code, need to change later
+    // TODO: 7/13/18 this is development code, need to change later
     List<Documentary> videos = new ArrayList<>();
     int i = 0;
     for (String videoId : youTubeDocumentary) {
@@ -40,6 +41,7 @@ public class DocumentaryService {
       videos.add(documentaryVideo);
       if (i == 3) break;
     }
+    videos.sort(Comparator.comparing(Documentary::isFeatured));
     return videos;
   }
 

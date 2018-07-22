@@ -85,7 +85,7 @@ public class TwitterService {
     QueryResult result = twitterBuilder.getQueryResult(queryString);
     List<TwitterPo> twitterPos = Mappers.getMapper(TwitterMapper.class)
                                         .toTwitterPo(result.getTweets());
-    List<TwitterPo> unmodTwitterPos = new ArrayList(twitterPos);
+    List<TwitterPo> unmodTwitterPos = new ArrayList<>(twitterPos);
     List<TwitterPo> tweets =
         unmodTwitterPos.stream()
                        .filter(t -> StringUtils.isNotEmpty(t.getTitle()))
