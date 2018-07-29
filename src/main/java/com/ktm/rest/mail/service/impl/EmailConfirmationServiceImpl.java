@@ -15,12 +15,21 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
   @Autowired private EmailServiceImpl emailServiceImpl;
   @Autowired private EmailSubscriberRepository emailSubscriberRepository;
 
+  private static EmailPo buildEmail(String toAddress, String subject, String text) {
+    return EmailPo.builder()
+        .fromAddress(FROM_ADDRESS)
+        .toAddress(toAddress)
+        .subject(subject)
+        .text(text)
+        .build();
+  }
+
   @Override
   public void setEmailSubscriberStatusToConfirmed(EmailSubscriber emailSubscriber) {
     emailSubscriber.setIsConfirmed(Boolean.TRUE);
     emailSubscriber.setExpirationDate(null);
     emailSubscriber.setVerificationToken(null);
-    this.emailSubscriberRepository.save(emailSubscriber);
+    emailSubscriberRepository.save(emailSubscriber);
   }
 
   @Override
@@ -30,7 +39,7 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
     emailSubscriber.setIsConfirmed(Boolean.FALSE);
     emailSubscriber.setExpirationDate(expirationDate);
     emailSubscriber.setVerificationToken(uniqueId);
-    this.emailSubscriberRepository.save(emailSubscriber);
+    emailSubscriberRepository.save(emailSubscriber);
   }
 
   @Override
@@ -39,14 +48,7 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
     String text =
         "If you are having any issues with your account, please don't hesitate to "
             + "contact us by replying to this emailAddress. Thanks!"; //$NON-NLS-1$
-    EmailPo emailConfirmation =
-        EmailPo.builder()
-            .fromAddress(FROM_ADDRESS)
-            .toAddress(toAddress)
-            .subject(subject)
-            .text(text)
-            .build();
-    this.emailServiceImpl.sendMail(emailConfirmation);
+    emailServiceImpl.sendMail(buildEmail(toAddress, subject, text));
   }
 
   @Override
@@ -56,13 +58,6 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
         "Hey there, Please click the big yellow button below to verify your "
             + "emailAddress "
             + "address. Thanks!"; //$NON-NLS-1$
-    EmailPo emailReConfirmation =
-        EmailPo.builder()
-            .fromAddress(FROM_ADDRESS)
-            .toAddress(toAddress)
-            .subject(subject)
-            .text(text)
-            .build();
-    this.emailServiceImpl.sendMail(emailReConfirmation);
+    emailServiceImpl.sendMail(buildEmail(toAddress, subject, text));
   }
 }

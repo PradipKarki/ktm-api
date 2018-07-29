@@ -29,61 +29,54 @@ import org.springframework.test.web.servlet.MockMvc;
 @ImportAutoConfiguration(RefreshAutoConfiguration.class)
 public class RssNewsControllerTest {
 
-  @Autowired
-  private MockMvc mvc;
+  @Autowired private MockMvc mvc;
 
-  @MockBean
-  private InternationalRssService internationalRssService;
+  @MockBean private InternationalRssService internationalRssService;
 
-  @MockBean
-  private NationalRssService nationalRssService;
+  @MockBean private NationalRssService nationalRssService;
 
   @Test
   public void fetchInternationalRssFeed_thenReturnJsonArray() throws Exception {
     RssNews rssNews = new RssNews();
     rssNews.setId(0L);
     rssNews.setTitle("international news title");
-    List<RssNews> rssNewsList = Collections.singletonList(rssNews);
+    List<RssNews> interNationalRssNewsList = Collections.singletonList(rssNews);
 
-    given(internationalRssService.fetchRssFeedByQuery()).willReturn(rssNewsList);
+    given(internationalRssService.fetchRssFeedByQuery()).willReturn(interNationalRssNewsList);
     mvc.perform(get("/news/international").accept(MediaType.APPLICATION_JSON_VALUE))
-       .andExpect(status().isOk())
-       .andExpect(jsonPath("$[0].id", is(0)))
-       .andExpect(jsonPath("$[0].title", is("international news title")));
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0].id", is(0)))
+        .andExpect(jsonPath("$[0].title", is("international news title")));
   }
 
   @Test
   public void fetchNationalRssFeed_thenReturnJsonArray() throws Exception {
     RssNews rssNews = new RssNews();
-    rssNews.setId(1L);
+    rssNews.setId(0L);
     rssNews.setTitle("national news title");
-    List<RssNews> rssNewsList = Collections.singletonList(rssNews);
+    List<RssNews> nationalRssNewsList = Collections.singletonList(rssNews);
 
-    given(internationalRssService.fetchRssFeedByQuery()).willReturn(rssNewsList);
-    mvc.perform(get("/news/international").accept(MediaType.APPLICATION_JSON_VALUE))
-       .andExpect(status().isOk())
-       .andExpect(jsonPath("$[0].id", is(1)))
-       .andExpect(jsonPath("$[0].title", is("national news title")));
+    given(internationalRssService.fetchRssFeedByQuery()).willReturn(nationalRssNewsList);
+    mvc.perform(get("/news/national").accept(MediaType.APPLICATION_JSON_VALUE))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0].id", is(0)))
+        .andExpect(jsonPath("$[0].title", is("national news title")));
   }
 
   @Test
   public void getRssNewsFeed_emptyCollection_verify200HttpStatus() throws Exception {
     given(internationalRssService.fetchRssFeedByQuery()).willReturn(Collections.emptyList());
 
-    mvc.perform(get("/news/international").accept(MediaType
-        .APPLICATION_JSON_VALUE))
-       .andExpect(status().isOk());
+    mvc.perform(get("/news/international").accept(MediaType.APPLICATION_JSON_VALUE))
+        .andExpect(status().isOk());
 
     given(internationalRssService.fetchRssFeedByQuery()).willReturn(null);
 
-    mvc.perform(get("/news/international").accept(MediaType
-        .APPLICATION_JSON_VALUE))
-       .andExpect(status().isOk());
+    mvc.perform(get("/news/international").accept(MediaType.APPLICATION_JSON_VALUE))
+        .andExpect(status().isOk());
   }
 
   @Configuration
   @ComponentScan
-  public static class TestConf {
-  }
-
+  public static class TestConf {}
 }

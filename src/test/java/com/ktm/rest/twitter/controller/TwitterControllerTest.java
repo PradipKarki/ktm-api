@@ -57,11 +57,6 @@ public class TwitterControllerTest {
   public void getTweet_notFound() throws Exception {
     given(twitterRepository.findById(anyLong())).willReturn(Optional.empty());
 
-    mvc.perform(get("/twitter/1").accept(MediaType.APPLICATION_JSON_VALUE))
-        .andExpect(status().isNotFound());
-
-    given(twitterRepository.findById(anyLong())).willReturn(Optional.empty());
-
     mvc.perform(get("/twitter/2").accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isNotFound());
   }

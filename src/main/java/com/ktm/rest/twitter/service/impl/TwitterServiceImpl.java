@@ -69,9 +69,9 @@ public class TwitterServiceImpl implements TwitterService {
     QueryResult result = twitterBuilder.getQueryResult(queryString);
     List<TwitterPo> twitterPos =
         Mappers.getMapper(TwitterMapper.class).toTwitterPo(result.getTweets());
-    List<TwitterPo> unmodTwitterPos = new ArrayList<>(twitterPos);
+    List<TwitterPo> unModTwitterPos = new ArrayList<>(twitterPos);
     List<TwitterPo> tweets =
-        unmodTwitterPos
+        unModTwitterPos
             .stream()
             .filter(t -> StringUtils.isNotEmpty(t.getTitle()))
             .filter(t -> !TextUtility.isThisUnicode(t.getTitle(), DEVANAGARI))

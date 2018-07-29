@@ -6,6 +6,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import com.ktm.rest.twitter.model.TwitterPo;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +31,11 @@ public class TwitterControllerIT {
     //act
     ResponseEntity<TwitterPo[]> responseEntity =
         restTemplate.getForEntity("/twitter/nepal", TwitterPo[].class);
-    List<TwitterPo> twitterPos = Arrays.asList(responseEntity.getBody());
+    assertTwitterResponse(responseEntity);
+  }
+
+  public void assertTwitterResponse(ResponseEntity<TwitterPo[]> responseEntity) {
+    List<TwitterPo> twitterPos = Arrays.asList(Objects.requireNonNull(responseEntity.getBody()));
 
     //assert
     assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -43,32 +48,20 @@ public class TwitterControllerIT {
   public void getTweetsEverest_verifyDetails() {
     ResponseEntity<TwitterPo[]> responseEntity =
         restTemplate.getForEntity("/twitter/everest", TwitterPo[].class);
-    List<TwitterPo> twitterPos = Arrays.asList(responseEntity.getBody());
-    assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-    assert (!twitterPos.isEmpty());
-    assert (StringUtils.isNotEmpty(twitterPos.stream().findFirst().get().getTitle()));
-    assert (twitterPos.stream().findFirst().get().getId() != 0L);
+    assertTwitterResponse(responseEntity);
   }
 
   @Test
   public void getTweetsKathmandu_verifyDetails() {
     ResponseEntity<TwitterPo[]> responseEntity =
         restTemplate.getForEntity("/twitter/kathmandu", TwitterPo[].class);
-    List<TwitterPo> twitterPos = Arrays.asList(responseEntity.getBody());
-    assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-    assert (!twitterPos.isEmpty());
-    assert (StringUtils.isNotEmpty(twitterPos.stream().findFirst().get().getTitle()));
-    assert (twitterPos.stream().findFirst().get().getId() != 0L);
+    assertTwitterResponse(responseEntity);
   }
 
   @Test
   public void getTweetsSearchSoccer_verifyDetails() {
     ResponseEntity<TwitterPo[]> responseEntity =
         restTemplate.getForEntity("/twitter/search/soccer", TwitterPo[].class);
-    List<TwitterPo> twitterPos = Arrays.asList(responseEntity.getBody());
-    assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-    assert (!twitterPos.isEmpty());
-    assert (StringUtils.isNotEmpty(twitterPos.stream().findFirst().get().getTitle()));
-    assert (twitterPos.stream().findFirst().get().getId() != 0L);
+    assertTwitterResponse(responseEntity);
   }
 }

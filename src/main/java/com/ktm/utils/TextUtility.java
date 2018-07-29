@@ -2,6 +2,7 @@ package com.ktm.utils;
 
 import java.lang.Character.UnicodeBlock;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public final class TextUtility {
 
@@ -9,9 +10,11 @@ public final class TextUtility {
   private static final String HTTP_PREFIX = "http";
   private static final String SPECIAL_CHARACTERS_EXCEPT_SPACES = "[^a-zA-Z0-9 ]+";
   private static final String RT_KEYWORD = "RT";
+  private static final Pattern SPECIAL_CHARACTERS_PATTERN =
+      Pattern.compile(SPECIAL_CHARACTERS_EXCEPT_SPACES);
+  private static final Pattern RT_KEYWORD_PATTERN = Pattern.compile(RT_KEYWORD);
 
-  private TextUtility() {
-  }
+  private TextUtility() {}
 
   public static String extractMiddleText(String text) {
     int mid = text.length() / 2;
@@ -23,42 +26,40 @@ public final class TextUtility {
   /**
    * Checks if the given text has this specific unicode.
    *
-   * @param text         text
+   * @param text text
    * @param unicodeBlock unicode
    * @return boolean true if unicode is in text
    */
   public static boolean isThisUnicode(String text, UnicodeBlock unicodeBlock) {
     for (char c : text.toCharArray())
-      if (Character.UnicodeBlock.of(c) == unicodeBlock) {
+      if (UnicodeBlock.of(c) == unicodeBlock) {
         return true;
       }
     return false;
   }
 
   public static boolean containsFirstThreeWords(String text, String[] words) {
-    return words.length > 5 && text.contains(words[1])
+    return words.length > 5
+        && text.contains(words[1])
         && text.contains(words[2])
         && text.contains(words[3]);
   }
 
   public static boolean containsLastThreeWords(String text, String[] words) {
     int length = words.length;
-    return length > 5 && text.contains(words[length - 1])
+    return length > 5
+        && text.contains(words[length - 1])
         && text.contains(words[length - 2])
         && text.contains(words[length - 3]);
   }
 
   public static boolean containsSubString(List<String> stringList, String substring) {
-    return stringList.stream().findAny()
-                     .filter(s -> s.contains(substring))
-                     .isPresent();
+    return stringList.stream().findAny().filter(s -> s.contains(substring)).isPresent();
   }
 
   /**
-   * Strips http url and anything after it
-   * If http is the first word, strips everything
-   * Strips special characters
-   * Strips RT keyword of tweet
+   * Strips http url and anything after it If http is the first word, strips everything Strips
+   * special characters Strips RT keyword of tweet
    *
    * @param tweet tweet
    * @return cleanTweet cleanTweet
@@ -73,9 +74,8 @@ public final class TextUtility {
       int index = cleanText.indexOf(HTTP_PREFIX);
       if (index == 0) return EMPTY_STRING;
     }
-    cleanText = cleanText.replaceAll(SPECIAL_CHARACTERS_EXCEPT_SPACES, EMPTY_STRING).trim();
-    cleanText = cleanText.replaceAll(RT_KEYWORD, EMPTY_STRING);
+    cleanText = SPECIAL_CHARACTERS_PATTERN.matcher(cleanText).replaceAll(EMPTY_STRING).trim();
+    cleanText = RT_KEYWORD_PATTERN.matcher(cleanText).replaceAll(EMPTY_STRING);
     return cleanText;
   }
-
 }

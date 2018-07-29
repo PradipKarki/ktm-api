@@ -38,8 +38,8 @@ public class YouTubeServiceImpl implements YouTubeService {
   public List<YouTubePo> fetchVideosByQuery(String queryTerm) throws IOException {
     List<SearchResult> searchResults = youTubeBuilder.getSearchResults(queryTerm);
     List<YouTubePo> youTubePos = Mappers.getMapper(VideoMapper.class).toYouTubePo(searchResults);
-    List<YouTubePo> unmodYouTubePos = new ArrayList<>(youTubePos);
-    return unmodYouTubePos
+    List<YouTubePo> unModYouTubePos = new ArrayList<>(youTubePos);
+    return unModYouTubePos
         .stream()
         .filter(y -> StringUtils.isNotEmpty(y.getTitle()))
         .filter(y -> !TextUtility.isThisUnicode(y.getTitle(), DEVANAGARI))

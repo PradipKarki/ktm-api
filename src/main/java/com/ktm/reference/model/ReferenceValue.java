@@ -9,7 +9,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
@@ -26,25 +26,28 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReferenceValue {
 
-  @EmbeddedId
-  private ReferenceValueCompositeKey referenceValueCompositeKey;
+  @EmbeddedId private ReferenceValueCompositeKey referenceValueCompositeKey;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "CODE")
   @OnDelete(action = OnDeleteAction.CASCADE)
-  @NotNull
+  @NotBlank
   private ReferenceType referenceType;
+
   private String description;
-  @NotNull
-  private LocalDateTime effectivePeriodFrom;
+  @NotBlank private LocalDateTime effectivePeriodFrom;
   private LocalDateTime effectivePeriodTo;
+
   @JsonIgnore
   @Column(nullable = false, updatable = false)
   @LastModifiedDate
   private LocalDateTime lastModifiedDate;
+
   @JsonIgnore
   @Column(nullable = false, updatable = false)
   @CreatedDate
   private LocalDateTime createdDate;
+
   private String lastModifiedBy;
   private String createdBy;
 
@@ -55,5 +58,4 @@ public class ReferenceValue {
   public String getReferenceTypeCode() {
     return this.getReferenceValueCompositeKey().getReferenceTypeCode();
   }
-
 }

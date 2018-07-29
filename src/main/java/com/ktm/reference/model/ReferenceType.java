@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -21,20 +21,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReferenceType {
 
-  @Id
-  private String code;
-  @NotNull
-  private String value;
+  @Id private String code;
+  @NotBlank private String value;
   private String description;
+
   @JsonIgnore
   @Column(nullable = false, updatable = false)
   @LastModifiedDate
   private LocalDateTime lastModifiedDate;
+
   @JsonIgnore
   @Column(nullable = false, updatable = false)
   @CreatedDate
   private LocalDateTime createdDate;
+
   private String lastModifiedBy;
   private String createdBy;
-
 }
