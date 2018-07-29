@@ -4,6 +4,7 @@ import static com.ktm.rest.ApiConstants.EMAIL;
 
 import com.ktm.exception.ResourceNotFoundException;
 import com.ktm.rest.mail.model.EmailSubscriber;
+import com.ktm.rest.mail.model.EmailSubscriberDto;
 import com.ktm.rest.mail.repository.EmailSubscriberRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,8 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = EMAIL)
 public class EmailSubscriberController {
 
-  @Autowired
-  EmailSubscriberRepository emailSubscriberRepository;
+  @Autowired EmailSubscriberRepository emailSubscriberRepository;
 
   @GetMapping("/emails")
   @ApiOperation("Retrieve all Email Subscribers")
@@ -38,26 +38,26 @@ public class EmailSubscriberController {
   }
 
   @GetMapping
-  @ApiOperation("Retrieve all Active/Inactive Email Subscribers by query parameter active = " +
-      "true/false")
-  public List<EmailSubscriber> getAllActiveEmailSubscribers
-      (@RequestParam(value = "active", defaultValue = "false") boolean isActive) {
+  @ApiOperation(
+      "Retrieve all Active/Inactive Email Subscribers by query parameter active = " + "true/false")
+  public List<EmailSubscriber> getAllActiveEmailSubscribers(
+      @RequestParam(value = "active", defaultValue = "false") boolean isActive) {
     return this.emailSubscriberRepository.findByIsSubscribed(isActive);
   }
 
   @PostMapping
   @ApiOperation("Add a new Email Subscriber")
   public EmailSubscriber createEmailSubscriber(
-      @Valid @RequestBody EmailSubscriber emailSubscriberDetails) {
-    String emailAddress = emailSubscriberDetails.getEmailAddress().toLowerCase();
+      @Valid @RequestBody EmailSubscriberDto emailSubscriberDto) {
+    String emailAddress = emailSubscriberDto.getEmailAddress().toLowerCase();
     try {
       InternetAddress internetAddress = new InternetAddress(emailAddress);
       internetAddress.validate();
     } catch (AddressException ex) {
       throw new ResourceNotFoundException(ex.getMessage());
     }
-    Optional<EmailSubscriber> emailSubscriber = this.emailSubscriberRepository
-        .findByEmailAddress(emailAddress);
+    Optional<EmailSubscriber> emailSubscriber =
+        this.emailSubscriberRepository.findByEmailAddress(emailAddress);
     if (!emailSubscriber.isPresent()) {
       EmailSubscriber newEmailSubscriber = new EmailSubscriber(emailAddress, true);
       return this.emailSubscriberRepository.save(newEmailSubscriber);
@@ -70,12 +70,13 @@ public class EmailSubscriberController {
   @PutMapping
   @ApiOperation("Update an Existing Active Email Subscriber to Inactive")
   public EmailSubscriber updateEmailSubscriberStatus(
-      @Valid @RequestBody EmailSubscriber emailSubscriberDetails) {
-    String emailAddress = emailSubscriberDetails.getEmailAddress().toLowerCase();
-    boolean isSubscribed = emailSubscriberDetails.getIsSubscribed();
-    EmailSubscriber emailSubscriber = this.emailSubscriberRepository
-        .findByEmailAddress(emailAddress)
-        .orElseThrow(ResourceNotFoundException::new);
+      @Valid @RequestBody EmailSubscriberDto emailSubscriberDto) {
+    String emailAddress = emailSubscriberDto.getEmailAddress().toLowerCase();
+    boolean isSubscribed = emailSubscriberDto.getIsSubscribed();
+    EmailSubscriber emailSubscriber =
+        this.emailSubscriberRepository
+            .findByEmailAddress(emailAddress)
+            .orElseThrow(ResourceNotFoundException::new);
     emailSubscriber.setIsSubscribed(isSubscribed);
     this.emailSubscriberRepository.save(emailSubscriber);
     return emailSubscriber;

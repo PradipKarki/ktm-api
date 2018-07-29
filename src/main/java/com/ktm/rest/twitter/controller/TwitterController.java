@@ -1,7 +1,9 @@
 package com.ktm.rest.twitter.controller;
 
-import com.ktm.rest.ApiConstants;
 import com.ktm.exception.ResourceNotFoundException;
+import com.ktm.rest.ApiConstants;
+import com.ktm.rest.twitter.mapper.TwitterMapper;
+import com.ktm.rest.twitter.model.TwitterDto;
 import com.ktm.rest.twitter.model.TwitterPo;
 import com.ktm.rest.twitter.repository.TwitterRepository;
 import com.ktm.rest.twitter.service.impl.TwitterServiceImpl;
@@ -10,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.persistence.Cacheable;
 import javax.validation.Valid;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -34,15 +37,15 @@ public class TwitterController {
 
   @Value("${App.Nepal.TwitterSearchQueryKeyWord}")
   private String searchNepalQuery;
+
   @Value("${App.Everest.TwitterSearchQueryKeyWord}")
   private String searchEverestQuery;
+
   @Value("${App.Kathmandu.TwitterSearchQueryKeyWord}")
   private String searchKathmanduQuery;
 
-  @Autowired
-  private TwitterRepository twitterRepository;
-  @Autowired
-  private TwitterServiceImpl twitterServiceImpl;
+  @Autowired private TwitterRepository twitterRepository;
+  @Autowired private TwitterServiceImpl twitterServiceImpl;
 
   @GetMapping("/nepal")
   @CrossOrigin(origins = "http://localhost:4200")
@@ -68,8 +71,8 @@ public class TwitterController {
   @GetMapping("/search/{tweetKeyWord}")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all Tweets Related to Search KeyWord")
-  public List<TwitterPo> getTweetsByKeyWord(@PathVariable String tweetKeyWord) throws
-      TwitterException {
+  public List<TwitterPo> getTweetsByKeyWord(@PathVariable String tweetKeyWord)
+      throws TwitterException {
     return this.twitterServiceImpl.getTweetsByQuery(tweetKeyWord);
   }
 
@@ -81,38 +84,37 @@ public class TwitterController {
 
   @PostMapping
   @ApiOperation("Create a new Tweet")
-  public TwitterPo createTwitterPO(@Valid @RequestBody TwitterPo twitterPo) {
+  public TwitterPo createTwitterPO(@Valid @RequestBody TwitterDto twitterDto) {
+    TwitterPo twitterPo = Mappers.getMapper(TwitterMapper.class).toTwitterPo(twitterDto);
     return this.twitterRepository.save(twitterPo);
   }
 
   @GetMapping("/{id}")
   @ApiOperation("Get a Single Tweet by Id")
   public TwitterPo getTwitterPOById(@PathVariable Long id) {
-    return this.twitterRepository.findById(id)
-                                 .orElseThrow(ResourceNotFoundException::new);
+    return this.twitterRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
   }
 
   @PutMapping("/{id}")
   @ApiOperation("Update a Tweet by Id")
-  public TwitterPo updateTwitterPO(@PathVariable Long id,
-      @Valid @RequestBody TwitterPo twitterPoDetails) {
-    TwitterPo twitterPo = this.twitterRepository.findById(id)
-                                                .orElseThrow(ResourceNotFoundException::new);
-    twitterPo.setTitle(twitterPoDetails.getTitle());
-    twitterPo.setImageUri(twitterPoDetails.getImageUri());
-    twitterPo.setArticleUri(twitterPoDetails.getArticleUri());
-    twitterPo.setPublishedDate(twitterPoDetails.getPublishedDate());
-    twitterPo.setTwitterUser(twitterPoDetails.getTwitterUser());
+  public TwitterPo updateTwitterPO(
+      @PathVariable Long id, @Valid @RequestBody TwitterDto twitterDto) {
+    TwitterPo twitterPo =
+        this.twitterRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+    twitterPo.setTitle(twitterDto.getTitle());
+    twitterPo.setImageUri(twitterDto.getImageUri());
+    twitterPo.setArticleUri(twitterDto.getArticleUri());
+    twitterPo.setPublishedDate(twitterDto.getPublishedDate());
+    twitterPo.setTwitterUser(twitterDto.getTwitterUser());
     return this.twitterRepository.save(twitterPo);
   }
 
   @DeleteMapping("/{id}")
   @ApiOperation("Delete a Tweet by Id")
   public ResponseEntity<TwitterPo> deleteTwitterPO(@PathVariable Long id) {
-    TwitterPo twitterPo = this.twitterRepository.findById(id)
-                                                .orElseThrow(ResourceNotFoundException::new);
+    TwitterPo twitterPo =
+        this.twitterRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
     this.twitterRepository.delete(twitterPo);
     return ResponseEntity.ok().build();
   }
-
 }

@@ -1,5 +1,6 @@
 package com.ktm.rest.twitter.mapper;
 
+import com.ktm.rest.twitter.model.TwitterDto;
 import com.ktm.rest.twitter.model.TwitterPo;
 import com.ktm.rest.twitter.service.TwitterService;
 import com.ktm.utils.DateUtility;
@@ -27,4 +28,9 @@ public interface TwitterMapper {
   TwitterPo toTwitterPo(Status status);
 
   List<TwitterPo> toTwitterPo(List<Status> statuses);
+
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "lastModifiedDate", ignore = true)
+  @Mapping(target = "createdDate", ignore = true)
+  TwitterPo toTwitterPo(TwitterDto twitterDto);
 }

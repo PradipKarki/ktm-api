@@ -10,6 +10,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CacheConfig {
 
+  private static Caffeine<Object, Object> caffeineCacheBuilder() {
+    return Caffeine.newBuilder()
+        .initialCapacity(100)
+        .maximumSize(150L)
+        .expireAfterAccess(5L, TimeUnit.MINUTES)
+        .weakKeys()
+        .recordStats();
+  }
+
   @Bean
   public CacheManager cacheManager() {
     CaffeineCacheManager cacheManager = new CaffeineCacheManager("AIRCRAFTS", "SECOND_CACHE");
@@ -17,14 +26,4 @@ public class CacheConfig {
     cacheManager.setCaffeine(caffeineCacheBuilder());
     return cacheManager;
   }
-
-  Caffeine<Object, Object> caffeineCacheBuilder() {
-    return Caffeine.newBuilder()
-                   .initialCapacity(100)
-                   .maximumSize(150)
-                   .expireAfterAccess(5, TimeUnit.MINUTES)
-                   .weakKeys()
-                   .recordStats();
-  }
-
 }

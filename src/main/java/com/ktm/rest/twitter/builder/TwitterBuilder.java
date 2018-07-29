@@ -38,7 +38,7 @@ public class TwitterBuilder {
     return confBuilder.build();
   }
 
-  public Twitter getInstance() {
+  private Twitter getInstance() {
     TwitterFactory twitterFactory = new TwitterFactory(getConfiguration());
     return twitterFactory.getInstance();
   }
