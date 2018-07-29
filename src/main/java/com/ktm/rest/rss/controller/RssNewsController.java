@@ -2,14 +2,14 @@ package com.ktm.rest.rss.controller;
 
 import com.ktm.rest.ApiConstants;
 import com.ktm.rest.rss.model.RssNews;
-import com.ktm.rest.rss.service.impl.InternationalRssService;
-import com.ktm.rest.rss.service.impl.NationalRssService;
+import com.ktm.rest.rss.service.RssService;
 import com.rometools.rome.io.FeedException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,10 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class RssNewsController {
 
   @Autowired
-  private InternationalRssService internationalRssService;
+  @Qualifier("international")
+  private RssService internationalRssService;
 
   @Autowired
-  private NationalRssService nationalRssService;
+  @Qualifier("national")
+  private RssService nationalRssService;
 
   @GetMapping("/international")
   @CrossOrigin(origins = "http://localhost:4200")
@@ -41,5 +43,4 @@ public class RssNewsController {
   public List<RssNews> fetchNationalRssFeedByQuery() throws IOException, FeedException {
     return this.nationalRssService.fetchRssFeedByQuery();
   }
-
 }

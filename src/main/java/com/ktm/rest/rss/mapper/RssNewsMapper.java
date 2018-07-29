@@ -9,7 +9,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(imports = {DateUtility.class, RssService.class})
-@SuppressWarnings("squid:S1214")
 public interface RssNewsMapper {
 
   @Mapping(target = "id", ignore = true)

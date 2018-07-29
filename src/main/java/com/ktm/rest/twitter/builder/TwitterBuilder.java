@@ -2,7 +2,7 @@ package com.ktm.rest.twitter.builder;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Twitter;
@@ -11,7 +11,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
-@Service
+@Component
 @RefreshScope
 public class TwitterBuilder {
 

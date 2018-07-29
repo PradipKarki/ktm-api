@@ -11,9 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 @RefreshScope
 public class YouTubeBuilder {
   @Value("${YouTube.VideoSearchSetFields}")

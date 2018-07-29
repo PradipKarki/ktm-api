@@ -7,13 +7,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.ktm.rest.rss.model.RssNews;
-import com.ktm.rest.rss.service.impl.InternationalRssService;
-import com.ktm.rest.rss.service.impl.NationalRssService;
+import com.ktm.rest.rss.service.RssService;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -31,9 +31,13 @@ public class RssNewsControllerTest {
 
   @Autowired private MockMvc mvc;
 
-  @MockBean private InternationalRssService internationalRssService;
+  @MockBean
+  @Qualifier("international")
+  private RssService internationalRssService;
 
-  @MockBean private NationalRssService nationalRssService;
+  @MockBean
+  @Qualifier("national")
+  private RssService nationalRssService;
 
   @Test
   public void fetchInternationalRssFeed_thenReturnJsonArray() throws Exception {
@@ -56,7 +60,7 @@ public class RssNewsControllerTest {
     rssNews.setTitle("national news title");
     List<RssNews> nationalRssNewsList = Collections.singletonList(rssNews);
 
-    given(internationalRssService.fetchRssFeedByQuery()).willReturn(nationalRssNewsList);
+    given(nationalRssService.fetchRssFeedByQuery()).willReturn(nationalRssNewsList);
     mvc.perform(get("/news/national").accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0].id", is(0)))

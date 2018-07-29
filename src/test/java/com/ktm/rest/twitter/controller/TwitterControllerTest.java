@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.ktm.rest.twitter.model.TwitterPo;
 import com.ktm.rest.twitter.repository.TwitterRepository;
-import com.ktm.rest.twitter.service.impl.TwitterServiceImpl;
+import com.ktm.rest.twitter.service.TwitterService;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +34,7 @@ public class TwitterControllerTest {
 
   @Autowired private MockMvc mvc;
 
-  @MockBean private TwitterServiceImpl twitterServiceImpl;
+  @MockBean private TwitterService twitterService;
 
   @MockBean private TwitterRepository twitterRepository;
 
@@ -45,7 +45,7 @@ public class TwitterControllerTest {
     twitterPo.setTitle("my title");
     List<TwitterPo> twitterPoList = Collections.singletonList(twitterPo);
 
-    given(twitterServiceImpl.getTweetsByQuery(anyString())).willReturn(twitterPoList);
+    given(twitterService.getTweetsByQuery(anyString())).willReturn(twitterPoList);
 
     mvc.perform(get("/twitter/nepal").accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isOk())

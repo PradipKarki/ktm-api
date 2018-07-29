@@ -6,11 +6,10 @@ import com.ktm.rest.twitter.mapper.TwitterMapper;
 import com.ktm.rest.twitter.model.TwitterDto;
 import com.ktm.rest.twitter.model.TwitterPo;
 import com.ktm.rest.twitter.repository.TwitterRepository;
-import com.ktm.rest.twitter.service.impl.TwitterServiceImpl;
+import com.ktm.rest.twitter.service.TwitterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
-import javax.persistence.Cacheable;
 import javax.validation.Valid;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,6 @@ import twitter4j.TwitterException;
 
 @RestController
 @RequestMapping("/twitter")
-@Cacheable
 @RefreshScope
 @Api(tags = ApiConstants.TWITTER, description = "KTM Times Twitter CRUD operations")
 public class TwitterController {
@@ -45,27 +43,27 @@ public class TwitterController {
   private String searchKathmanduQuery;
 
   @Autowired private TwitterRepository twitterRepository;
-  @Autowired private TwitterServiceImpl twitterServiceImpl;
+  @Autowired private TwitterService twitterService;
 
   @GetMapping("/nepal")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all Tweets Related to Nepal")
   public List<TwitterPo> getTweetsNepal() throws TwitterException {
-    return this.twitterServiceImpl.getTweetsByQuery(searchNepalQuery);
+    return this.twitterService.getTweetsByQuery(searchNepalQuery);
   }
 
   @GetMapping("/everest")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all Tweets Related to Everest")
   public List<TwitterPo> getTweetsEverest() throws TwitterException {
-    return this.twitterServiceImpl.getTweetsByQuery(searchEverestQuery);
+    return this.twitterService.getTweetsByQuery(searchEverestQuery);
   }
 
   @GetMapping("/kathmandu")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all Tweets Related to Kathmandu")
   public List<TwitterPo> getTweetsKathmandu() throws TwitterException {
-    return this.twitterServiceImpl.getTweetsByQuery(searchKathmanduQuery);
+    return this.twitterService.getTweetsByQuery(searchKathmanduQuery);
   }
 
   @GetMapping("/search/{tweetKeyWord}")
@@ -73,7 +71,7 @@ public class TwitterController {
   @ApiOperation("Retrieve all Tweets Related to Search KeyWord")
   public List<TwitterPo> getTweetsByKeyWord(@PathVariable String tweetKeyWord)
       throws TwitterException {
-    return this.twitterServiceImpl.getTweetsByQuery(tweetKeyWord);
+    return this.twitterService.getTweetsByQuery(tweetKeyWord);
   }
 
   @GetMapping
