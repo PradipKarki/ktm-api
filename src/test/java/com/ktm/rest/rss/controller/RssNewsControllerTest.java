@@ -7,8 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.ktm.rest.rss.model.RssNews;
-import com.ktm.rest.rss.service.InternationalRssService;
-import com.ktm.rest.rss.service.NationalRssService;
+import com.ktm.rest.rss.service.impl.InternationalRssService;
+import com.ktm.rest.rss.service.impl.NationalRssService;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Test;

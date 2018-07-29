@@ -1,6 +1,7 @@
 package com.ktm.rest.share.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ktm.rest.BaseEntity;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,22 +23,23 @@ import lombok.NoArgsConstructor;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @NoArgsConstructor
-public class UserEntity {
+public class UserEntity implements BaseEntity<Long> {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
-  @NotEmpty
-  private String entityType;
-  @NotEmpty
-  private java.lang.String userId;
-  private java.lang.String fullName;
-  private java.lang.String emailAddress;
+  private Long id;
+
+  @NotEmpty private String entityType;
+  @NotEmpty private String userId;
+  private String fullName;
+  private String emailAddress;
+
   @NotEmpty
   @JsonIgnore
   @Column(nullable = false, updatable = false)
   @LastModifiedDate
   private LocalDateTime lastModifiedDate;
+
   @JsonIgnore
   @Column(nullable = false, updatable = false)
   @CreatedDate
@@ -49,5 +51,4 @@ public class UserEntity {
     this.fullName = fullName;
     this.emailAddress = emailAddress;
   }
-
 }

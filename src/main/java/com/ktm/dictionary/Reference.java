@@ -1,16 +1,37 @@
 package com.ktm.dictionary;
 
-public enum Reference {
-  INTERNATIONAL_RSS_NEWS_VALUES("NEWS-N01"),
-  NATIONAL_RSS_NEWS_VALUES("NEWS-I01");
+import java.util.Arrays;
+import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
+
+@AllArgsConstructor
+@ToString
+public enum Reference implements Dictionary<String, String> {
+  INTERNATIONAL_RSS_NEWS_VALUES("NEWS-N01", "International RSS News List Code"),
+  NATIONAL_RSS_NEWS_VALUES("NEWS-I01", "National RSS News List Code"),
+  DEFAULT_VALUE("DEFAULT_VALUE", "");
 
   public final String referenceTypeCode;
+  public final String referenceTypeDescription;
 
-  Reference(String referenceTypeCode) {
-    this.referenceTypeCode = referenceTypeCode;
+  @Override
+  public String getCode() {
+    return this.referenceTypeCode;
   }
 
-  public String getReferenceTypeCode() {
-    return this.referenceTypeCode;
+  @Override
+  public String getDescription() {
+    return this.referenceTypeDescription;
+  }
+
+  @Override
+  public String getDescriptionFromCode(String code) {
+    Reference reference =
+        Arrays.stream(Reference.values())
+            .filter(e -> Objects.equals(e.getCode(), code))
+            .findFirst()
+            .orElse(DEFAULT_VALUE);
+    return reference.getDescription();
   }
 }

@@ -1,8 +1,8 @@
 package com.ktm.rest.documentary.controller;
 
-import com.ktm.ApiConstants;
+import com.ktm.rest.ApiConstants;
 import com.ktm.rest.documentary.model.Documentary;
-import com.ktm.rest.documentary.service.DocumentaryService;
+import com.ktm.rest.documentary.service.impl.DocumentaryServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
@@ -28,20 +28,20 @@ public class DocumentaryController {
   @Value("#{'${documentary.nepal.vimeo}'.split(',')}")
   private final List<String> vimeoDocumentary = new ArrayList<>();
   @Autowired
-  private DocumentaryService documentaryService;
+  private DocumentaryServiceImpl documentaryServiceImpl;
 
   @GetMapping
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all Documentary Videos")
   public List<Documentary> getAllDocumentaryVideos() throws IOException {
-    return this.documentaryService.getDocumentaryVideos(this.youTubeDocumentary);
+    return this.documentaryServiceImpl.getDocumentaryVideos(this.youTubeDocumentary);
   }
 
   @GetMapping("/{id}")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Return a Single Documentary Video by Video Id")
   public Documentary getDocumentaryVideoById(@PathVariable String id) throws IOException {
-    return this.documentaryService.getDocumentaryVideoByVideoId(id);
+    return this.documentaryServiceImpl.getDocumentaryVideoByVideoId(id);
   }
 
 }

@@ -1,10 +1,10 @@
 package com.ktm.rest.mail.controller;
 
-import static com.ktm.ApiConstants.EMAIL;
+import static com.ktm.rest.ApiConstants.EMAIL;
 
 import com.ktm.rest.mail.model.EmailPo;
 import com.ktm.rest.mail.repository.EmailRepository;
-import com.ktm.rest.mail.service.EmailService;
+import com.ktm.rest.mail.service.impl.EmailServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class EmailController {
 
   @Autowired
-  private EmailService emailService;
+  private EmailServiceImpl emailServiceImpl;
   @Autowired
   private EmailRepository emailRepository;
 
@@ -41,7 +41,7 @@ public class EmailController {
   }
 
   private void sendMail(@RequestBody EmailPo myEmail) {
-    this.emailService.sendMail(myEmail);
+    this.emailServiceImpl.sendMail(myEmail);
     this.emailRepository.save(myEmail);
   }
 

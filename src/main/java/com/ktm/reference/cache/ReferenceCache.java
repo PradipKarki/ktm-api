@@ -5,7 +5,7 @@ import com.github.benmanes.caffeine.cache.LoadingCache;
 import com.ktm.dictionary.Reference;
 import com.ktm.exception.ReferenceValueNotFoundException;
 import com.ktm.reference.model.ReferenceValue;
-import com.ktm.reference.service.ReferenceService;
+import com.ktm.reference.service.impl.ReferenceServiceImpl;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -16,20 +16,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class ReferenceCache {
 
-  private static ReferenceService referenceService;
+  private static ReferenceServiceImpl referenceServiceImpl;
   private static final LoadingCache<Reference, List<ReferenceValue>> cache =
       Caffeine.newBuilder()
               .maximumSize(1000L)
               .expireAfterAccess(1L, TimeUnit.DAYS)
-              .build(key -> referenceService.getReferenceValues(key));
+              .build(key -> referenceServiceImpl.getReferenceValues(key));
 
   @Autowired
-  private ReferenceCache(ReferenceService referenceService) {
-    ReferenceCache.referenceService = referenceService;
+  private ReferenceCache(ReferenceServiceImpl referenceServiceImpl) {
+    ReferenceCache.referenceServiceImpl = referenceServiceImpl;
   }
 
-  private ReferenceCache(ReferenceService referenceService, boolean initialize) {
-    this(referenceService);
+  private ReferenceCache(ReferenceServiceImpl referenceServiceImpl, boolean initialize) {
+    this(referenceServiceImpl);
     if (initialize) {
       Arrays.stream(Reference.values()).forEach(cache::get);
     }
@@ -40,7 +40,7 @@ public class ReferenceCache {
       return cache.get(reference);
     } catch (Exception e) {
       throw new ReferenceValueNotFoundException
-          (String.format("%s%s", e.getMessage(), reference.getReferenceTypeCode()), e);
+          (String.format("%s%s", e.getMessage(), reference.getCode()), e);
     }
   }
 
@@ -54,7 +54,7 @@ public class ReferenceCache {
                     .orElse(null);
     } catch (Exception e) {
       throw new ReferenceValueNotFoundException
-          (String.format("%s%s", e.getMessage(), reference.getReferenceTypeCode()), e);
+          (String.format("%s%s", e.getMessage(), reference.getCode()), e);
     }
   }
 

@@ -1,6 +1,6 @@
 package com.ktm.rest.mail.controller;
 
-import static com.ktm.ApiConstants.EMAIL;
+import static com.ktm.rest.ApiConstants.EMAIL;
 
 import com.ktm.exception.ResourceNotFoundException;
 import com.ktm.rest.mail.model.EmailSubscriber;
@@ -62,7 +62,7 @@ public class EmailSubscriberController {
       EmailSubscriber newEmailSubscriber = new EmailSubscriber(emailAddress, true);
       return this.emailSubscriberRepository.save(newEmailSubscriber);
     }
-    emailSubscriber.get().setSubscribed(true);
+    emailSubscriber.get().setIsSubscribed(Boolean.TRUE);
     return this.emailSubscriberRepository.save(emailSubscriber.get());
   }
 
@@ -72,11 +72,11 @@ public class EmailSubscriberController {
   public EmailSubscriber updateEmailSubscriberStatus(
       @Valid @RequestBody EmailSubscriber emailSubscriberDetails) {
     String emailAddress = emailSubscriberDetails.getEmailAddress().toLowerCase();
-    boolean isSubscribed = emailSubscriberDetails.isSubscribed();
+    boolean isSubscribed = emailSubscriberDetails.getIsSubscribed();
     EmailSubscriber emailSubscriber = this.emailSubscriberRepository
         .findByEmailAddress(emailAddress)
         .orElseThrow(ResourceNotFoundException::new);
-    emailSubscriber.setSubscribed(isSubscribed);
+    emailSubscriber.setIsSubscribed(isSubscribed);
     this.emailSubscriberRepository.save(emailSubscriber);
     return emailSubscriber;
   }

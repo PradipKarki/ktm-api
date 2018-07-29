@@ -1,17 +1,39 @@
 package com.ktm.dictionary;
 
-public enum EntityType {
-  TWITTER(0),
-  YOUTUBE(1),
-  RSS_NEWS(2),
-  DOCUMENTARY(3);
+import java.util.Arrays;
+import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
 
-  /**
-   * Value for this KtmSharableEntity
-   */
-  public final int value;
+@AllArgsConstructor
+@ToString
+public enum EntityType implements Dictionary<Integer, String> {
+  TWITTER(0, "twitter"),
+  YOUTUBE(1, "you tube"),
+  RSS_NEWS(2, "rss news"),
+  DOCUMENTARY(3, "documentary"),
+  DEFAULT_VALUE(4, "");
 
-  EntityType(int value) {
-    this.value = value;
+  public final Integer code;
+  public final String description;
+
+  @Override
+  public Integer getCode() {
+    return this.code;
+  }
+
+  @Override
+  public String getDescription() {
+    return this.description;
+  }
+
+  @Override
+  public String getDescriptionFromCode(Integer key) {
+    EntityType entityType =
+        Arrays.stream(EntityType.values())
+            .filter(e -> Objects.equals(e.getCode(), key))
+            .findFirst()
+            .orElse(DEFAULT_VALUE);
+    return entityType.getDescription();
   }
 }

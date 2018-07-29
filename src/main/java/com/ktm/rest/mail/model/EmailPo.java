@@ -2,6 +2,7 @@ package com.ktm.rest.mail.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ktm.rest.BaseEntity;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -32,51 +33,39 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public final class EmailPo {
+public final class EmailPo implements BaseEntity<Long> {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "EMAIL_ID")
-  private long id;
+  private Long id;
 
-  @Transient
-  private String fromName;
-  @NotEmpty
-  @Email
-  private String fromAddress;
-
-  @Transient
-  private String toName;
-  @Transient
-  @NotEmpty
-  @Email
-  private String toAddress;
-  @Transient
-  private String bounceToAddress;
-  @Transient
-  private List<Recipient> recipients;
+  @Transient private String fromName;
+  @NotEmpty @Email private String fromAddress;
+  @Transient private String toName;
+  @Transient @NotEmpty @Email private String toAddress;
+  @Transient private String bounceToAddress;
+  @Transient private transient List<Recipient> recipients;
 
   private String text;
-  // sample htmlText -> "<img src='cid:wink1'><b>We should meet up!</b><img
-  // src='cid:wink2'>"
   private String htmlText;
-  @NotEmpty
-  private String subject;
+
+  @NotEmpty private String subject;
+
   @Column(nullable = false, updatable = false)
   @CreatedDate
   private LocalDateTime sendAt;
 
-  @Transient
-  private String base64String;
-  @Transient
-  private Map<String, String> headers;
+  @Transient private String base64String;
+  @Transient private Map<String, String> headers;
+
   @JsonIgnore
   @Column(nullable = false, updatable = false)
   @LastModifiedDate
   private LocalDateTime lastModifiedDate;
+
   @JsonIgnore
   @Column(nullable = false, updatable = false)
   @CreatedDate
   private LocalDateTime createdDate;
-
 }

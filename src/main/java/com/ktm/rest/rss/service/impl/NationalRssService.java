@@ -1,6 +1,7 @@
-package com.ktm.rest.rss.service;
+package com.ktm.rest.rss.service.impl;
 
 import com.ktm.rest.rss.model.RssNews;
+import com.ktm.rest.rss.service.RssService;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
@@ -23,6 +24,7 @@ public class NationalRssService implements RssService {
   @Value("${rss.national.nepal.himalayan-times-1}")
   private String url;
 
+  @Override
   public List<RssNews> fetchRssFeedByQuery() throws FeedException, IOException {
     URL feedUrl = new URL(this.url);
     SyndFeedInput input = new SyndFeedInput();

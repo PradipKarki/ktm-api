@@ -18,28 +18,31 @@ public class UserMessage extends UserEntity {
   @NotEmpty
   @Size(min = 4)
   private String fullName;
-  @NotEmpty
-  @Email
-  private String emailAddress;
+
+  @NotEmpty @Email private String emailAddress;
+
   private String phone;
-  @NotEmpty
-  private String category;
-  @NotEmpty
-  private String content;
-  @NotEmpty
-  private String subject;
+
+  @NotEmpty private String category;
+  @NotEmpty private String content;
+  @NotEmpty private String subject;
 
   public UserMessage() {
     super();
   }
 
-  public UserMessage(String userId, String fullName, String emailAddress, String phone,
-      String category, String content, String subject) {
+  public UserMessage(
+      String userId,
+      String fullName,
+      String emailAddress,
+      String phone,
+      String category,
+      String content,
+      String subject) {
     super("UserMessage", userId, fullName, emailAddress);
     this.phone = phone;
     this.category = category;
     this.content = content;
     this.subject = subject;
   }
-
 }

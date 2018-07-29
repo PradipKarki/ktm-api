@@ -7,7 +7,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Objects;
 
-public class DateUtility {
+public final class DateUtility {
   private DateUtility() {
   }
 

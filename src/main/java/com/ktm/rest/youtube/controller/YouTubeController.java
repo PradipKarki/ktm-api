@@ -1,8 +1,8 @@
 package com.ktm.rest.youtube.controller;
 
-import com.ktm.ApiConstants;
+import com.ktm.rest.ApiConstants;
 import com.ktm.rest.youtube.model.YouTubePo;
-import com.ktm.rest.youtube.service.YouTubeService;
+import com.ktm.rest.youtube.service.impl.YouTubeServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
@@ -25,13 +25,13 @@ public class YouTubeController {
   private String searchQueryNepal;
 
   @Autowired
-  private YouTubeService youtubeService;
+  private YouTubeServiceImpl youtubeServiceImpl;
 
   @GetMapping("/nepal")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Retrieve all YouTube Videos Related to Nepal News")
   public List<YouTubePo> getYouTubeNepalVideos() throws IOException {
-    return this.youtubeService.fetchVideosByQuery(searchQueryNepal);
+    return this.youtubeServiceImpl.fetchVideosByQuery(searchQueryNepal);
   }
 
 }

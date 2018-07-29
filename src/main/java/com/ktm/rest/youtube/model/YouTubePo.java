@@ -1,6 +1,7 @@
 package com.ktm.rest.youtube.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ktm.rest.BaseEntity;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,25 +25,22 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class YouTubePo {
+public class YouTubePo implements BaseEntity<String> {
 
-  @Id
-  @NotEmpty
-  private String videoId;
-  @NotEmpty
-  private String title;
-  @NotEmpty
-  private String url;
+  @Id @NotEmpty private String id;
+  @NotEmpty private String title;
+  @NotEmpty private String url;
   private String thumbnailUrl;
   private LocalDateTime publishedDate;
   private String description;
+
   @JsonIgnore
   @Column(nullable = false, updatable = false)
   @LastModifiedDate
   private LocalDateTime lastModifiedDate;
+
   @JsonIgnore
   @Column(nullable = false, updatable = false)
   @CreatedDate
   private LocalDateTime createdDate;
-
 }

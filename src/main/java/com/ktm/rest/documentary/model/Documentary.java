@@ -22,7 +22,7 @@ public class Documentary extends YouTubePo {
   }
 
   public Documentary(YouTubePo youTubePo) {
-    super(youTubePo.getVideoId(), youTubePo.getTitle(),
+    super(youTubePo.getId(), youTubePo.getTitle(),
         youTubePo.getUrl(), youTubePo.getThumbnailUrl(),
         youTubePo.getPublishedDate(), youTubePo.getDescription(),
         youTubePo.getLastModifiedDate(), youTubePo.getCreatedDate());

@@ -1,5 +1,6 @@
 package com.ktm.rest.twitter.model;
 
+import com.ktm.rest.BaseEntity;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,12 +16,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-public class TwitterUser {
+public class TwitterUser implements BaseEntity<Long> {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "TWITTER_USER_ID")
-  private long id;
+  private Long id;
 
   private String userName;
   private String miniProfileImageURL;
@@ -34,5 +35,4 @@ public class TwitterUser {
     this.miniProfileImageURL = miniProfileImageURL;
     this.name = name;
   }
-
 }

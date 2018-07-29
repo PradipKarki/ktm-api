@@ -1,6 +1,7 @@
 package com.ktm.rest.mail.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ktm.rest.BaseEntity;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.persistence.Column;
@@ -21,27 +22,27 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @NoArgsConstructor
-public class EmailSubscriber {
+public class EmailSubscriber implements BaseEntity<Long> {
 
-  @NotEmpty
-  private boolean isSubscribed;
-  @NotEmpty
-  private boolean isConfirmed;
-  @NotEmpty
-  private String verificationToken;
-  @NotEmpty
-  private LocalDateTime expirationDate;
+  @NotEmpty private Boolean isSubscribed;
+  @NotEmpty private Boolean isConfirmed;
+  @NotEmpty private String verificationToken;
+  @NotEmpty private LocalDateTime expirationDate;
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "EMAIL_SUBSCRIBER_ID")
-  private long id;
+  private Long id;
+
   @NotEmpty(message = "emailAddress address can not be empty")
   @Email
   private String emailAddress;
+
   @JsonIgnore
   @Column(nullable = false, updatable = false)
   @LastModifiedDate
   private LocalDateTime lastModifiedDate;
+
   @JsonIgnore
   @Column(nullable = false, updatable = false)
   @CreatedDate
@@ -55,5 +56,4 @@ public class EmailSubscriber {
     this.verificationToken = UUID.randomUUID().toString();
     this.expirationDate = LocalDateTime.now().plusWeeks(1L);
   }
-
 }

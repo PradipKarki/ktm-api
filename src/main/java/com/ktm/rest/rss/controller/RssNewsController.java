@@ -1,9 +1,9 @@
 package com.ktm.rest.rss.controller;
 
-import com.ktm.ApiConstants;
+import com.ktm.rest.ApiConstants;
 import com.ktm.rest.rss.model.RssNews;
-import com.ktm.rest.rss.service.InternationalRssService;
-import com.ktm.rest.rss.service.NationalRssService;
+import com.ktm.rest.rss.service.impl.InternationalRssService;
+import com.ktm.rest.rss.service.impl.NationalRssService;
 import com.rometools.rome.io.FeedException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

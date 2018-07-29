@@ -1,6 +1,6 @@
 package com.ktm.rest.mail.controller;
 
-import static com.ktm.ApiConstants.EMAIL;
+import static com.ktm.rest.ApiConstants.EMAIL;
 
 import com.ktm.rest.mail.model.UserMessage;
 import com.ktm.rest.mail.repository.UserMessageRepository;

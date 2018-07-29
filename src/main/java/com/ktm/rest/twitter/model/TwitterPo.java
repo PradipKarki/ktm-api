@@ -1,6 +1,7 @@
 package com.ktm.rest.twitter.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ktm.rest.BaseEntity;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,26 +24,28 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TwitterPo {
+public class TwitterPo implements BaseEntity<Long> {
 
   @Id
   @Column(name = "TWITTER_ID", nullable = false)
-  private long id;
-  @NotEmpty
-  private String title;
+  private Long id;
+
+  @NotEmpty private String title;
   private String imageUri;
   private String articleUri;
   private LocalDateTime publishedDate;
+
   @ManyToOne
   @JoinColumn(name = "TWITTER_USER_ID", nullable = false)
   private TwitterUser twitterUser;
+
   @JsonIgnore
   @Column(nullable = false, updatable = false)
   @LastModifiedDate
   private LocalDateTime lastModifiedDate;
+
   @JsonIgnore
   @Column(nullable = false, updatable = false)
   @CreatedDate
   private LocalDateTime createdDate;
-
 }

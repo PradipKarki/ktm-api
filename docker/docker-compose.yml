@@ -1,0 +1,42 @@
+version: "3.6"
+services:
+  db:
+      image: mysql:latest
+      container_name: ktm-mysql.dev
+      ports:
+          - ${DB_MYSQL_PORT_1}:${DB_MYSQL_PORT_2}
+      volumes:
+         - db_data:/var/lib/mysql
+      restart: always
+  #    command: --init-file /data/application/init.sql
+      args:
+          MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+          MYSQL_DATABASE: ${MYSQL_DATABASE}
+          MYSQL_USER: ${MYSQL_USER}
+          MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  ktm-config:
+    build:
+        context: .
+        dockerfile: Dockerfile
+      image: ktm_config
+      container_name: ktm_config.dev
+      ports:
+        - ${DB_CONFIG_SERVER_PORT}:${DB_CONFIG_SERVER_PORT}
+      networks:
+        - network1
+  ktm:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      image: ktm-rest
+      container_name: ktm-rest.dev
+      ports:
+        - ${DB_KTM_REST_SERVER_PORT}:${DB_KTM_REST_SERVER_PORT}
+      networks:
+        - network1
+      depends_on:
+        - db
+volumes:
+  db_data:
+networks:
+  network1:

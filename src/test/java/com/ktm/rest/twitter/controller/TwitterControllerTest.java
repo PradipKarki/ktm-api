@@ -10,8 +10,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.ktm.rest.twitter.model.TwitterPo;
 import com.ktm.rest.twitter.repository.TwitterRepository;
-import com.ktm.rest.twitter.service.TwitterService;
-import java.util.Arrays;
+import com.ktm.rest.twitter.service.impl.TwitterServiceImpl;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.junit.Test;
@@ -32,49 +32,41 @@ import org.springframework.test.web.servlet.MockMvc;
 @ImportAutoConfiguration(RefreshAutoConfiguration.class)
 public class TwitterControllerTest {
 
-  @Autowired
-  private MockMvc mvc;
+  @Autowired private MockMvc mvc;
 
-  @MockBean
-  private TwitterService twitterService;
+  @MockBean private TwitterServiceImpl twitterServiceImpl;
 
-  @MockBean
-  private TwitterRepository twitterRepository;
+  @MockBean private TwitterRepository twitterRepository;
 
   @Test
   public void givenTweets_whenGetTweets_thenReturnJsonArray() throws Exception {
     TwitterPo twitterPo = new TwitterPo();
     twitterPo.setId(1L);
     twitterPo.setTitle("my title");
-    List<TwitterPo> twitterPoList = Arrays.asList(twitterPo);
+    List<TwitterPo> twitterPoList = Collections.singletonList(twitterPo);
 
-    given(twitterService.getTweetsByQuery(anyString())).willReturn(twitterPoList);
+    given(twitterServiceImpl.getTweetsByQuery(anyString())).willReturn(twitterPoList);
 
-    mvc.perform(get("/twitter/nepal").accept(MediaType
-        .APPLICATION_JSON_VALUE))
-       .andExpect(status().isOk())
-       .andExpect(jsonPath("$[0].id", is(1)))
-       .andExpect(jsonPath("$[0]title", is("my title")));
+    mvc.perform(get("/twitter/nepal").accept(MediaType.APPLICATION_JSON_VALUE))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0].id", is(1)))
+        .andExpect(jsonPath("$[0]title", is("my title")));
   }
 
   @Test
   public void getTweet_notFound() throws Exception {
-    given(twitterRepository.findById(anyLong())).willReturn(Optional.ofNullable(null));
+    given(twitterRepository.findById(anyLong())).willReturn(Optional.empty());
 
-    mvc.perform(get("/twitter/1").accept(MediaType
-        .APPLICATION_JSON_VALUE))
-       .andExpect(status().isNotFound());
+    mvc.perform(get("/twitter/1").accept(MediaType.APPLICATION_JSON_VALUE))
+        .andExpect(status().isNotFound());
 
     given(twitterRepository.findById(anyLong())).willReturn(Optional.empty());
 
-    mvc.perform(get("/twitter/2").accept(MediaType
-        .APPLICATION_JSON_VALUE))
-       .andExpect(status().isNotFound());
+    mvc.perform(get("/twitter/2").accept(MediaType.APPLICATION_JSON_VALUE))
+        .andExpect(status().isNotFound());
   }
 
   @Configuration
   @ComponentScan
-  public static class TestConf {
-  }
-
+  public static class TestConf {}
 }

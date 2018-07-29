@@ -14,17 +14,17 @@ public interface TwitterMapper {
   @Mapping(expression = "java(status.getText())", target = "title")
   @Mapping(expression = "java(TwitterService.getMediaUrl(status))", target = "imageUri")
   @Mapping(expression = "java(TwitterService.getArticleUrl(status))", target = "articleUri")
-  @Mapping(expression = "java(DateUtility.convertToLocalDateTime(status.getCreatedAt()))",
+  @Mapping(
+      expression = "java(DateUtility.convertToLocalDateTime(status.getCreatedAt()))",
       target = "publishedDate")
   @Mapping(expression = "java(status.getUser().getName())", target = "twitterUser.name")
-  @Mapping(expression = "java(status.getUser().getScreenName())",
-      target = "twitterUser.userName")
-  @Mapping(expression = "java(status.getUser().getMiniProfileImageURL())",
+  @Mapping(expression = "java(status.getUser().getScreenName())", target = "twitterUser.userName")
+  @Mapping(
+      expression = "java(status.getUser().getMiniProfileImageURL())",
       target = "twitterUser.miniProfileImageURL")
   @Mapping(target = "lastModifiedDate", ignore = true)
   @Mapping(target = "createdDate", ignore = true)
   TwitterPo toTwitterPo(Status status);
 
   List<TwitterPo> toTwitterPo(List<Status> statuses);
-
 }

@@ -6,6 +6,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import com.ktm.rest.youtube.model.YouTubePo;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,19 +21,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 public class YouTubeControllerIT {
 
-  @Autowired
-  private TestRestTemplate restTemplate;
+  @Autowired private TestRestTemplate restTemplate;
 
   @Test
   public void getYouTubeNepalVideos_verifyDetails() {
     ResponseEntity<YouTubePo[]> responseEntity =
         restTemplate.getForEntity("/youtube/nepal", YouTubePo[].class);
-    List<YouTubePo> youTubePos = Arrays.asList(responseEntity.getBody());
+    List<YouTubePo> youTubePos = Arrays.asList(Objects.requireNonNull(responseEntity.getBody()));
     assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     assert (!youTubePos.isEmpty());
-    assert (StringUtils.isNotEmpty(youTubePos.stream().findFirst().get().getTitle()));
-    assert (StringUtils.isNotEmpty(youTubePos.stream().findFirst().get().getVideoId()));
-    assert (youTubePos.stream().findFirst().get().getUrl()
-                      .contains("https://www.youtube.com/watch?v="));
+    YouTubePo youTubePo = youTubePos.stream().findFirst().orElse(null);
+    assert (StringUtils.isNotEmpty(youTubePo.getTitle()));
+    assert (StringUtils.isNotEmpty(youTubePo.getId()));
+    assert (youTubePo.getUrl().contains("https://www.youtube.com/watch?v="));
   }
 }
