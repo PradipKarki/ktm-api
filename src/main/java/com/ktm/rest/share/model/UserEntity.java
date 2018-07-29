@@ -45,7 +45,7 @@ public class UserEntity implements BaseEntity<Long> {
   @CreatedDate
   private LocalDateTime createdDate;
 
-  public UserEntity(String entityType, String userId, String fullName, String emailAddress) {
+  protected UserEntity(String entityType, String userId, String fullName, String emailAddress) {
     this.entityType = entityType;
     this.userId = userId;
     this.fullName = fullName;
