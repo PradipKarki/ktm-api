@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Objects;
 
+@SuppressWarnings("ALL")
 public final class DateUtility {
   private DateUtility() {
   }
