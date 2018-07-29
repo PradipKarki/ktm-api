@@ -9,24 +9,24 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class ApiError {
+class ApiError {
 
   private LocalDateTime timestamp;
   private HttpStatus status;
   private String message;
   private List<String> errors;
 
-  public ApiError(HttpStatus status, String message, List<String> errors) {
+  ApiError(HttpStatus status, String message, List<String> errors) {
     this(status, message);
     this.errors = errors;
   }
 
-  public ApiError(HttpStatus status, String message, String error) {
+  ApiError(HttpStatus status, String message, String error) {
     this(status, message);
     errors = Collections.singletonList(error);
   }
 
-  public ApiError(HttpStatus status, String message) {
+  private ApiError(HttpStatus status, String message) {
     this.timestamp = LocalDateTime.now();
     this.status = status;
     this.message = message;

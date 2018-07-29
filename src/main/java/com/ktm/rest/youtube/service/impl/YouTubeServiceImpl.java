@@ -5,7 +5,6 @@ import static java.util.Comparator.comparing;
 import static java.util.Comparator.nullsLast;
 import static java.util.Comparator.reverseOrder;
 
-import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.Video;
 import com.ktm.rest.youtube.builder.YouTubeBuilder;
@@ -50,8 +49,7 @@ public class YouTubeServiceImpl implements YouTubeService {
 
   @Override
   public Video getVideoByVideoId(String videoId) throws IOException {
-    YouTube.Videos.List search = youTubeBuilder.getSearchByVideoId(videoId);
-    return search.execute().getItems().get(0);
+    return youTubeBuilder.getSearchByVideoId(videoId);
   }
 
   /**

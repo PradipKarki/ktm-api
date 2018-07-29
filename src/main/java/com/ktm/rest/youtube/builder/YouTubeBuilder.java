@@ -6,6 +6,7 @@ import com.google.api.client.util.DateTime;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
+import com.google.api.services.youtube.model.Video;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -18,22 +19,31 @@ import org.springframework.stereotype.Component;
 public class YouTubeBuilder {
   @Value("${YouTube.VideoSearchSetFields}")
   private String youtubeVideoSearchSetFields;
+
   @Value("${YouTube.CategoryNewsPolitics}")
   private String categoryNewsPolitics;
+
   @Value("${YouTube.OrderBy}")
   private String orderBy;
+
   @Value("${YouTube.VideoEmbeddableTrue}")
   private String videoEmbeddableTrue;
+
   @Value("${YouTube.VideoTypeModerate}")
   private String videoTypeModerate;
+
   @Value("${YouTube.MediaTypeVideo}")
   private String mediaTypeVideo;
+
   @Value("${YouTube.IdSnippet}")
   private String idSnippet;
+
   @Value("${App.English.Language}")
   private String englishLanguage;
+
   @Value("${youtube.apikey}")
   private String apiValue;
+
   @Value("${YouTube.AppName}")
   private String youtubeSpringApp;
 
@@ -43,15 +53,14 @@ public class YouTubeBuilder {
     return new DateTime(System.currentTimeMillis() - (7L * dayInMillSeconds));
   }
 
-  public YouTube.Videos.List getSearchByVideoId(String videoId) throws IOException {
+  public Video getSearchByVideoId(String videoId) throws IOException {
     YouTube youtube = getYouTube();
     HashMap<String, String> parameters = new HashMap<>();
-    parameters.put("part", "snippet,contentDetails,statistics"); //$NON-NLS-1$//$NON-NLS-2$
-    YouTube.Videos.List search = youtube.videos()
-                                        .list(parameters.get("part")); //$NON-NLS-1$
+    parameters.put("part", "snippet,contentDetails,statistics"); // $NON-NLS-1$//$NON-NLS-2$
+    YouTube.Videos.List search = youtube.videos().list(parameters.get("part")); // $NON-NLS-1$
     search.setId(videoId);
     search.setKey(this.apiValue);
-    return search;
+    return search.execute().getItems().get(0);
   }
 
   /**
@@ -79,14 +88,16 @@ public class YouTubeBuilder {
     return searchResponse.getItems();
   }
 
-  /**
-   * Instantiates the YouTube object
-   */
+  /** Instantiates the YouTube object */
   @SuppressWarnings("squid:S1611")
   private YouTube getYouTube() {
-    return new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), (request) -> {
-      /* empty block */
-    }).setApplicationName(youtubeSpringApp).build();
+    return new YouTube.Builder(
+            new NetHttpTransport(),
+            new JacksonFactory(),
+            (request) -> {
+              /* empty block */
+            })
+        .setApplicationName(youtubeSpringApp)
+        .build();
   }
-
 }
