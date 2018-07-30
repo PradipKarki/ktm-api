@@ -1,41 +1,53 @@
-version: "3.6"
+version: "3.7"
 services:
   db:
-      image: mysql:latest
-      container_name: ktm-mysql.dev
-      ports:
-          - ${DB_MYSQL_PORT_1}:${DB_MYSQL_PORT_2}
-      volumes:
-         - db_data:/var/lib/mysql
-      restart: always
-  #    command: --init-file /data/application/init.sql
-      args:
-          MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-          MYSQL_DATABASE: ${MYSQL_DATABASE}
-          MYSQL_USER: ${MYSQL_USER}
-          MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    image: mysql:latest
+    container_name: ktm-mysql.dev
+    #hostname: perry
+    ports:
+    - ${DB_MYSQL_PORT_1}:${DB_MYSQL_PORT_2}
+    volumes:
+    - db_data:/var/lib/mysql
+    restart: always
+    #    command: --init-file /data/application/init.sql
+    entrypoint: ['docker-entrypoint.sh', '--default-authentication-plugin=mysql_native_password']
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
   ktm-config:
     build:
-        context: .
-        dockerfile: Dockerfile
-      image: ktm_config
-      container_name: ktm_config.dev
-      ports:
-        - ${DB_CONFIG_SERVER_PORT}:${DB_CONFIG_SERVER_PORT}
-      networks:
-        - network1
+      context: ..
+      dockerfile: docker/config-server/Dockerfile
+      args:
+      - jar_location=${JAR_LOCATION}
+      - ktm_config_jar=${KTM_CONFIG_JAR}
+      - ktm_config_work_dir=${KTM_CONFIG_WORK_DIR}
+      - config_repo=${CONFIG_REPO}
+    image: ktm_config
+    container_name: ktm_config.dev
+    ports:
+    - ${CONFIG_SERVER_PORT}:${CONFIG_SERVER_PORT}
+    networks:
+    - network1
   ktm:
-      build:
-        context: .
-        dockerfile: Dockerfile
-      image: ktm-rest
-      container_name: ktm-rest.dev
-      ports:
-        - ${DB_KTM_REST_SERVER_PORT}:${DB_KTM_REST_SERVER_PORT}
-      networks:
-        - network1
-      depends_on:
-        - db
+    build:
+      context: ..
+      dockerfile: docker/ktm-rest/Dockerfile
+      args:
+      - jar_location=${JAR_LOCATION}
+      - ktm_rest_jar=${KTM_REST_JAR}
+      - ktm_rest_work_dir=${KTM_REST_WORK_DIR}
+    image: ktm-rest
+    container_name: ktm-rest.dev
+    ports:
+    - ${KTM_REST_SERVER_PORT}:${KTM_REST_SERVER_PORT}
+    networks:
+    - network1
+    depends_on:
+    - db
+    - ktm-config
 volumes:
   db_data:
 networks:

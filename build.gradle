@@ -21,14 +21,9 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 bootJar {
-    baseName = 'ktm-rest'
+    baseName = 'ktm_rest'
     version = '0.0.1_RC'
     description = 'ktm'
-}
-
-task copyJar(type: Copy, dependsOn: bootJar) {
-    from bootJar
-    into '/Users/pradip/IdeaProjects/artifacts/'
 }
 
 sourceCompatibility = 1.9
@@ -85,5 +80,3 @@ dependencies {
     compile 'org.mapstruct:mapstruct-processor:1.2.0.Final'
     compileOnly 'org.projectlombok:lombok:1.18.0'
 }
-
-build.dependsOn copyJar
