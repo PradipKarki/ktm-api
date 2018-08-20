@@ -34,6 +34,7 @@ public class ReferenceValue {
   @NotBlank
   private ReferenceType referenceType;
 
+  @NotBlank private String value;
   private String description;
   @NotBlank private LocalDateTime effectivePeriodFrom;
   private LocalDateTime effectivePeriodTo;

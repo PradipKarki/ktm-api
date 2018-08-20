@@ -6,6 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/**
+ * Class to expose endpoints in place of TwitterPO for security purpose
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

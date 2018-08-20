@@ -1,13 +1,14 @@
 package com.ktm.rest;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 public interface CrudService<E extends Serializable, T extends BaseEntity> {
   T create(T entity);
 
-  T read(E primaryKey);
+  Optional<T> read(E primaryKey);
 
-  void update(T entity);
+  T update(T entity);
 
   void delete(T entity);
 }
