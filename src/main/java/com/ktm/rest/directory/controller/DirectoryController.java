@@ -2,12 +2,15 @@ package com.ktm.rest.directory.controller;
 
 import com.ktm.exception.ResourceNotFoundException;
 import com.ktm.rest.ApiConstants;
+import com.ktm.rest.directory.mapper.DirectoryMapper;
 import com.ktm.rest.directory.model.Directory;
+import com.ktm.rest.directory.model.DirectoryDto;
 import com.ktm.rest.directory.service.DirectoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.validation.Valid;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +34,8 @@ public class DirectoryController {
 
   @PostMapping
   @ApiOperation("Create a new directory")
-  public Directory create(@Valid @RequestBody Directory directory) {
+  public Directory create(@Valid @RequestBody DirectoryDto directoryDto) {
+    Directory directory = Mappers.getMapper(DirectoryMapper.class).toDirectory(directoryDto);
     return directoryService.create(directory);
   }
 
@@ -43,13 +47,21 @@ public class DirectoryController {
 
   @PutMapping("/{id}")
   @ApiOperation("Update a directory by Id")
-  public Directory update(@PathVariable Long id, @Valid @RequestBody Directory directory) {
+  public Directory update(@PathVariable Long id, @Valid @RequestBody DirectoryDto directoryDto) {
+    Directory directory = Mappers.getMapper(DirectoryMapper.class).toDirectory(directoryDto);
     Directory updatedDirectory =
         directoryService.read(id).orElseThrow(ResourceNotFoundException::new);
+    updatedDirectory.setBusinessCategory(directory.getBusinessCategory());
     updatedDirectory.setDescription(directory.getDescription());
-    updatedDirectory.setLocation(directory.getLocation());
+    updatedDirectory.setFax(directory.getFax());
+    updatedDirectory.setIsVerified(directory.getIsVerified());
     updatedDirectory.setName(directory.getName());
     updatedDirectory.setWebsite(directory.getWebsite());
+    updatedDirectory.setPhoneNumbers(directory.getPhoneNumbers());
+    updatedDirectory.setEmailAddresses(directory.getEmailAddresses());
+    updatedDirectory.setAddresses(directory.getAddresses());
+    updatedDirectory.setContactPersons(directory.getContactPersons());
+    updatedDirectory.setSocialMediaUrl(directory.getSocialMediaUrl());
     return directoryService.update(updatedDirectory);
   }
 
