@@ -17,6 +17,15 @@ public enum AddressType implements Dictionary<Integer, String> {
   public final Integer code;
   public final String description;
 
+  public static String getDescriptionFromCode(Integer key) {
+    AddressType addressType =
+        Arrays.stream(AddressType.values())
+            .filter(b -> Objects.equals(b.getCode(), key))
+            .findFirst()
+            .orElse(DEFAULT_VALUE);
+    return addressType.getDescription();
+  }
+
   @Override
   public Integer getCode() {
     return this.code;
@@ -25,15 +34,5 @@ public enum AddressType implements Dictionary<Integer, String> {
   @Override
   public String getDescription() {
     return this.description;
-  }
-
-  @Override
-  public String getDescriptionFromCode(Integer key) {
-    AddressType addressType =
-        Arrays.stream(AddressType.values())
-            .filter(b -> Objects.equals(b.getCode(), key))
-            .findFirst()
-            .orElse(DEFAULT_VALUE);
-    return addressType.getDescription();
   }
 }

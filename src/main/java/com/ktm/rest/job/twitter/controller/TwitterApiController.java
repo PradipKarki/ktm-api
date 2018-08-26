@@ -35,27 +35,31 @@ public class TwitterApiController {
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Load all Tweets Related to Nepal")
   public void getTweetsNepalAndSaveToDB() {
-    JobLauncher.run(twitterApiJob, new String[] {searchNepalQuery});
+    runTwitterApiJob(searchNepalQuery);
   }
 
   @GetMapping("/everest")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Load all Tweets Related to Everest")
   public void getTweetsEverestAndSaveToDB() {
-    JobLauncher.run(twitterApiJob, new String[] {searchEverestQuery});
+    runTwitterApiJob(searchEverestQuery);
   }
 
   @GetMapping("/kathmandu")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Load all Tweets Related to Kathmandu")
   public void getTweetsKathmanduAndSaveToDB() {
-    JobLauncher.run(twitterApiJob, new String[] {searchKathmanduQuery});
+    runTwitterApiJob(searchKathmanduQuery);
   }
 
   @GetMapping("/search/{tweetKeyWord}")
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Load all Tweets Related to Search KeyWord")
   public void getTweetsByKeyWordAndSaveToDB(@PathVariable String tweetKeyWord) {
-    JobLauncher.run(twitterApiJob, new String[] {tweetKeyWord});
+    runTwitterApiJob(tweetKeyWord);
+  }
+
+  private void runTwitterApiJob(String searchNepalQuery) {
+    JobLauncher.run(twitterApiJob, new String[] {searchNepalQuery});
   }
 }

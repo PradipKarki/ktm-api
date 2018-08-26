@@ -18,27 +18,27 @@ import java.util.List;
  * <p>Job abstract class provides an abstract method <code>buildJobOptions()</code> to be
  * implemented by derived Job classes.
  *
- * <p>JobOptions class hold job specific configuration information like service provider, job type.
- * JobOptions has one public method <code>build()</code> to set these informtion. Derived Job
- * classes set these values in JobOptions prior running job. Derived Job classes have specific
- * service provider - implementation of JobStep, which will be set in JobOptions.
+ * <p>JobConfiguration class hold job specific configuration information like service provider, job
+ * type. JobConfiguration has one public method <code>build()</code> to set these informtion.
+ * Derived Job classes set these values in JobConfiguration prior running job. Derived Job classes
+ * have specific service provider - implementation of JobStep, which will be set in
+ * JobConfiguration.
  */
 public abstract class JobImpl<T, E extends BaseEntity> implements Job {
-  private JobType jobType;
   private JobStep<T, E> jobServiceProvider;
 
   @Override
   public void init() {
-    JobOptions jobOptions = buildJobOptions();
-    jobType = jobOptions.getJobType();
-    //JobServiceProvider will always be instance of JobStep
+    JobConfiguration jobConfiguration = buildJobOptions();
+    // JobServiceProvider will always be instance of JobStep
     //noinspection unchecked
-    jobServiceProvider = jobOptions.getJobServiceProvider();
+    jobServiceProvider = jobConfiguration.getJobServiceProvider();
   }
 
   @Override
   public void performSteps(String arg) {
     List<T> apiEntities = jobServiceProvider.getDataFromAPI(arg);
+    JobType jobType = JobType.getJobTypeFromClassName(this.getClass());
     List<E> domainEntities = jobServiceProvider.mapToDomainObjects(jobType, apiEntities);
     List<E> filteredEntities = jobServiceProvider.processData(domainEntities);
     jobServiceProvider.saveToDB(filteredEntities);

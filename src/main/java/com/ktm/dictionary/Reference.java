@@ -15,6 +15,15 @@ public enum Reference implements Dictionary<String, String> {
   public final String referenceTypeCode;
   public final String referenceTypeDescription;
 
+  public static String getDescriptionFromCode(String code) {
+    Reference reference =
+        Arrays.stream(Reference.values())
+            .filter(e -> Objects.equals(e.getCode(), code))
+            .findFirst()
+            .orElse(DEFAULT_VALUE);
+    return reference.getDescription();
+  }
+
   @Override
   public String getCode() {
     return this.referenceTypeCode;
@@ -23,15 +32,5 @@ public enum Reference implements Dictionary<String, String> {
   @Override
   public String getDescription() {
     return this.referenceTypeDescription;
-  }
-
-  @Override
-  public String getDescriptionFromCode(String code) {
-    Reference reference =
-        Arrays.stream(Reference.values())
-            .filter(e -> Objects.equals(e.getCode(), code))
-            .findFirst()
-            .orElse(DEFAULT_VALUE);
-    return reference.getDescription();
   }
 }

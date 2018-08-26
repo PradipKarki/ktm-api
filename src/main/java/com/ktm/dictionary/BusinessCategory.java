@@ -14,6 +14,15 @@ public enum BusinessCategory implements Dictionary<Integer, String> {
   public final Integer code;
   public final String description;
 
+  public static String getDescriptionFromCode(Integer key) {
+    BusinessCategory businessCategory =
+        Arrays.stream(BusinessCategory.values())
+            .filter(b -> Objects.equals(b.getCode(), key))
+            .findFirst()
+            .orElse(DEFAULT_VALUE);
+    return businessCategory.getDescription();
+  }
+
   @Override
   public Integer getCode() {
     return this.code;
@@ -22,15 +31,5 @@ public enum BusinessCategory implements Dictionary<Integer, String> {
   @Override
   public String getDescription() {
     return this.description;
-  }
-
-  @Override
-  public String getDescriptionFromCode(Integer key) {
-    BusinessCategory businessCategory =
-        Arrays.stream(BusinessCategory.values())
-            .filter(b -> Objects.equals(b.getCode(), key))
-            .findFirst()
-            .orElse(DEFAULT_VALUE);
-    return businessCategory.getDescription();
   }
 }

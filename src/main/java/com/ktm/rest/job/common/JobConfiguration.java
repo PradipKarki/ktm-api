@@ -8,7 +8,6 @@ import lombok.Setter;
 @Data
 @Setter(AccessLevel.NONE)
 @Builder
-public class JobOptions {
-  private JobType jobType;
+public class JobConfiguration {
   private JobStep jobServiceProvider;
 }
