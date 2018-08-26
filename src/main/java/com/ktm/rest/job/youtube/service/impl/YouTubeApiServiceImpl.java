@@ -1,29 +1,34 @@
-package com.ktm.rest.youtube.service.impl;
+package com.ktm.rest.job.youtube.service.impl;
 
 import static java.lang.Character.UnicodeBlock.DEVANAGARI;
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.nullsLast;
 import static java.util.Comparator.reverseOrder;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 
 import com.google.api.services.youtube.model.SearchResult;
-import com.google.api.services.youtube.model.Video;
+import com.google.common.collect.ImmutableList;
+import com.ktm.exception.JobException;
 import com.ktm.rest.job.youtube.builder.YouTubeBuilder;
-import com.ktm.rest.youtube.mapper.VideoMapper;
+import com.ktm.rest.job.youtube.service.YouTubeApiService;
 import com.ktm.rest.youtube.model.YouTubePo;
-import com.ktm.rest.youtube.service.YouTubeService;
+import com.ktm.rest.youtube.repository.YouTubeRepository;
 import com.ktm.utils.TextUtility;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
-import org.mapstruct.factory.Mappers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class YouTubeServiceImpl implements YouTubeService {
+public class YouTubeApiServiceImpl implements YouTubeApiService {
+  private static final Logger logger = LoggerFactory.getLogger(YouTubeApiServiceImpl.class);
 
   @Value("${YouTube.VideoUrlPrefix}")
   private String youtubeVideoUrlPrefix;
@@ -32,24 +37,34 @@ public class YouTubeServiceImpl implements YouTubeService {
   private String regexSequenceOfWhiteCharacters;
 
   @Autowired private YouTubeBuilder youTubeBuilder;
+  @Autowired private YouTubeRepository youTubeRepository;
 
   @Override
-  public List<YouTubePo> fetchVideosByQuery(String queryTerm) throws IOException {
-    List<SearchResult> searchResults = youTubeBuilder.getSearchResults(queryTerm);
-    List<YouTubePo> youTubePos = Mappers.getMapper(VideoMapper.class).toYouTubePo(searchResults);
-    List<YouTubePo> unModYouTubePos = new ArrayList<>(youTubePos);
-    return unModYouTubePos
+  public List<SearchResult> getDataFromAPI(String queryString) {
+    try {
+      return Collections.unmodifiableList(youTubeBuilder.getSearchResults(queryString));
+    } catch (IOException e) {
+      String errorMessage = "Job failed during fetching videos from YouTube API.";
+      logger.error(String.format("Error Message %s %s", errorMessage, e.getMessage()));
+      throw new JobException(errorMessage);
+    }
+  }
+
+  @Override
+  public List<YouTubePo> processData(List<YouTubePo> youTubePos) {
+    List<YouTubePo> modifiableYouTubePos = new ArrayList<>(youTubePos);
+    return modifiableYouTubePos
         .stream()
         .filter(y -> StringUtils.isNotEmpty(y.getTitle()))
         .filter(y -> !TextUtility.isThisUnicode(y.getTitle(), DEVANAGARI))
         .filter(y -> !isYouTubeDuplicateOrSimilar(youTubePos, y))
         .sorted(comparing(YouTubePo::getPublishedDate, nullsLast(reverseOrder())))
-        .collect(Collectors.toList());
+        .collect(collectingAndThen(toList(), ImmutableList::copyOf));
   }
 
   @Override
-  public Video getVideoByVideoId(String videoId) throws IOException {
-    return youTubeBuilder.getSearchByVideoId(videoId);
+  public void saveToDB(List<YouTubePo> youTubePos) {
+    youTubeRepository.saveAll(youTubePos);
   }
 
   /**

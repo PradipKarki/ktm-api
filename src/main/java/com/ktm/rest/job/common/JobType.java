@@ -11,7 +11,7 @@ public enum JobType {
   RSS_JOB(TwitterApiJob.class),
   MAIL_JOB(TwitterApiJob.class);
 
-  private Class<? extends Job> jobClass;
+  private final Class<? extends Job> jobClass;
 
   JobType(Class<? extends Job> jobClass) {
     this.jobClass = jobClass;

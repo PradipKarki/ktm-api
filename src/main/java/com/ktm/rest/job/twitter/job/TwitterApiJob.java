@@ -14,7 +14,7 @@ public class TwitterApiJob extends JobImpl<Status, TwitterPo> {
   @Autowired private TwitterApiService twitterApiService;
 
   @Override
-  public JobConfiguration buildJobOptions() {
+  public JobConfiguration buildJobConfiguration() {
     return JobConfiguration.builder().jobServiceProvider(twitterApiService).build();
   }
 }

@@ -4,7 +4,7 @@ public interface Job {
 
   void init();
 
-  JobConfiguration buildJobOptions();
+  JobConfiguration buildJobConfiguration();
 
   default void processJob(String[] args) {
     init();

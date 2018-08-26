@@ -1,4 +1,4 @@
-package com.ktm.rest.youtube.builder;
+package com.ktm.rest.job.youtube.builder;
 
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -7,6 +7,7 @@ import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.Video;
+import com.ktm.utils.DateUtility;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -47,12 +48,6 @@ public class YouTubeBuilder {
   @Value("${YouTube.AppName}")
   private String youtubeSpringApp;
 
-  private static DateTime getTimeOfSevenDaysAgo() {
-    // set seven days ago
-    long dayInMillSeconds = 1000L * 60L * 60L * 24L;
-    return new DateTime(System.currentTimeMillis() - (7L * dayInMillSeconds));
-  }
-
   public Video getSearchByVideoId(String videoId) throws IOException {
     YouTube youtube = getYouTube();
     HashMap<String, String> parameters = new HashMap<>();
@@ -82,7 +77,7 @@ public class YouTubeBuilder {
     search.setVideoCategoryId(categoryNewsPolitics);
     search.setFields(youtubeVideoSearchSetFields);
     search.setMaxResults(maxSearchResults);
-    DateTime lastWeek = getTimeOfSevenDaysAgo();
+    DateTime lastWeek = DateUtility.getDateTimeOfOneWeekAgo();
     search.setPublishedAfter(lastWeek);
     SearchListResponse searchResponse = search.execute();
     return searchResponse.getItems();

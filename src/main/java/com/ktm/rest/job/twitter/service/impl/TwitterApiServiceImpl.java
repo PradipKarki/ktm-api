@@ -4,6 +4,7 @@ import static java.lang.Character.UnicodeBlock.DEVANAGARI;
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.nullsLast;
 import static java.util.Comparator.reverseOrder;
+import static java.util.stream.Collectors.toList;
 
 import com.ktm.exception.JobException;
 import com.ktm.rest.job.twitter.builder.TwitterApiBuilder;
@@ -14,7 +15,6 @@ import com.ktm.utils.TextUtility;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +44,7 @@ public class TwitterApiServiceImpl implements TwitterApiService {
           twitterApiBuilder.getQueryResult(queryString).getTweets());
     } catch (TwitterException e) {
       String errorMessage = "Job failed during fetching tweets from Twitter API.";
-      logger.info(String.format("Error Message %s %s", errorMessage, e.getMessage()));
+      logger.error(String.format("Error Message %s %s", errorMessage, e.getMessage()));
       throw new JobException(errorMessage);
     }
   }
@@ -59,7 +59,7 @@ public class TwitterApiServiceImpl implements TwitterApiService {
             .filter(t -> !isThisTweetFromIrrelevantUsers(t))
             .filter(t -> !isTwitterDuplicateOrSimilar(twitterPos, t))
             .sorted(comparing(TwitterPo::getImageUri, nullsLast(reverseOrder())))
-            .collect(Collectors.toList());
+            .collect(toList());
     tweets.forEach(t -> t.setTitle(TextUtility.cleanTweet(t.getTitle())));
     return Collections.unmodifiableList(tweets);
   }
