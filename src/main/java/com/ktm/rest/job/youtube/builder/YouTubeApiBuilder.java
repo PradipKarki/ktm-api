@@ -9,6 +9,7 @@ import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.Video;
 import com.ktm.utils.DateUtility;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RefreshScope
-public class YouTubeBuilder {
+public class YouTubeApiBuilder {
   @Value("${YouTube.VideoSearchSetFields}")
   private String youtubeVideoSearchSetFields;
 
@@ -48,7 +49,7 @@ public class YouTubeBuilder {
   @Value("${YouTube.AppName}")
   private String youtubeSpringApp;
 
-  public Video getSearchByVideoId(String videoId) throws IOException {
+  public Video getVideoById(String videoId) throws IOException {
     YouTube youtube = getYouTube();
     HashMap<String, String> parameters = new HashMap<>();
     parameters.put("part", "snippet,contentDetails,statistics"); // $NON-NLS-1$//$NON-NLS-2$
@@ -56,6 +57,14 @@ public class YouTubeBuilder {
     search.setId(videoId);
     search.setKey(this.apiValue);
     return search.execute().getItems().get(0);
+  }
+
+  public List<Video> getVideosByIds(List<String> videoIds) throws IOException {
+    List<Video> videos = new ArrayList<>();
+    for (String videoId : videoIds) {
+      videos.add(getVideoById(videoId));
+    }
+    return videos;
   }
 
   /**

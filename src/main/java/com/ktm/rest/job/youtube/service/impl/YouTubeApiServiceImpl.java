@@ -10,7 +10,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.common.collect.ImmutableList;
 import com.ktm.exception.JobException;
-import com.ktm.rest.job.youtube.builder.YouTubeBuilder;
+import com.ktm.rest.job.youtube.builder.YouTubeApiBuilder;
 import com.ktm.rest.job.youtube.service.YouTubeApiService;
 import com.ktm.rest.youtube.model.YouTubePo;
 import com.ktm.rest.youtube.repository.YouTubeRepository;
@@ -36,13 +36,13 @@ public class YouTubeApiServiceImpl implements YouTubeApiService {
   @Value("${Twitter.RegexSequenceOfWhiteCharacters}")
   private String regexSequenceOfWhiteCharacters;
 
-  @Autowired private YouTubeBuilder youTubeBuilder;
+  @Autowired private YouTubeApiBuilder youTubeApiBuilder;
   @Autowired private YouTubeRepository youTubeRepository;
 
   @Override
   public List<SearchResult> getDataFromAPI(String queryString) {
     try {
-      return Collections.unmodifiableList(youTubeBuilder.getSearchResults(queryString));
+      return Collections.unmodifiableList(youTubeApiBuilder.getSearchResults(queryString));
     } catch (IOException e) {
       String errorMessage = "Job failed during fetching videos from YouTube API.";
       logger.error(String.format("Error Message %s %s", errorMessage, e.getMessage()));

@@ -43,4 +43,16 @@ public class YouTubePo implements BaseEntity<String> {
   @Column(nullable = false, updatable = false)
   @CreatedDate
   private LocalDateTime createdDate;
+
+  protected YouTubePo(YouTubePo youTubePo) {
+    this(
+        youTubePo.getId(),
+        youTubePo.getTitle(),
+        youTubePo.getUrl(),
+        youTubePo.getThumbnailUrl(),
+        youTubePo.getPublishedDate(),
+        youTubePo.getDescription(),
+        youTubePo.getLastModifiedDate(),
+        youTubePo.getCreatedDate());
+  }
 }

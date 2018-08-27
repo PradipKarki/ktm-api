@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/twitter")
+@RequestMapping("/jobs/twitter")
 @RefreshScope
-@Api(tags = ApiConstants.TWITTER, description = "KTM Times Twitter CRUD operations")
+@Api(tags = ApiConstants.TWITTER, description = "Job - Retrieve Twitter News from Twitter API")
 public class TwitterApiController {
 
   @Value("${App.Nepal.TwitterSearchQueryKeyWord}")

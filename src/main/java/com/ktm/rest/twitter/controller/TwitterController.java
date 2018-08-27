@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/twitter")
 @RefreshScope
-@Api(tags = ApiConstants.TWITTER, description = "KTM Times Twitter CRUD operations")
+@Api(tags = ApiConstants.TWITTER, description = "Retrieve Twitter from Data Source")
 public class TwitterController {
 
   @Autowired private TwitterService twitterService;

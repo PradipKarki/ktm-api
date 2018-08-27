@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/news")
 @RefreshScope
-@Api(tags = ApiConstants.RSS, description = "Retrieve all RSS News Feed from Data Source")
+@Api(tags = ApiConstants.RSS, description = "Retrieve RSS News Feed from Data Source")
 public class RssNewsController {
 
   @Autowired

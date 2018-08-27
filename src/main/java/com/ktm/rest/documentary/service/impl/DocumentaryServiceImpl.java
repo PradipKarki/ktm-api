@@ -1,49 +1,55 @@
 package com.ktm.rest.documentary.service.impl;
 
-import com.google.api.services.youtube.model.Video;
 import com.ktm.rest.documentary.model.Documentary;
+import com.ktm.rest.documentary.repository.DocumentaryRepository;
 import com.ktm.rest.documentary.service.DocumentaryService;
-import com.ktm.rest.youtube.mapper.VideoMapper;
-import com.ktm.rest.youtube.service.YouTubeService;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
-import org.mapstruct.factory.Mappers;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DocumentaryServiceImpl implements DocumentaryService {
-  private static final Logger logger = LoggerFactory.getLogger(DocumentaryServiceImpl.class);
 
-  @Autowired private YouTubeService youtubeService;
+  @Autowired private DocumentaryRepository documentaryRepository;
 
   @Override
-  public Documentary getDocumentaryVideoByVideoId(String videoId) throws IOException {
-    Video video = this.youtubeService.getVideoByVideoId(videoId);
-    return new Documentary(Mappers.getMapper(VideoMapper.class).toYouTubePo(video));
+  public List<Documentary> createAll(List<Documentary> youTubePos) {
+    return documentaryRepository.saveAll(youTubePos);
   }
 
   @Override
-  public List<Documentary> getDocumentaryVideos(List<String> youTubeDocumentary)
-      throws IOException {
-    if (logger.isInfoEnabled()) {
-      logger.info(Arrays.toString(youTubeDocumentary.toArray()));
-    }
-    // TODO: 7/13/18 this is development code, need to change later
-    List<Documentary> videos = new ArrayList<>();
-    int i = 0;
-    for (String videoId : youTubeDocumentary) {
-      i++;
-      Documentary documentaryVideo = getDocumentaryVideoByVideoId(videoId);
-      videos.add(documentaryVideo);
-      if (i == 3) break;
-    }
-    videos.sort(Comparator.comparing(Documentary::isFeatured));
-    return videos;
+  public List<Documentary> retrieveAll() {
+    return documentaryRepository.findAll();
+  }
+
+  @Override
+  public List<Documentary> updateAll(List<Documentary> youTubePos) {
+    return documentaryRepository.saveAll(youTubePos);
+  }
+
+  @Override
+  public void deleteAll(List<Documentary> youTubePos) {
+    documentaryRepository.deleteAll();
+  }
+
+  @Override
+  public Documentary create(Documentary youTubePo) {
+    return documentaryRepository.save(youTubePo);
+  }
+
+  @Override
+  public Optional<Documentary> read(String primaryKey) {
+    return documentaryRepository.findById(primaryKey);
+  }
+
+  @Override
+  public Documentary update(Documentary youTubePo) {
+    return documentaryRepository.save(youTubePo);
+  }
+
+  @Override
+  public void delete(Documentary youTubePo) {
+    documentaryRepository.delete(youTubePo);
   }
 }
