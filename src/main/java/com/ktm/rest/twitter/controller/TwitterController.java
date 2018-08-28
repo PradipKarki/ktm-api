@@ -1,5 +1,7 @@
 package com.ktm.rest.twitter.controller;
 
+import static org.mapstruct.factory.Mappers.getMapper;
+
 import com.ktm.exception.ResourceNotFoundException;
 import com.ktm.rest.ApiConstants;
 import com.ktm.rest.twitter.mapper.TwitterMapper;
@@ -10,7 +12,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.validation.Valid;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class TwitterController {
   @PostMapping
   @ApiOperation("Create a new Tweet")
   public TwitterPo createTwitterPO(@Valid @RequestBody TwitterDto twitterDto) {
-    TwitterPo twitterPo = Mappers.getMapper(TwitterMapper.class).toTwitterPo(twitterDto);
+    TwitterPo twitterPo = getMapper(TwitterMapper.class).toTwitterPo(twitterDto);
     return this.twitterService.create(twitterPo);
   }
 

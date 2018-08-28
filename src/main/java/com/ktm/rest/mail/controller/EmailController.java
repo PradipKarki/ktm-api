@@ -1,15 +1,15 @@
 package com.ktm.rest.mail.controller;
 
 import static com.ktm.rest.ApiConstants.EMAIL;
+import static org.mapstruct.factory.Mappers.getMapper;
 
 import com.ktm.rest.mail.mapper.EmailMapper;
 import com.ktm.rest.mail.model.EmailDto;
 import com.ktm.rest.mail.model.EmailPo;
 import com.ktm.rest.mail.repository.EmailRepository;
-import com.ktm.rest.mail.service.impl.EmailServiceImpl;
+import com.ktm.rest.mail.service.EmailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = EMAIL)
 public class EmailController {
 
-  @Autowired private EmailServiceImpl emailServiceImpl;
+  @Autowired private EmailService emailService;
   @Autowired private EmailRepository emailRepository;
 
   @PostMapping("/support")
@@ -42,8 +42,8 @@ public class EmailController {
   }
 
   private void sendMail(EmailDto emailDto) {
-    EmailPo myEmail = Mappers.getMapper(EmailMapper.class).toEmailPo(emailDto);
-    this.emailServiceImpl.sendMail(myEmail);
+    EmailPo myEmail = getMapper(EmailMapper.class).toEmailPo(emailDto);
+    this.emailService.sendMail(myEmail);
     this.emailRepository.save(myEmail);
   }
 }

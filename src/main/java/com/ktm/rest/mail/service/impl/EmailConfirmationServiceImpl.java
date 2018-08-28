@@ -4,6 +4,7 @@ import com.ktm.rest.mail.model.EmailPo;
 import com.ktm.rest.mail.model.EmailSubscriber;
 import com.ktm.rest.mail.repository.EmailSubscriberRepository;
 import com.ktm.rest.mail.service.EmailConfirmationService;
+import com.ktm.rest.mail.service.EmailService;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailConfirmationServiceImpl implements EmailConfirmationService {
   private static final String FROM_ADDRESS = "support@ktmtimes.com"; // $NON-NLS-1$
-  @Autowired private EmailServiceImpl emailServiceImpl;
+  @Autowired private EmailService emailService;
   @Autowired private EmailSubscriberRepository emailSubscriberRepository;
 
   private static EmailPo buildEmail(String toAddress, String subject, String text) {
@@ -48,7 +49,7 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
     String text =
         "If you are having any issues with your account, please don't hesitate to "
             + "contact us by replying to this emailAddress. Thanks!"; //$NON-NLS-1$
-    emailServiceImpl.sendMail(buildEmail(toAddress, subject, text));
+    emailService.sendMail(buildEmail(toAddress, subject, text));
   }
 
   @Override
@@ -58,6 +59,6 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
         "Hey there, Please click the big yellow button below to verify your "
             + "emailAddress "
             + "address. Thanks!"; //$NON-NLS-1$
-    emailServiceImpl.sendMail(buildEmail(toAddress, subject, text));
+    emailService.sendMail(buildEmail(toAddress, subject, text));
   }
 }

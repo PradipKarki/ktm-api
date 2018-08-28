@@ -1,5 +1,7 @@
 package com.ktm.reference.service.impl;
 
+import static java.util.stream.Collectors.toMap;
+
 import com.ktm.dictionary.Reference;
 import com.ktm.reference.model.ReferenceType;
 import com.ktm.reference.model.ReferenceValue;
@@ -10,12 +12,12 @@ import com.ktm.reference.service.ReferenceService;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ReferenceServiceImpl implements ReferenceService {
+  private static final String EMPTY_STRING_FOR_NOT_FOUND = "";
 
   @Autowired ReferenceTypeRepository referenceTypeRepository;
   @Autowired ReferenceValueRepository referenceValueRepository;
@@ -25,7 +27,7 @@ public class ReferenceServiceImpl implements ReferenceService {
     return referenceTypeRepository
         .findById(reference.getCode())
         .map(ReferenceType::getValue)
-        .orElse("");
+        .orElse(EMPTY_STRING_FOR_NOT_FOUND);
   }
 
   @Override
@@ -39,8 +41,7 @@ public class ReferenceServiceImpl implements ReferenceService {
       Reference reference) {
     return getReferenceValues(reference)
         .stream()
-        .collect(
-            Collectors.toMap(ReferenceValue::getReferenceValueCompositeKey, Function.identity()));
+        .collect(toMap(ReferenceValue::getReferenceValueCompositeKey, Function.identity()));
   }
 
   @Override

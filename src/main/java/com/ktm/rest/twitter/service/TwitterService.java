@@ -15,16 +15,16 @@ public interface TwitterService
 
   static String getArticleUrl(Status status) {
     return Stream.of(status.getURLEntities())
-        .findAny()
         .filter(u -> !u.getURL().isEmpty())
+        .findAny()
         .map(URLEntity::getURL)
         .orElse(EMPTY_STRING);
   }
 
   static String getMediaUrl(Status status) {
     return Stream.of(status.getMediaEntities())
-        .findAny()
         .filter(m -> !m.getMediaURL().isEmpty())
+        .findAny()
         .map(MediaEntity::getMediaURL)
         .orElse(EMPTY_STRING);
   }

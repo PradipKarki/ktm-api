@@ -1,15 +1,15 @@
 package com.ktm.rest.mail.controller;
 
-import static com.ktm.rest.ApiConstants.EMAIL;
 import static com.ktm.dictionary.EmailConfirmationStatus.ALREADY_CONFIRMED;
 import static com.ktm.dictionary.EmailConfirmationStatus.CONFIRMATION_DATE_EXPIRED;
 import static com.ktm.dictionary.EmailConfirmationStatus.CONFIRMED;
 import static com.ktm.dictionary.EmailConfirmationStatus.INVALID_TOKEN;
+import static com.ktm.rest.ApiConstants.EMAIL;
 
 import com.ktm.dictionary.Dictionary;
 import com.ktm.rest.mail.model.EmailSubscriber;
 import com.ktm.rest.mail.repository.EmailSubscriberRepository;
-import com.ktm.rest.mail.service.impl.EmailConfirmationServiceImpl;
+import com.ktm.rest.mail.service.EmailConfirmationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.time.LocalDateTime;
@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
         "Save User Message/Email, Send Mail from Support/News Domain, "
             + "Verify new User Email Token, Maintain Subscribe/Unsubscribe List")
 public class EmailConfirmationController {
-  @Autowired private EmailConfirmationServiceImpl emailConfirmationServiceImpl;
+  @Autowired private EmailConfirmationService emailConfirmationService;
   @Autowired private EmailSubscriberRepository emailSubscriberRepository;
 
   @GetMapping("/{token}")
@@ -50,12 +50,12 @@ public class EmailConfirmationController {
     }
     EmailSubscriber email = emailSubscriber.get();
     if (email.getExpirationDate().isAfter(LocalDateTime.now())) {
-      this.emailConfirmationServiceImpl.extendExpTimeAndIssueNewToken(email);
-      this.emailConfirmationServiceImpl.sendReConfirmationEmail(email.getEmailAddress());
+      this.emailConfirmationService.extendExpTimeAndIssueNewToken(email);
+      this.emailConfirmationService.sendReConfirmationEmail(email.getEmailAddress());
       return CONFIRMATION_DATE_EXPIRED;
     }
-    this.emailConfirmationServiceImpl.setEmailSubscriberStatusToConfirmed(email);
-    this.emailConfirmationServiceImpl.sendEmailStatingEmailIsVerified(email.getEmailAddress());
+    this.emailConfirmationService.setEmailSubscriberStatusToConfirmed(email);
+    this.emailConfirmationService.sendEmailStatingEmailIsVerified(email.getEmailAddress());
     return CONFIRMED;
   }
 }

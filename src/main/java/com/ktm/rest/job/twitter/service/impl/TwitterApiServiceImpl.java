@@ -44,7 +44,7 @@ public class TwitterApiServiceImpl implements TwitterApiService {
           twitterApiBuilder.getQueryResult(queryString).getTweets());
     } catch (TwitterException e) {
       String errorMessage = "Job failed during fetching tweets from Twitter API.";
-      logger.error(String.format("Error Message %s %s", errorMessage, e.getMessage()));
+      logger.error(String.format("Error Message %s %s", errorMessage, e.getMessage()), e);
       throw new JobException(errorMessage, e);
     }
   }

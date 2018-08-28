@@ -31,10 +31,11 @@ public final class TextUtility {
    * @return boolean true if unicode is in text
    */
   public static boolean isThisUnicode(String text, UnicodeBlock unicodeBlock) {
-    for (char c : text.toCharArray())
+    for (char c : text.toCharArray()) {
       if (UnicodeBlock.of(c) == unicodeBlock) {
         return true;
       }
+    }
     return false;
   }
 
@@ -54,7 +55,7 @@ public final class TextUtility {
   }
 
   public static boolean containsSubString(List<String> stringList, String substring) {
-    return stringList.stream().findAny().filter(s -> s.contains(substring)).isPresent();
+    return stringList.stream().anyMatch(s -> s.contains(substring));
   }
 
   /**

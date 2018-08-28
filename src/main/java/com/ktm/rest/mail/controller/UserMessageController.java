@@ -1,6 +1,7 @@
 package com.ktm.rest.mail.controller;
 
 import static com.ktm.rest.ApiConstants.EMAIL;
+import static org.mapstruct.factory.Mappers.getMapper;
 
 import com.ktm.rest.mail.mapper.UserMessageMapper;
 import com.ktm.rest.mail.model.UserMessage;
@@ -9,7 +10,6 @@ import com.ktm.rest.mail.repository.UserMessageRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javax.validation.Valid;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,8 +29,7 @@ public class UserMessageController {
   @CrossOrigin(origins = "http://localhost:4200")
   @ApiOperation("Save Message Send by Users in Database")
   public void saveUserMessage(@Valid @RequestBody UserMessageDto userMessageDto) {
-    UserMessage userMessage =
-        Mappers.getMapper(UserMessageMapper.class).toUserMessage(userMessageDto);
+    UserMessage userMessage = getMapper(UserMessageMapper.class).toUserMessage(userMessageDto);
     this.userMessageRepository.save(userMessage);
   }
 }

@@ -35,7 +35,7 @@ public class DocumentaryApiServiceImpl implements DocumentaryApiService {
       return Collections.unmodifiableList(youTubeApiBuilder.getVideosByIds(youTubeDocumentaryIds));
     } catch (IOException e) {
       String errorMessage = "Job failed during fetching documentary videos from YouTube API.";
-      logger.error(String.format("Error Message %s %s", errorMessage, e.getMessage()));
+      logger.error(String.format("Error Message %s %s", errorMessage, e.getMessage()), e);
       throw new JobException(errorMessage, e);
     }
   }

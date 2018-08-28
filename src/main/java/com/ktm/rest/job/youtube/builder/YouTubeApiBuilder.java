@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
@@ -56,7 +57,8 @@ public class YouTubeApiBuilder {
     YouTube.Videos.List search = youtube.videos().list(parameters.get("part")); // $NON-NLS-1$
     search.setId(videoId);
     search.setKey(this.apiValue);
-    return search.execute().getItems().get(0);
+    List<Video> videos = search.execute().getItems();
+    return Objects.requireNonNull(videos).get(0);
   }
 
   public List<Video> getVideosByIds(List<String> videoIds) throws IOException {
@@ -89,7 +91,7 @@ public class YouTubeApiBuilder {
     DateTime lastWeek = DateUtility.getDateTimeOfOneWeekAgo();
     search.setPublishedAfter(lastWeek);
     SearchListResponse searchResponse = search.execute();
-    return searchResponse.getItems();
+    return new ArrayList<>(searchResponse.getItems());
   }
 
   /** Instantiates the YouTube object */

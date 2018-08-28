@@ -10,7 +10,11 @@ import java.util.List;
 import org.mapstruct.factory.Mappers;
 
 public interface JobStep<T, E extends BaseEntity> {
-
+  /**
+   * @param queryString query to search
+   * @throws com.ktm.exception.JobException JobException
+   * @return list of objects from external API
+   */
   List<T> getDataFromAPI(String queryString);
 
   @SuppressWarnings("unchecked")
