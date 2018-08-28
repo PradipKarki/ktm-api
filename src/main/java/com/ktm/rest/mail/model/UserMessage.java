@@ -14,6 +14,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class UserMessage extends UserEntity {
+  private static final long serialVersionUID = 1L;
 
   @NotEmpty
   @Size(min = 4)

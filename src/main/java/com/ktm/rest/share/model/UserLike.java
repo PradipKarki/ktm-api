@@ -10,6 +10,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class UserLike extends UserEntity {
+  private static final long serialVersionUID = 1L;
 
   private boolean isLiked;
 

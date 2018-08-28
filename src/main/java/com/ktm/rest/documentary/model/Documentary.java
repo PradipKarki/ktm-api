@@ -17,6 +17,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class Documentary extends YouTubePo {
+  private static final long serialVersionUID = 1L;
 
   private boolean isFeatured;
 
@@ -28,11 +29,11 @@ public class Documentary extends YouTubePo {
     super(youTubePo);
   }
 
-  public static Documentary createInstance(YouTubePo youTubePo) {
+  public static Documentary toDocumentary(YouTubePo youTubePo) {
     return new Documentary(youTubePo);
   }
 
-  public static List<Documentary> createInstances(List<YouTubePo> youTubePos) {
-    return youTubePos.stream().map(Documentary::createInstance).collect(toList());
+  public static List<Documentary> toDocumentaries(List<YouTubePo> youTubePos) {
+    return youTubePos.stream().map(Documentary::toDocumentary).collect(toList());
   }
 }

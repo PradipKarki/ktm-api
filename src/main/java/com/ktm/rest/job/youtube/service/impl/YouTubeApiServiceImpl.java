@@ -46,7 +46,7 @@ public class YouTubeApiServiceImpl implements YouTubeApiService {
     } catch (IOException e) {
       String errorMessage = "Job failed during fetching videos from YouTube API.";
       logger.error(String.format("Error Message %s %s", errorMessage, e.getMessage()));
-      throw new JobException(errorMessage);
+      throw new JobException(errorMessage, e);
     }
   }
 

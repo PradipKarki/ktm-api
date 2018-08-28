@@ -23,6 +23,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class EmailSubscriber implements BaseEntity<Long> {
+  private static final long serialVersionUID = 1L;
 
   @NotEmpty private Boolean isSubscribed;
   @NotEmpty private Boolean isConfirmed;

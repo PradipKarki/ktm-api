@@ -11,6 +11,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class UserShare extends UserEntity {
+  private static final long serialVersionUID = 1L;
 
   @NotEmpty
   private String socialMediaName;

@@ -1,7 +1,6 @@
 package com.ktm.exception;
 
 public class ReferenceValueNotFoundException extends RuntimeException {
-
   private static final long serialVersionUID = 1L;
   private static final String ERROR_MSG =
       "Reference values could not be found for Reference Type Code: ";

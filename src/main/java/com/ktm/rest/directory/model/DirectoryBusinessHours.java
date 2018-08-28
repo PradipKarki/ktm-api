@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DirectoryBusinessHours implements BaseEntity<Long> {
+  private static final long serialVersionUID = 1L;
 
   @Id private Long id;
 

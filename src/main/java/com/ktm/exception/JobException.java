@@ -1,9 +1,8 @@
 package com.ktm.exception;
 
 public class JobException extends RuntimeException {
-
-  private static final String ERROR_MSG = "Something wrong in job: ";
   private static final long serialVersionUID = 1L;
+  private static final String ERROR_MSG = "Something wrong in job: ";
 
   public JobException() {
     super(ERROR_MSG);

@@ -34,6 +34,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public final class EmailPo implements BaseEntity<Long> {
+  private static final long serialVersionUID = 1L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

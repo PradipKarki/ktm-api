@@ -21,7 +21,7 @@ public interface JobStep<T, E extends BaseEntity> {
       case YOUTUBE_API_JOB:
         return Mappers.getMapper(YouTubeSearchMapper.class).toYouTubePo(apiEntities);
       case DOCUMENTARY_API_JOB:
-        return Documentary.createInstances(
+        return Documentary.toDocumentaries(
             Mappers.getMapper(YouTubeVideoMapper.class).toYouTubePo(apiEntities));
       case RSS_JOB:
         return Mappers.getMapper(RssNewsMapper.class).toRssNews(apiEntities);

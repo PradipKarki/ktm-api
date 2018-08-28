@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReferenceValueCompositeKey implements Serializable {
+  private static final long serialVersionUID = 1L;
 
   private String referenceTypeCode;
   private String referenceValueCode;

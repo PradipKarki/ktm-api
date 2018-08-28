@@ -26,6 +26,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class YouTubePo implements BaseEntity<String> {
+  private static final long serialVersionUID = 1L;
 
   @Id @NotEmpty private String id;
   @NotEmpty private String title;

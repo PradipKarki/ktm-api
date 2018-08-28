@@ -25,6 +25,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TwitterPo implements BaseEntity<Long> {
+  private static final long serialVersionUID = 1L;
 
   @Id
   @Column(name = "TWITTER_ID", nullable = false)

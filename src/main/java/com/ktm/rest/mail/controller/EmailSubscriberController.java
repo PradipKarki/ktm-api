@@ -54,7 +54,7 @@ public class EmailSubscriberController {
       InternetAddress internetAddress = new InternetAddress(emailAddress);
       internetAddress.validate();
     } catch (AddressException ex) {
-      throw new ResourceNotFoundException(ex.getMessage());
+      throw new ResourceNotFoundException(ex.getMessage(), ex);
     }
     Optional<EmailSubscriber> emailSubscriber =
         this.emailSubscriberRepository.findByEmailAddress(emailAddress);
