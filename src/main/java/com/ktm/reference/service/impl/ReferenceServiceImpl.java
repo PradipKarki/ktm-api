@@ -12,12 +12,12 @@ import com.ktm.reference.service.ReferenceService;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ReferenceServiceImpl implements ReferenceService {
-  private static final String EMPTY_STRING_FOR_NOT_FOUND = "";
 
   @Autowired ReferenceTypeRepository referenceTypeRepository;
   @Autowired ReferenceValueRepository referenceValueRepository;
@@ -27,7 +27,7 @@ public class ReferenceServiceImpl implements ReferenceService {
     return referenceTypeRepository
         .findById(reference.getCode())
         .map(ReferenceType::getValue)
-        .orElse(EMPTY_STRING_FOR_NOT_FOUND);
+        .orElse(StringUtils.EMPTY);
   }
 
   @Override

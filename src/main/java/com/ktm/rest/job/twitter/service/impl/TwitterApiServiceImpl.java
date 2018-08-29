@@ -1,5 +1,6 @@
 package com.ktm.rest.job.twitter.service.impl;
 
+import static com.ktm.utils.PredicateHolder.doesTwitterContainsSimilarWords;
 import static java.lang.Character.UnicodeBlock.DEVANAGARI;
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.nullsLast;
@@ -83,11 +84,7 @@ public class TwitterApiServiceImpl implements TwitterApiService {
     long count =
         twitterPos
             .stream()
-            .filter(
-                t ->
-                    t.getTitle().contains(titleSubString)
-                        || TextUtility.containsFirstThreeWords(t.getTitle(), splitStr)
-                        || TextUtility.containsLastThreeWords(t.getTitle(), splitStr))
+            .filter(doesTwitterContainsSimilarWords(splitStr, titleSubString))
             .count();
     if (count > 1L && StringUtils.isAnyEmpty(twitterPo.getImageUri(), twitterPo.getArticleUri())) {
       twitterPos.remove(twitterPo);

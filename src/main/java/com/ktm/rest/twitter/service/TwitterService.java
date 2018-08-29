@@ -1,11 +1,10 @@
 package com.ktm.rest.twitter.service;
 
-import static com.ktm.rest.ApiConstants.EMPTY_STRING;
-
 import com.ktm.rest.CrudCollectionService;
 import com.ktm.rest.CrudService;
 import com.ktm.rest.twitter.model.TwitterPo;
 import java.util.stream.Stream;
+import org.apache.commons.lang3.StringUtils;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.URLEntity;
@@ -15,17 +14,17 @@ public interface TwitterService
 
   static String getArticleUrl(Status status) {
     return Stream.of(status.getURLEntities())
-        .filter(u -> !u.getURL().isEmpty())
+        .filter(u -> StringUtils.isNotEmpty(u.getURL()))
         .findAny()
         .map(URLEntity::getURL)
-        .orElse(EMPTY_STRING);
+        .orElse(StringUtils.EMPTY);
   }
 
   static String getMediaUrl(Status status) {
     return Stream.of(status.getMediaEntities())
-        .filter(m -> !m.getMediaURL().isEmpty())
+        .filter(m -> StringUtils.isNotEmpty(m.getMediaURL()))
         .findAny()
         .map(MediaEntity::getMediaURL)
-        .orElse(EMPTY_STRING);
+        .orElse(StringUtils.EMPTY);
   }
 }

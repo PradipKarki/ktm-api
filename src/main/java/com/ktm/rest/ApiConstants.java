@@ -9,7 +9,6 @@ public final class ApiConstants {
   public static final String DIRECTORY = "directory";
 
   public static final String YOUTUBE_VIDEO_URL_PREFIX = "https://www.youtube.com/watch?v=";
-  public static final String EMPTY_STRING = "";
 
   private ApiConstants() {
   }

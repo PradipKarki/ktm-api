@@ -1,7 +1,8 @@
 package com.ktm.rest.job.common;
 
+import static com.ktm.rest.documentary.model.Documentary.toDocumentaries;
+
 import com.ktm.rest.BaseEntity;
-import com.ktm.rest.documentary.model.Documentary;
 import com.ktm.rest.rss.mapper.RssNewsMapper;
 import com.ktm.rest.twitter.mapper.TwitterMapper;
 import com.ktm.rest.youtube.mapper.YouTubeSearchMapper;
@@ -25,7 +26,7 @@ public interface JobStep<T, E extends BaseEntity> {
       case YOUTUBE_API_JOB:
         return Mappers.getMapper(YouTubeSearchMapper.class).toYouTubePo(apiEntities);
       case DOCUMENTARY_API_JOB:
-        return Documentary.toDocumentaries(
+        return toDocumentaries(
             Mappers.getMapper(YouTubeVideoMapper.class).toYouTubePo(apiEntities));
       case RSS_JOB:
         return Mappers.getMapper(RssNewsMapper.class).toRssNews(apiEntities);

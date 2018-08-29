@@ -1,5 +1,6 @@
 package com.ktm.rest.job.youtube.service.impl;
 
+import static com.ktm.utils.PredicateHolder.doesYouTubeContainsSimilarWords;
 import static java.lang.Character.UnicodeBlock.DEVANAGARI;
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.nullsLast;
@@ -81,11 +82,7 @@ public class YouTubeApiServiceImpl implements YouTubeApiService {
     long count =
         youTubePos
             .stream()
-            .filter(
-                y ->
-                    y.getTitle().contains(titleSubString)
-                        || TextUtility.containsFirstThreeWords(y.getTitle(), splitStr)
-                        || TextUtility.containsLastThreeWords(y.getTitle(), splitStr))
+            .filter(doesYouTubeContainsSimilarWords(splitStr, titleSubString))
             .count();
     if (count > 1L) {
       youTubePos.remove(youTubePo);

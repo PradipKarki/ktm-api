@@ -3,10 +3,10 @@ package com.ktm.utils;
 import java.lang.Character.UnicodeBlock;
 import java.util.List;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 
 public final class TextUtility {
 
-  private static final String EMPTY_STRING = "";
   private static final String HTTP_PREFIX = "http";
   private static final String SPECIAL_CHARACTERS_EXCEPT_SPACES = "[^a-zA-Z0-9 ]+";
   private static final String RT_KEYWORD = "RT";
@@ -48,7 +48,7 @@ public final class TextUtility {
 
   public static boolean containsLastThreeWords(String text, String[] words) {
     int length = words.length;
-    return length > 5
+    return words.length > 5
         && text.contains(words[length - 1])
         && text.contains(words[length - 2])
         && text.contains(words[length - 3]);
@@ -63,20 +63,18 @@ public final class TextUtility {
    * special characters Strips RT keyword of tweet
    *
    * @param tweet tweet
-   * @return cleanTweet cleanTweet
+   * @return finalCleanText finalCleanText
    */
   public static String cleanTweet(String tweet) {
-    String cleanText = tweet;
-    if (cleanText.contains(HTTP_PREFIX)) {
-      int index = cleanText.indexOf(HTTP_PREFIX);
-      if (index != 0) cleanText = cleanText.substring(0, index);
+    String cleanText = StringUtils.EMPTY;
+    if (tweet.contains(HTTP_PREFIX)) {
+      int index = tweet.indexOf(HTTP_PREFIX);
+      if (index != 0) {
+        cleanText = tweet.substring(0, index);
+      }
     }
-    if (cleanText.contains(HTTP_PREFIX)) {
-      int index = cleanText.indexOf(HTTP_PREFIX);
-      if (index == 0) return EMPTY_STRING;
-    }
-    cleanText = SPECIAL_CHARACTERS_PATTERN.matcher(cleanText).replaceAll(EMPTY_STRING).trim();
-    cleanText = RT_KEYWORD_PATTERN.matcher(cleanText).replaceAll(EMPTY_STRING);
-    return cleanText;
+    String textWithSpecialCharsRemoved =
+        SPECIAL_CHARACTERS_PATTERN.matcher(cleanText).replaceAll(StringUtils.EMPTY).trim();
+    return RT_KEYWORD_PATTERN.matcher(textWithSpecialCharsRemoved).replaceAll(StringUtils.EMPTY);
   }
 }

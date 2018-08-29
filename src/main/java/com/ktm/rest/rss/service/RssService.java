@@ -35,9 +35,13 @@ public interface RssService {
       SyndFeed feed = input.build(xmlReader);
       return feed.getEntries()
           .stream()
-          .filter(item -> item.getTitle().toLowerCase().contains(searchQueryNepal))
+          .filter(item -> contains(item, searchQueryNepal))
           .collect(toList());
     }
+  }
+
+  default boolean contains(SyndEntry item, String searchQueryNepal) {
+    return item.getTitle().toLowerCase().contains(searchQueryNepal);
   }
 
   default List<RssNews> toRssNews(List<SyndEntry> entries) {
