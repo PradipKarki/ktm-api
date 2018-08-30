@@ -84,10 +84,7 @@ public class YouTubeApiServiceImpl implements YouTubeApiService {
             .stream()
             .filter(doesYouTubeContainsSimilarWords(splitStr, titleSubString))
             .count();
-    if (count > 1L) {
-      youTubePos.remove(youTubePo);
-      return true;
-    }
-    return false;
+
+    return youTubePos.removeIf(y -> count > 1L);
   }
 }

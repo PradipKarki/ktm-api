@@ -86,11 +86,9 @@ public class TwitterApiServiceImpl implements TwitterApiService {
             .stream()
             .filter(doesTwitterContainsSimilarWords(splitStr, titleSubString))
             .count();
-    if (count > 1L && StringUtils.isAnyEmpty(twitterPo.getImageUri(), twitterPo.getArticleUri())) {
-      twitterPos.remove(twitterPo);
-      return true;
-    }
-    return false;
+
+    return twitterPos.removeIf(
+        t -> StringUtils.isAnyEmpty(t.getImageUri(), t.getArticleUri()) && count > 1L);
   }
 
   private boolean isThisTweetFromIrrelevantUsers(TwitterPo twitterPo) {

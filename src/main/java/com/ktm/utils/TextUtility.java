@@ -1,9 +1,10 @@
 package com.ktm.utils;
 
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+
 import java.lang.Character.UnicodeBlock;
 import java.util.List;
 import java.util.regex.Pattern;
-import org.apache.commons.lang3.StringUtils;
 
 public final class TextUtility {
 
@@ -66,15 +67,15 @@ public final class TextUtility {
    * @return finalCleanText finalCleanText
    */
   public static String cleanTweet(String tweet) {
-    String cleanText = StringUtils.EMPTY;
+    StringBuilder cleanText = new StringBuilder(EMPTY);
     if (tweet.contains(HTTP_PREFIX)) {
       int index = tweet.indexOf(HTTP_PREFIX);
       if (index != 0) {
-        cleanText = tweet.substring(0, index);
+        cleanText.append(tweet.substring(0, index));
       }
     }
-    String textWithSpecialCharsRemoved =
-        SPECIAL_CHARACTERS_PATTERN.matcher(cleanText).replaceAll(StringUtils.EMPTY).trim();
-    return RT_KEYWORD_PATTERN.matcher(textWithSpecialCharsRemoved).replaceAll(StringUtils.EMPTY);
+    String cleansedText =
+        SPECIAL_CHARACTERS_PATTERN.matcher(cleanText.toString()).replaceAll(EMPTY).trim();
+    return RT_KEYWORD_PATTERN.matcher(cleansedText).replaceAll(EMPTY);
   }
 }
