@@ -42,9 +42,9 @@ public final class TextUtility {
 
   public static boolean containsFirstThreeWords(String text, String[] words) {
     return words.length > 5
+        && text.contains(words[0])
         && text.contains(words[1])
-        && text.contains(words[2])
-        && text.contains(words[3]);
+        && text.contains(words[2]);
   }
 
   public static boolean containsLastThreeWords(String text, String[] words) {
@@ -71,7 +71,7 @@ public final class TextUtility {
     if (tweet.contains(HTTP_PREFIX)) {
       int index = tweet.indexOf(HTTP_PREFIX);
       if (index != 0) {
-        cleanText.append(tweet.substring(0, index));
+        cleanText.append(tweet, 0, index);
       }
     }
     String cleansedText =
