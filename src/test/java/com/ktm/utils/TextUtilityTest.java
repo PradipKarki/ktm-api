@@ -1,6 +1,7 @@
 package com.ktm.utils;
 
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -8,12 +9,12 @@ import org.junit.Test;
 enum Cover {
   BIGCOVER,
   COVER,
-  OTHER;
+  OTHER
 }
 
 public class TextUtilityTest {
-  Cover type = null;
-  String switchVal = switchDemo(type);
+  private Cover type = Cover.COVER;
+  private String switchVal = switchDemo(type);
 
   @Test
   public void isThisUnicode() {
@@ -27,15 +28,13 @@ public class TextUtilityTest {
     String newVal = StringUtils.stripStart(str, "0");
     Assert.assertEquals("XYS", newVal);
 
-    int a[] = new int[10];
-    a[0] = 30;
-    a[1] = 100;
-    a[2] = 33;
-    System.out.println((Arrays.asList(a)).size());
+    int a[] = new int[] {30, 100, 33, 0, 0, 0, 0, 0, 0, 0};
+    System.out.println(Collections.singletonList(a).size());
     System.out.println(switchVal);
   }
 
-  public String switchDemo(Cover type) {
+  private String switchDemo(Cover type) {
+    Objects.requireNonNull(type, "Cover type must not be null");
     switch (type) {
       case BIGCOVER:
         return "big_cover";

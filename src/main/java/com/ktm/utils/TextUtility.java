@@ -32,12 +32,7 @@ public final class TextUtility {
    * @return boolean true if unicode is in text
    */
   public static boolean isThisUnicode(String text, UnicodeBlock unicodeBlock) {
-    for (char c : text.toCharArray()) {
-      if (UnicodeBlock.of(c) == unicodeBlock) {
-        return true;
-      }
-    }
-    return false;
+    return text.chars().anyMatch(c -> Character.UnicodeBlock.of(c) == unicodeBlock);
   }
 
   public static boolean containsFirstThreeWords(String text, String[] words) {
