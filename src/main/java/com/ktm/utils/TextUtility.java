@@ -44,7 +44,7 @@ public final class TextUtility {
 
   public static boolean containsLastThreeWords(String text, String[] words) {
     int length = words.length;
-    return words.length > 5
+    return length > 5
         && text.contains(words[length - 1])
         && text.contains(words[length - 2])
         && text.contains(words[length - 3]);
