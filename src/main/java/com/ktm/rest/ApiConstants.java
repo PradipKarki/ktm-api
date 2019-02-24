@@ -10,6 +10,16 @@ public final class ApiConstants {
 
   public static final String YOUTUBE_VIDEO_URL_PREFIX = "https://www.youtube.com/watch?v=";
 
-  private ApiConstants() {
+  private ApiConstants() {}
+
+  public static final class EndPoints {
+    public static final String TWITTER_ENDPOINT = "/twitter/";
+    public static final String DIRECTORY_ENDPOINT = "/directory/";
+    public static final String NEWS_INTERNATIONAL_ENDPOINT = "/news/international/";
+    public static final String NEWS_NATIONAL_ENDPOINT = "/news/national/";
+    public static final String YOUTUBE_ENDPOINT = "/youtube/";
+    public static final String YOUTUBE_NEPAL_ENDPOINT = "/youtube/nepal";
+
+    private EndPoints() {}
   }
 }

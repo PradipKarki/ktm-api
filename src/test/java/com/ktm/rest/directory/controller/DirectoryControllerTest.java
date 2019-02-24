@@ -1,5 +1,7 @@
 package com.ktm.rest.directory.controller;
 
+import static com.ktm.rest.ApiConstants.EndPoints.DIRECTORY_ENDPOINT;
+import static com.ktm.rest.TestConstants.ITEM_NOT_FOUND_ID;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -35,7 +37,7 @@ public class DirectoryControllerTest {
   @MockBean private DirectoryService directoryService;
 
   @Test
-  public void givenTweets_whenGetTweets_thenReturnJsonArray() throws Exception {
+  public void getDirectoriesVerifyTest() throws Exception {
     Directory directory = new Directory();
     directory.setId(1L);
     directory.setName("KTM Business");
@@ -43,7 +45,7 @@ public class DirectoryControllerTest {
     List<Directory> directories = Collections.singletonList(directory);
 
     given(directoryService.retrieveAll()).willReturn(directories);
-    mvc.perform(get("/directory/").accept(MediaType.APPLICATION_JSON_VALUE))
+    mvc.perform(get(DIRECTORY_ENDPOINT).accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0].id", is(1)))
         .andExpect(jsonPath("$[0].name", is("KTM Business")))
@@ -51,23 +53,24 @@ public class DirectoryControllerTest {
   }
 
   @Test
-  public void getDirectories_emptyCollection_verify200HttpStatus() throws Exception {
+  public void getDirectoriesEmptyCollectionVerify200HttpStatusTest() throws Exception {
     List<Directory> directories = Collections.emptyList();
 
     given(directoryService.retrieveAll()).willReturn(directories);
-    mvc.perform(get("/directory/").accept(MediaType.APPLICATION_JSON_VALUE))
+    mvc.perform(get(DIRECTORY_ENDPOINT).accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isOk());
 
     given(directoryService.retrieveAll()).willReturn(null);
-    mvc.perform(get("/directory/").accept(MediaType.APPLICATION_JSON_VALUE))
+    mvc.perform(get(DIRECTORY_ENDPOINT).accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isOk());
   }
 
   @Test
-  public void getDirectory_notFound() throws Exception {
+  public void getDirectoryNotFoundTest() throws Exception {
     given(directoryService.read(anyLong())).willReturn(Optional.empty());
 
-    mvc.perform(get("/twitter/2").accept(MediaType.APPLICATION_JSON_VALUE))
+    mvc.perform(
+            get(DIRECTORY_ENDPOINT + ITEM_NOT_FOUND_ID).accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isNotFound());
   }
 

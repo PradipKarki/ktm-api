@@ -1,8 +1,11 @@
 package com.ktm.rest.youtube.controller;
 
+import static com.ktm.rest.ApiConstants.EndPoints.YOUTUBE_NEPAL_ENDPOINT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+import com.ktm.rest.ApiConstants;
+import com.ktm.rest.TestUtils;
 import com.ktm.rest.youtube.model.YouTubePo;
 import java.util.Arrays;
 import java.util.List;
@@ -24,15 +27,15 @@ public class YouTubeControllerIT {
   @Autowired private TestRestTemplate restTemplate;
 
   @Test
-  public void getYouTubeNepalVideos_verifyDetails() {
+  public void getYouTubeNepalVideosAndVerifyDetailsTest() {
     ResponseEntity<YouTubePo[]> responseEntity =
-        restTemplate.getForEntity("/youtube/nepal", YouTubePo[].class);
+        restTemplate.getForEntity(YOUTUBE_NEPAL_ENDPOINT, YouTubePo[].class);
     List<YouTubePo> youTubePos = Arrays.asList(Objects.requireNonNull(responseEntity.getBody()));
     assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-    assert (!youTubePos.isEmpty());
-    YouTubePo youTubePo = youTubePos.stream().findFirst().orElse(null);
+    YouTubePo youTubePo =
+        youTubePos.stream().findFirst().orElseThrow(TestUtils::newIllegalStateException);
     assert (StringUtils.isNotEmpty(youTubePo.getTitle()));
     assert (StringUtils.isNotEmpty(youTubePo.getId()));
-    assert (youTubePo.getUrl().contains("https://www.youtube.com/watch?v="));
+    assert (youTubePo.getUrl().contains(ApiConstants.YOUTUBE_VIDEO_URL_PREFIX));
   }
 }

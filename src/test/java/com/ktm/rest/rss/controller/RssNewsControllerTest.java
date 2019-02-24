@@ -1,5 +1,7 @@
 package com.ktm.rest.rss.controller;
 
+import static com.ktm.rest.ApiConstants.EndPoints.NEWS_INTERNATIONAL_ENDPOINT;
+import static com.ktm.rest.ApiConstants.EndPoints.NEWS_NATIONAL_ENDPOINT;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -40,43 +42,43 @@ public class RssNewsControllerTest {
   private RssService nationalRssService;
 
   @Test
-  public void fetchInternationalRssFeed_thenReturnJsonArray() throws Exception {
+  public void fetchInternationalRssFeedTest() throws Exception {
     RssNews rssNews = new RssNews();
     rssNews.setId(0L);
     rssNews.setTitle("international news title");
     List<RssNews> interNationalRssNewsList = Collections.singletonList(rssNews);
 
     given(internationalRssService.fetchRssFeedByQuery()).willReturn(interNationalRssNewsList);
-    mvc.perform(get("/news/international").accept(MediaType.APPLICATION_JSON_VALUE))
+    mvc.perform(get(NEWS_INTERNATIONAL_ENDPOINT).accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0].id", is(0)))
         .andExpect(jsonPath("$[0].title", is("international news title")));
   }
 
   @Test
-  public void fetchNationalRssFeed_thenReturnJsonArray() throws Exception {
+  public void fetchNationalRssFeedTest() throws Exception {
     RssNews rssNews = new RssNews();
     rssNews.setId(0L);
     rssNews.setTitle("national news title");
     List<RssNews> nationalRssNewsList = Collections.singletonList(rssNews);
 
     given(nationalRssService.fetchRssFeedByQuery()).willReturn(nationalRssNewsList);
-    mvc.perform(get("/news/national").accept(MediaType.APPLICATION_JSON_VALUE))
+    mvc.perform(get(NEWS_NATIONAL_ENDPOINT).accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0].id", is(0)))
         .andExpect(jsonPath("$[0].title", is("national news title")));
   }
 
   @Test
-  public void getRssNewsFeed_emptyCollection_verify200HttpStatus() throws Exception {
+  public void getInternationalNewsEmptyCollectionAndVerify200Test() throws Exception {
     given(internationalRssService.fetchRssFeedByQuery()).willReturn(Collections.emptyList());
 
-    mvc.perform(get("/news/international").accept(MediaType.APPLICATION_JSON_VALUE))
+    mvc.perform(get(NEWS_INTERNATIONAL_ENDPOINT).accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isOk());
 
     given(internationalRssService.fetchRssFeedByQuery()).willReturn(null);
 
-    mvc.perform(get("/news/international").accept(MediaType.APPLICATION_JSON_VALUE))
+    mvc.perform(get(NEWS_INTERNATIONAL_ENDPOINT).accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isOk());
   }
 

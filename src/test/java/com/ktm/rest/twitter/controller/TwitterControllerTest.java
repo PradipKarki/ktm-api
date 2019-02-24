@@ -1,5 +1,7 @@
 package com.ktm.rest.twitter.controller;
 
+import static com.ktm.rest.ApiConstants.EndPoints.TWITTER_ENDPOINT;
+import static com.ktm.rest.TestConstants.ITEM_NOT_FOUND_ID;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -32,26 +34,11 @@ public class TwitterControllerTest {
 
   @MockBean private TwitterRepository twitterRepository;
 
-/*  @Test
-  public void givenTweets_whenGetTweets_thenReturnJsonArray() throws Exception {
-    TwitterPo twitterPo = new TwitterPo();
-    twitterPo.setId(1L);
-    twitterPo.setTitle("my title");
-    List<TwitterPo> twitterPoList = Collections.singletonList(twitterPo);
-
-    given(twitterService.getTweetsByQuery(anyString())).willReturn(twitterPoList);
-
-    mvc.perform(get("/twitter/nepal").accept(MediaType.APPLICATION_JSON_VALUE))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0].id", is(1)))
-        .andExpect(jsonPath("$[0].title", is("my title")));
-  }*/
-
   @Test
-  public void getTweet_notFound() throws Exception {
+  public void getTweetNotFoundTest() throws Exception {
     given(twitterRepository.findById(anyLong())).willReturn(Optional.empty());
 
-    mvc.perform(get("/twitter/2").accept(MediaType.APPLICATION_JSON_VALUE))
+    mvc.perform(get(TWITTER_ENDPOINT + ITEM_NOT_FOUND_ID).accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isNotFound());
   }
 

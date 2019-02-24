@@ -3,6 +3,7 @@ package com.ktm.rest.twitter.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+import com.ktm.rest.TestUtils;
 import com.ktm.rest.twitter.model.TwitterPo;
 import java.util.Arrays;
 import java.util.List;
@@ -21,14 +22,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 public class TwitterControllerIT {
 
-  @Autowired
-  private TestRestTemplate restTemplate;
+  @Autowired private TestRestTemplate restTemplate;
 
   @Test
-  public void getTweetsNepal_verifyDetails() {
-    //arrange
+  public void getTweetsNepalAndVerifyDetailsTest() {
+    // arrange
 
-    //act
+    // act
     ResponseEntity<TwitterPo[]> responseEntity =
         restTemplate.getForEntity("/twitter/nepal", TwitterPo[].class);
     assertTwitterResponse(responseEntity);
@@ -37,29 +37,30 @@ public class TwitterControllerIT {
   public void assertTwitterResponse(ResponseEntity<TwitterPo[]> responseEntity) {
     List<TwitterPo> twitterPos = Arrays.asList(Objects.requireNonNull(responseEntity.getBody()));
 
-    //assert
+    // assert
     assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-    assert (!twitterPos.isEmpty());
-    assert (StringUtils.isNotEmpty(twitterPos.stream().findFirst().get().getTitle()));
-    assert (twitterPos.stream().findFirst().get().getId() != 0L);
+    TwitterPo tweetPo =
+        twitterPos.stream().findFirst().orElseThrow(TestUtils::newIllegalStateException);
+    assert (StringUtils.isNotEmpty(tweetPo.getTitle()));
+    assert (tweetPo.getId() != 0L);
   }
 
   @Test
-  public void getTweetsEverest_verifyDetails() {
+  public void getTweetsEverestAndVerifyDetailsTest() {
     ResponseEntity<TwitterPo[]> responseEntity =
         restTemplate.getForEntity("/twitter/everest", TwitterPo[].class);
     assertTwitterResponse(responseEntity);
   }
 
   @Test
-  public void getTweetsKathmandu_verifyDetails() {
+  public void getTweetsKathmanduAndVerifyDetailsTest() {
     ResponseEntity<TwitterPo[]> responseEntity =
         restTemplate.getForEntity("/twitter/kathmandu", TwitterPo[].class);
     assertTwitterResponse(responseEntity);
   }
 
   @Test
-  public void getTweetsSearchSoccer_verifyDetails() {
+  public void getTweetsSearchSoccerAndVerifyDetails() {
     ResponseEntity<TwitterPo[]> responseEntity =
         restTemplate.getForEntity("/twitter/search/soccer", TwitterPo[].class);
     assertTwitterResponse(responseEntity);
