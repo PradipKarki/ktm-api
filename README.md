@@ -1,4 +1,4 @@
-# ktm_java App
+# ktm-api App
 
 ktm_java uses Swagger for documenting the API
 
