@@ -1,13 +1,13 @@
 # ktm-api App
 
-ktm_java uses Swagger for documenting the API
+ktm-api uses Swagger for documenting the API
 
 **Swagger Configuration Parameters:**  
 SWAGGER_JSON_URL:   http://localhost:8080/swagger.json    
 SWAGGER_API_URL:    default - http://localhost:8080/swagger-ui.html
 
 
-ktm_java configuration files are hosted on https://github.com/pradipforever/config-repo and can be accessed via config-server http://localhost:8888/ktm-rest/default
+ktm-api configuration files are hosted on https://github.com/pradipforever/config-repo and can be accessed via config-server http://localhost:8888/ktm-rest/default
 Sensitive password to access config-server should be passed as an environmental variable for all applications.
 
 <strong>Instruction:</strong>
