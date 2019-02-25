@@ -1,8 +1,8 @@
 package com.ktm.rest.job.documentary.controller;
 
+import static com.ktm.rest.ApiConstants.DOCUMENTARY;
 import static com.ktm.utils.StringUtility.listToString;
 
-import com.ktm.rest.ApiConstants;
 import com.ktm.rest.job.common.JobLauncher;
 import com.ktm.rest.job.documentary.job.DocumentaryApiJob;
 import io.swagger.annotations.Api;
@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/jobs/documentary")
 @RefreshScope
-@Api(
-    tags = ApiConstants.DOCUMENTARY,
-    description = "Job - Retrieve Documentary Videos from YouTube API")
+@Api(tags = DOCUMENTARY, value = DOCUMENTARY)
 public class DocumentaryApiController {
 
   @Value("#{'${documentary.nepal.youtube}'.split(',')}")

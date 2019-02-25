@@ -1,9 +1,9 @@
 package com.ktm.rest.twitter.controller;
 
+import static com.ktm.rest.ApiConstants.TWITTER;
 import static org.mapstruct.factory.Mappers.getMapper;
 
 import com.ktm.exception.ResourceNotFoundException;
-import com.ktm.rest.ApiConstants;
 import com.ktm.rest.twitter.mapper.TwitterMapper;
 import com.ktm.rest.twitter.model.TwitterDto;
 import com.ktm.rest.twitter.model.TwitterPo;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/twitter")
 @RefreshScope
-@Api(tags = ApiConstants.TWITTER, description = "Retrieve Twitter from Data Source")
+@Api(tags = TWITTER, value = TWITTER)
 public class TwitterController {
 
   @Autowired private TwitterService twitterService;

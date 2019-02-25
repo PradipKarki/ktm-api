@@ -26,11 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/verify_email")
 @RefreshScope
-@Api(
-    tags = EMAIL,
-    description =
-        "Save User Message/Email, Send Mail from Support/News Domain, "
-            + "Verify new User Email Token, Maintain Subscribe/Unsubscribe List")
+@Api(tags = EMAIL, value = EMAIL)
 public class EmailConfirmationController {
   @Autowired private EmailConfirmationService emailConfirmationService;
   @Autowired private EmailSubscriberRepository emailSubscriberRepository;

@@ -1,9 +1,9 @@
 package com.ktm.rest.directory.controller;
 
+import static com.ktm.rest.ApiConstants.DIRECTORY;
 import static org.mapstruct.factory.Mappers.getMapper;
 
 import com.ktm.exception.ResourceNotFoundException;
-import com.ktm.rest.ApiConstants;
 import com.ktm.rest.directory.mapper.DirectoryMapper;
 import com.ktm.rest.directory.model.Directory;
 import com.ktm.rest.directory.model.DirectoryDto;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/directory")
 @RefreshScope
-@Api(tags = ApiConstants.DIRECTORY, description = "KTM Times Directory CRUD operations")
+@Api(tags = DIRECTORY, value = DIRECTORY)
 public class DirectoryController {
 
   @Autowired private DirectoryService directoryService;

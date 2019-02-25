@@ -1,6 +1,7 @@
 package com.ktm.rest.job.twitter.controller;
 
-import com.ktm.rest.ApiConstants;
+import static com.ktm.rest.ApiConstants.TWITTER;
+
 import com.ktm.rest.job.common.JobLauncher;
 import com.ktm.rest.job.twitter.job.TwitterApiJob;
 import io.swagger.annotations.Api;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/jobs/twitter")
 @RefreshScope
-@Api(tags = ApiConstants.TWITTER, description = "Job - Retrieve Twitter News from Twitter API")
+@Api(tags = TWITTER, value = TWITTER)
 public class TwitterApiController {
 
   @Value("${App.Nepal.TwitterSearchQueryKeyWord}")

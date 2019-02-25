@@ -1,6 +1,7 @@
 package com.ktm.rest.youtube.controller;
 
-import com.ktm.rest.ApiConstants;
+import static com.ktm.rest.ApiConstants.YOUTUBE;
+
 import com.ktm.rest.youtube.model.YouTubePo;
 import com.ktm.rest.youtube.service.YouTubeService;
 import io.swagger.annotations.Api;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/youtube")
 @RefreshScope
-@Api(tags = ApiConstants.YOUTUBE, description = "Retrieve YouTube Videos from Data Source")
+@Api(tags = YOUTUBE, value = YOUTUBE)
 public class YouTubeController {
 
   @Autowired private YouTubeService youtubeService;

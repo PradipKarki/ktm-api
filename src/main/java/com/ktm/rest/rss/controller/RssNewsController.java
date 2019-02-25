@@ -1,6 +1,7 @@
 package com.ktm.rest.rss.controller;
 
-import com.ktm.rest.ApiConstants;
+import static com.ktm.rest.ApiConstants.RSS;
+
 import com.ktm.rest.rss.model.RssNews;
 import com.ktm.rest.rss.service.RssService;
 import com.rometools.rome.io.FeedException;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/news")
 @RefreshScope
-@Api(tags = ApiConstants.RSS, description = "Retrieve RSS News Feed from Data Source")
+@Api(tags = RSS, value = RSS)
 public class RssNewsController {
 
   @Autowired

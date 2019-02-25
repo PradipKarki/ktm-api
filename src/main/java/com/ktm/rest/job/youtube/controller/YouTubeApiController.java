@@ -1,6 +1,7 @@
 package com.ktm.rest.job.youtube.controller;
 
-import com.ktm.rest.ApiConstants;
+import static com.ktm.rest.ApiConstants.TWITTER;
+
 import com.ktm.rest.job.common.JobLauncher;
 import com.ktm.rest.job.youtube.job.YouTubeApiJob;
 import io.swagger.annotations.Api;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/jobs/youtube")
 @RefreshScope
-@Api(tags = ApiConstants.TWITTER, description = "Job - Retrieve YouTube Videos from YouTube API")
+@Api(tags = TWITTER, value = TWITTER)
 public class YouTubeApiController {
   @Value("${App.Nepal.SearchQueryKeyWord}")
   private String searchQueryNepal;

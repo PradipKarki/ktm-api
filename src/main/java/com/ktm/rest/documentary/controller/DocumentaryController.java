@@ -1,6 +1,7 @@
 package com.ktm.rest.documentary.controller;
 
-import com.ktm.rest.ApiConstants;
+import static com.ktm.rest.ApiConstants.DOCUMENTARY;
+
 import com.ktm.rest.documentary.model.Documentary;
 import com.ktm.rest.documentary.service.DocumentaryService;
 import io.swagger.annotations.Api;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/documentary")
 @RefreshScope
-@Api(tags = ApiConstants.DOCUMENTARY, description = "Retrieve Documentaries from Data Source")
+@Api(tags = DOCUMENTARY, value = DOCUMENTARY)
 public class DocumentaryController {
 
   @Autowired private DocumentaryService documentaryService;
