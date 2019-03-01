@@ -24,13 +24,15 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 bootJar {
-    baseName = 'ktm_rest'
+    archivesBaseName = 'ktm_rest'
     version = '0.0.1_RC'
     description = 'ktm'
 }
 
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+compileJava {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
