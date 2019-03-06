@@ -33,19 +33,6 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-project.test {
-    exclude '**/*IT.class'
-    exclude '**/IntegrationTestSuite.class'
-}
-
-task integrationTest(type: Test, dependsOn: testClasses) {
-    include '**/IntegrationTestSuite.class'
-}
-
-task smokeTest(type: Test) {
-    include '**/SmokeTestSuite.class'
-}
-
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web:${project.ext.springBootVersion}"
     implementation "org.springframework.cloud:spring-cloud-starter-config:${project.ext.springCloudConfigClient}"
@@ -93,4 +80,17 @@ dependencies {
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:${project.ext.mapstructVersion}"
     annotationProcessor "org.projectlombok:lombok:${project.ext.lombokVersion}"
     testAnnotationProcessor "org.projectlombok:lombok:${project.ext.lombokVersion}"
+}
+
+project.test {
+    exclude '**/*IT.class'
+    exclude '**/IntegrationTestSuite.class'
+}
+
+task integrationTest(type: Test, dependsOn: testClasses) {
+    include '**/IntegrationTestSuite.class'
+}
+
+task smokeTest(type: Test) {
+    include '**/SmokeTestSuite.class'
 }
