@@ -1,35 +1,30 @@
-buildscript {
-    ext {
-        springBootVersion = '2.1.3.RELEASE'
-        springCloudConfigClient = '2.1.0.RELEASE'
-        mapstructVersion = '1.3.0.Final'
-        lombokVersion = '1.18.6'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
-}
-
 plugins {
-    id "com.bmuschko.docker-java-application" version "4.5.0"
+    id 'org.springframework.boot' version '2.1.3.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.7.RELEASE'
+    id 'com.bmuschko.docker-java-application' version '4.5.0'
+    id 'java-library'
+    id 'idea'
 }
 
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'com.bmuschko.docker-java-application'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
+repositories {
+    jcenter()
+}
 
-bootJar {
+project.ext {
+    springBootVersion = '2.1.3.RELEASE'
+    springCloudConfigClient = '2.1.0.RELEASE'
+    mapstructVersion = '1.3.0.Final'
+    lombokVersion = '1.18.6'
+}
+
+project.bootJar {
+    mainClassName = 'com.ktm.KtmApplication'
     archivesBaseName = 'ktm_rest'
     version = '0.0.1_RC'
     description = 'ktm'
 }
 
-compileJava {
+project.compileJava {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 }
@@ -38,7 +33,7 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-test {
+project.test {
     exclude '**/*IT.class'
     exclude '**/IntegrationTestSuite.class'
 }
@@ -51,63 +46,51 @@ task smokeTest(type: Test) {
     include '**/SmokeTestSuite.class'
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
-    compile "org.springframework.cloud:spring-cloud-starter-config:${springCloudConfigClient}"
-    compile "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
-    compile "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
-    compile "org.springframework.boot:spring-boot-starter-cache:${springBootVersion}"
-    compile "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
-    compile "org.springframework.boot:spring-boot-starter-thymeleaf:${springBootVersion}"
-    compile "org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}"
-    testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
-    /**
-     * JUnit: The de-facto standard for unit testing Java applications.
-     * Spring Test & Spring Boot Test: Utilities and integration test support for Spring Boot applications.
-     * AssertJ: A fluent assertion library.
-     * Hamcrest: A library of matcher objects (also known as constraints or predicates).
-     * Mockito: A Java mocking framework.
-     * JSONassert: An assertion library for JSON.
-     * JsonPath: XPath for JSON.
-     */
-    testCompile 'org.powermock:powermock-module-junit4:2.0.0'
-    testCompile 'org.powermock:powermock-api-mockito:1.7.4'
+    implementation "org.springframework.boot:spring-boot-starter-web:${project.ext.springBootVersion}"
+    implementation "org.springframework.cloud:spring-cloud-starter-config:${project.ext.springCloudConfigClient}"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa:${project.ext.springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-security:${project.ext.springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-cache:${project.ext.springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-actuator:${project.ext.springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-thymeleaf:${project.ext.springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-configuration-processor:${project.ext.springBootVersion}"
 
-    runtime "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:${project.ext.springBootVersion}"
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.0'
+    testImplementation 'org.powermock:powermock-api-mockito:1.7.4'
 
-    compile 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
-    compile 'com.h2database:h2:1.4.198'
-    compile 'mysql:mysql-connector-java:8.0.15'
-    compile 'com.github.ben-manes.caffeine:caffeine:2.7.0'
+    runtime "org.springframework.boot:spring-boot-devtools:${project.ext.springBootVersion}"
 
-    compile 'org.codehaus.groovy:groovy-all:3.0.0-alpha-4'
+    implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
+    implementation 'com.h2database:h2:1.4.198'
+    implementation 'mysql:mysql-connector-java:8.0.15'
+    implementation 'com.github.ben-manes.caffeine:caffeine:2.7.0'
 
-    compile 'org.twitter4j:twitter4j-core:4.0.7'
-    compile 'com.google.apis:google-api-services-youtube:v3-rev206-1.25.0'
-    compile 'org.simplejavamail:simple-java-mail:5.1.3'
-    compile 'com.rometools:rome:1.12.0'
+    implementation 'org.codehaus.groovy:groovy-all:3.0.0-alpha-4'
 
-    compile 'io.springfox:springfox-swagger2:2.9.2'
-    compile 'io.springfox:springfox-swagger-ui:2.9.2'
+    implementation 'org.twitter4j:twitter4j-core:4.0.7'
+    implementation 'com.google.apis:google-api-services-youtube:v3-rev206-1.25.0'
+    implementation 'org.simplejavamail:simple-java-mail:5.1.3'
+    implementation 'com.rometools:rome:1.12.0'
 
-    compile 'org.apache.commons:commons-lang3:3.8.1'
-    compile 'org.owasp.esapi:esapi:2.1.0.1'
-    compile "org.mapstruct:mapstruct:${mapstructVersion}"
-    compile "org.mapstruct:mapstruct-processor:${mapstructVersion}"
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    implementation 'io.springfox:springfox-swagger2:2.9.2'
+    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 
-    compile 'org.apache.pdfbox:pdfbox:2.0.13'
-    compile 'org.drools:drools-core:7.17.0.Final'
-    compile 'com.github.javafaker:javafaker:0.17.2'
-    compile 'org.apache.chemistry.opencmis:chemistry-opencmis-client-impl:1.1.0'
-    compile 'commons-cli:commons-cli:1.4'
+    implementation 'org.apache.commons:commons-lang3:3.8.1'
+    implementation 'org.owasp.esapi:esapi:2.1.0.1'
+    implementation "org.mapstruct:mapstruct:${project.ext.mapstructVersion}"
+    implementation "org.mapstruct:mapstruct-processor:${project.ext.mapstructVersion}"
+    compileOnly "org.projectlombok:lombok:${project.ext.lombokVersion}"
 
-    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
-    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    implementation 'org.apache.pdfbox:pdfbox:2.0.13'
+    implementation 'org.drools:drools-core:7.17.0.Final'
+    implementation 'com.github.javafaker:javafaker:0.17.2'
+    implementation 'org.apache.chemistry.opencmis:chemistry-opencmis-client-impl:1.1.0'
+    implementation 'commons-cli:commons-cli:1.4'
+
+    annotationProcessor "org.mapstruct:mapstruct-processor:${project.ext.mapstructVersion}"
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${project.ext.mapstructVersion}"
+    annotationProcessor "org.projectlombok:lombok:${project.ext.lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${project.ext.lombokVersion}"
 }
