@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TwitterApiServiceImplTest {
-  List<String> modifiableList;
+  private List<String> modifiableList;
 
   // check if title contains middle text or first three words of title or last three words of title
   private static Predicate<String> containsSimilarWords(String[] splitStr, String titleSubString) {

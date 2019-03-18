@@ -32,8 +32,9 @@ public interface JobStep<T, E extends BaseEntity> {
         return Mappers.getMapper(RssNewsMapper.class).toRssNews(apiEntities);
       case MAIL_JOB:
         return List.of();
+      default:
+        return List.of();
     }
-    return List.of();
   }
 
   List<E> processData(List<E> domainEntities);

@@ -7,7 +7,7 @@ ARG ktm_config_work_dir
 ARG config_repo
 
 WORKDIR ${ktm_config_work_dir}
-ADD ${ktm_config_jar_path} ${ktm_config_work_dir}/
+COPY ${ktm_config_jar_path} ${ktm_config_work_dir}/
 VOLUME ${config_repo}
 
 CMD ["java", "-jar", "/usr/src/ktm-config/ktm_config-0.0.1_RC.jar"]

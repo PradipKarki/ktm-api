@@ -14,7 +14,7 @@ enum Cover {
   OTHER
 }
 
-public class TextUtilityTest {
+public final class TextUtilityTest {
   private Cover type = Cover.COVER;
 
   private static String switchDemo(Cover type) {

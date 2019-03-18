@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReferenceServiceImpl implements ReferenceService {
 
-  @Autowired ReferenceTypeRepository referenceTypeRepository;
-  @Autowired ReferenceValueRepository referenceValueRepository;
+  @Autowired private ReferenceTypeRepository referenceTypeRepository;
+  @Autowired private ReferenceValueRepository referenceValueRepository;
 
   @Override
   public String getReferenceTypeDescription(Reference reference) {

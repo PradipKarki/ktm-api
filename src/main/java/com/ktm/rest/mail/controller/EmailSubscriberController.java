@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = EMAIL)
 public class EmailSubscriberController {
 
-  @Autowired EmailSubscriberRepository emailSubscriberRepository;
+  @Autowired private EmailSubscriberRepository emailSubscriberRepository;
 
   @GetMapping("/emails")
   @ApiOperation("Retrieve all Email Subscribers")
