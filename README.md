@@ -1,5 +1,9 @@
 # ktm-api App [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8c107175836c470e92353051407c5ab2)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pradipforever/ktm-api&amp;utm_campaign=Badge_Grade)
 
+See 
+[security/snyk](https://app.snyk.io/org/pradipforever-github-marketplace/project/3c895972-d6d6-4809-9a0f-a90f4378a110?tab=issues)
+vulnerabilities
+
 ktm-api uses Swagger for documenting the API
 
 **Swagger Configuration Parameters**  
