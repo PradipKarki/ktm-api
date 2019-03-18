@@ -1,4 +1,4 @@
-# ktm-api App
+# ktm-api App [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8c107175836c470e92353051407c5ab2)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pradipforever/ktm-api&amp;utm_campaign=Badge_Grade)
 
 ktm-api uses Swagger for documenting the API
 
@@ -30,7 +30,7 @@ http://localhost:8080
 
 <strong>To run the app in the docker</strong></br>
 Change the ```bootstrap.yml``` property to</br>
-```uri: ${SPRING_CONFIG_URI:http://docker.for.mac.localhost:8888}```</br>
+```uri: ${SPRING_CONFIG_URI:<http://docker.for.mac.localhost:8888>}```</br>
 Change the ```ktm-rest-dev.yml``` property to</br>
 ```url: jdbc:mysql://docker.for.mac.localhost:33061/ktm?useSSL=false```</br>
 
