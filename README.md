@@ -26,7 +26,7 @@ Go To:
 ```KtmApplication.java``` file, and right click on the file.
 Select the ```Run KtmApplication``` option, once the app is, it can be accessed on:</br>
 <strong>Localhost URL:</strong><br>
-http://localhost:8080
+<http://localhost:8080>
 
 <strong>To run the app in the docker</strong></br>
 Change the ```bootstrap.yml``` property to</br>
