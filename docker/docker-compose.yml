@@ -35,13 +35,13 @@ services:
   ktm:
     build:
       context: ..
-      dockerfile: docker/ktm-rest/Dockerfile
+      dockerfile: docker/ktm-api/Dockerfile
       args:
       - jar_location=${JAR_LOCATION}
       - ktm_rest_jar=${KTM_REST_JAR}
       - ktm_rest_work_dir=${KTM_REST_WORK_DIR}
-    image: ktm-rest
-    container_name: ktm-rest.dev
+    image: ktm-api
+    container_name: ktm-api.dev
     ports:
     - ${KTM_REST_SERVER_PORT}:${KTM_REST_SERVER_PORT}
     links:

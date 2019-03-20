@@ -7,10 +7,10 @@ ARG ktm_rest_work_dir
 
 WORKDIR ${ktm_rest_work_dir}
 COPY ${ktm_rest_jar_path} ${ktm_rest_work_dir}/
-CMD ["java", "-jar", "/usr/src/ktm-rest/ktm_rest-0.0.1_RC.jar"]
+CMD ["java", "-jar", "/usr/src/ktm-api/ktm_rest-0.0.1_RC.jar"]
 
-#docker build -t ktm-rest .
-#docker run -p 8080:8080 ktm-rest
+#docker build -t ktm-api .
+#docker run -p 8080:8080 ktm-api
 #above two line is incorporated in docker-compose.yml
 #need to run only docker-compose up
 #RUN mkdir /opt/cals-api

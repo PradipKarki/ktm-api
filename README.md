@@ -11,7 +11,7 @@ SWAGGER_JSON_URL:   <http://localhost:8080/swagger.json>
 SWAGGER_API_URL:    default - <http://localhost:8080/swagger-ui.html>
 
 ktm-api configuration files are hosted on <https://github.com/pradipforever/config-repo> and can 
-be accessed via config-server <http://localhost:8888/ktm-rest/default></br>
+be accessed via config-server <http://localhost:8888/ktm-api/default></br>
 Sensitive password to access config-server should be passed as an environmental variable for all applications.
 
 <strong>Instruction</strong>
@@ -23,7 +23,7 @@ IntelliJ IDEA will create a project with all the code from the gradle ready to r
 <strong>To run the app in localhost mode:</strong></br>
 Change the ```bootstrap.yml``` property to</br>
 ```uri: ${SPRING_CONFIG_URI:http://localhost:8888}```</br>
-Change the ```ktm-rest-dev.yml``` property to</br>
+Change the ```ktm-api-dev.yml``` property to</br>
 ```url: jdbc:mysql://localhost:33061/ktm?useSSL=false```</br>
 
 Go To:
@@ -35,7 +35,7 @@ Select the ```Run KtmApplication``` option, once the app is, it can be accessed 
 <strong>To run the app in the docker</strong></br>
 Change the ```bootstrap.yml``` property to</br>
 ```uri: ${SPRING_CONFIG_URI:<http://docker.for.mac.localhost:8888>}```</br>
-Change the ```ktm-rest-dev.yml``` property to</br>
+Change the ```ktm-api-dev.yml``` property to</br>
 ```url: jdbc:mysql://docker.for.mac.localhost:33061/ktm?useSSL=false```</br>
 
 Make sure the docker is installed in the host. In terminal, Run the below command:```docker-compose up```</br>
