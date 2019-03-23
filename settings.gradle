@@ -1,1 +1,4 @@
 rootProject.name = 'ktm-api'
+
+include 'ktm-api-rest'
+include 'core'

@@ -1,0 +1,64 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.3.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.7.RELEASE'
+    id 'com.bmuschko.docker-java-application' version '4.6.2'
+    id 'java-library'
+    id 'idea'
+}
+
+repositories {
+    jcenter()
+}
+
+project.ext {
+    springBootVersion = '2.1.3.RELEASE'
+    springCloudConfigClient = '2.1.0.RELEASE'
+    mapstructVersion = '1.3.0.Final'
+    lombokVersion = '1.18.6'
+}
+
+project.jar {
+    baseName = 'ktm-job-core'
+    version = '0.0.1-SNAPSHOT'
+}
+
+project.bootJar {
+    enabled = false
+}
+
+project.compileJava {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+dependencies {
+    implementation "org.springframework.cloud:spring-cloud-starter-config:${project.ext.springCloudConfigClient}"
+    implementation "org.springframework.boot:spring-boot-starter-actuator:${project.ext.springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-batch:${project.ext.springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa:${project.ext.springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-configuration-processor:${project.ext.springBootVersion}"
+
+    testImplementation "org.springframework.boot:spring-boot-starter-test:${project.ext.springBootVersion}"
+    testImplementation 'org.springframework.batch:spring-batch-test:4.1.1.RELEASE'
+
+    implementation 'org.twitter4j:twitter4j-core:4.0.7'
+    implementation 'com.google.apis:google-api-services-youtube:v3-rev206-1.25.0'
+    implementation 'org.simplejavamail:simple-java-mail:5.1.3'
+    implementation 'com.rometools:rome:1.12.0'
+
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+    implementation 'com.h2database:h2:1.4.198'
+    implementation 'mysql:mysql-connector-java:8.0.15'
+    implementation 'com.github.ben-manes.caffeine:caffeine:2.7.0'
+
+    implementation 'org.apache.commons:commons-lang3:3.8.1'
+    implementation 'org.owasp.esapi:esapi:2.1.0.1'
+    implementation "org.mapstruct:mapstruct:${project.ext.mapstructVersion}"
+    implementation "org.mapstruct:mapstruct-processor:${project.ext.mapstructVersion}"
+    compileOnly "org.projectlombok:lombok:${project.ext.lombokVersion}"
+
+    annotationProcessor "org.mapstruct:mapstruct-processor:${project.ext.mapstructVersion}"
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${project.ext.mapstructVersion}"
+    annotationProcessor "org.projectlombok:lombok:${project.ext.lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${project.ext.lombokVersion}"
+}
