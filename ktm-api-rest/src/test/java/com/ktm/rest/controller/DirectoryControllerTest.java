@@ -15,25 +15,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(secure = false)
-@ImportAutoConfiguration(RefreshAutoConfiguration.class)
-public class DirectoryControllerTest {
-
+public class DirectoryControllerTest extends BaseControllerTest {
   @Autowired private MockMvc mvc;
-
   @MockBean private DirectoryService directoryService;
 
   @Test
@@ -43,7 +33,6 @@ public class DirectoryControllerTest {
     directory.setName("KTM Business");
     directory.setWebsite("ktmtimes.com");
     List<Directory> directories = Collections.singletonList(directory);
-
     given(directoryService.findAll()).willReturn(directories);
     mvc.perform(get(DIRECTORY_ENDPOINT).accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isOk())
@@ -55,11 +44,9 @@ public class DirectoryControllerTest {
   @Test
   public void getDirectoriesEmptyCollectionVerify200HttpStatusTest() throws Exception {
     List<Directory> directories = Collections.emptyList();
-
     given(directoryService.findAll()).willReturn(directories);
     mvc.perform(get(DIRECTORY_ENDPOINT).accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isOk());
-
     given(directoryService.findAll()).willReturn(null);
     mvc.perform(get(DIRECTORY_ENDPOINT).accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isOk());
@@ -68,7 +55,6 @@ public class DirectoryControllerTest {
   @Test
   public void getDirectoryNotFoundTest() throws Exception {
     given(directoryService.find(anyLong())).willReturn(Optional.empty());
-
     mvc.perform(
             get(DIRECTORY_ENDPOINT + ITEM_NOT_FOUND_ID).accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isNotFound());

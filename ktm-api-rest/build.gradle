@@ -44,8 +44,6 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-configuration-processor:${project.ext.springBootVersion}"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test:${project.ext.springBootVersion}"
-    testImplementation 'org.powermock:powermock-module-junit4:2.0.0'
-    testImplementation 'org.powermock:powermock-api-mockito:1.7.4'
 
     runtime "org.springframework.boot:spring-boot-devtools:${project.ext.springBootVersion}"
 
@@ -77,7 +75,6 @@ dependencies {
     implementation 'commons-cli:commons-cli:1.4'
 
     implementation project(':core').sourceSets.main.output
-    testImplementation project(':core').sourceSets.test.output
 
     annotationProcessor "org.mapstruct:mapstruct-processor:${project.ext.mapstructVersion}"
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:${project.ext.mapstructVersion}"

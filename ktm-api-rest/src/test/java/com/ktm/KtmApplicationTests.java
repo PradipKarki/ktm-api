@@ -21,14 +21,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 @Import(KtmLibConfig.class)
 public class KtmApplicationTests {
   private static final Logger LOGGER = LoggerFactory.getLogger(KtmApplicationTests.class);
-
   @Autowired private ApplicationContext context;
 
   @Test
   public void contextLoads() {
-    if (LOGGER.isInfoEnabled()) {
+    if (LOGGER.isInfoEnabled())
       LOGGER.info("TESTING KTM TIMES DOT COM application, current time: {}", Instant.now());
-    }
     assertThat(context, is(notNullValue()));
   }
 }

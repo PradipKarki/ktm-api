@@ -6,7 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public final class TextUtilityTest {
-
   @Test
   public void stringIsUnicodeTest() {
     Assert.assertTrue(TextUtility.isThisUnicode("dfdfऑfdfdf", Character.UnicodeBlock.DEVANAGARI));

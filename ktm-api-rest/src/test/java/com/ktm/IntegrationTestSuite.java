@@ -10,11 +10,9 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-    DocumentaryControllerIT.class,
-    RssNewsControllerIT.class,
-    TwitterControllerIT.class,
-    YouTubeControllerIT.class
+  DocumentaryControllerIT.class,
+  RssNewsControllerIT.class,
+  TwitterControllerIT.class,
+  YouTubeControllerIT.class
 })
-public class IntegrationTestSuite {
-
-}
+public class IntegrationTestSuite {}

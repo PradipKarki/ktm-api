@@ -12,7 +12,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TwitterApiServiceImplTest {
+public class TwitterApiServiceImplTest extends BaseIntegrationTest {
   private List<String> modifiableList;
 
   // check if title contains middle text or first three words of title or last three words of title
@@ -47,10 +47,10 @@ public class TwitterApiServiceImplTest {
     List<String> filteredList =
         new ArrayList<>(modifiableList)
             .stream()
-            .filter(StringUtils::isNotEmpty)
-            .filter(title -> !TextUtility.isThisUnicode(title, DEVANAGARI))
-            .filter(title -> !isStringDuplicateOrSimilar(modifiableList, title))
-            .collect(toList());
+                .filter(StringUtils::isNotEmpty)
+                .filter(title -> !TextUtility.isThisUnicode(title, DEVANAGARI))
+                .filter(title -> !isStringDuplicateOrSimilar(modifiableList, title))
+                .collect(toList());
     Assert.assertEquals(2, filteredList.size());
     Assert.assertArrayEquals(
         filteredList.toArray(),
