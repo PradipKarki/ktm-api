@@ -16,7 +16,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -74,6 +73,5 @@ public class RssNewsControllerTest extends BaseControllerTest {
   }
 
   @Configuration
-  @ComponentScan
-  public static class TestConf {}
+  static class TestConf {}
 }

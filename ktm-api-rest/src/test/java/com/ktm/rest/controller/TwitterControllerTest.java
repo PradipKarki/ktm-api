@@ -30,5 +30,5 @@ public class TwitterControllerTest extends BaseControllerTest {
   }
 
   @Configuration
-  public static class TestConf {}
+  static class TestConf {}
 }
